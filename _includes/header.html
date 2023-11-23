@@ -1,10 +1,5 @@
-<style>
-    .small-break {
-        margin-bottom: 5px; /* 조절하고 싶은 간격(px)을 지정합니다. */
-    }
-</style>
 <header class="site-header">
-  <br class="small-break">
+  <br style="margin-bottom: 5px;">
   <div class="wrapper">
     {%- assign default_paths = site.pages | map: "path" -%}
     {%- assign page_paths = site.header_pages | default: default_paths -%}
