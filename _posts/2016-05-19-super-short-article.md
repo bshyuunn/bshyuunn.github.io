@@ -9,4 +9,4 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 This formula $f(x) = x^2$ is an example.
 
-$f(x) = x^2$
+$$f(x) = x^2$$
