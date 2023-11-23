@@ -11,8 +11,7 @@ description: >
 # Build settings
 
 # If you clone the Minima repo and build locally, use this setting.
-theme: minima
-    skin: dark
+skin: dark
 
 
 # As of November 2023, GitHub Pages still uses Minima 2.5.1 (https://pages.github.com/versions/). 
