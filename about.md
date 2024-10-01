@@ -18,7 +18,7 @@ permalink: /about/
 ### Presentation
 - 2023 27th Hacking Camp, 'Hacking with AI: Try Web Hacking with Reinforcement Learning’
 
-### Bug Hunting
+### My Bug
 - PDFio TTF parser C library DoS Vulnerability ( [CVE-2024-42358](https://nvd.nist.gov/vuln/detail/CVE-2024-42358) ) (  of Japtang Team )
 - hauri virobot DLL Hijacking Vulnerability ( KVE-2024-0395 ) ( of Japtang Team )
 - sga viruschaser DLL Hijacking Vulnerability ( KVE-2024-0410 ) ( of Japtang Team )
