@@ -4,26 +4,26 @@ title: About
 permalink: /about/
 ---
 
-## Profile
+### Profile
 - Bae Song Hyun ( @bshyuunn )
 - baesonghyun91@gmail.com
 - https://bshyuunn.github.io/
 - https://github.com/bshyuunn
 - https://x.com/bshyuunn
 
-## Organization
+### Organization
 - CyKor ( ~ Now )
 - Blockchain Valley Security Team ( ~ Now )
 - TeamH4C ( ~ Now )
 
-## Educations
+### Educations
 - Daejeon Daeshin High School ( 2021.3 ~ 2024.2 )
 - Korea University, Studying engineering in cyber defense ( 2024.3 ~  )
 
-## Presentation
+### Presentation
 - 2023 27th Hacking Camp, 'Hacking with AI: Try Web Hacking with Reinforcement Learning’
 
-## Bug Hunting
+### Bug Hunting
 - PDFio TTF parser C library DoS Vulnerability ( [CVE-2024-42358](https://nvd.nist.gov/vuln/detail/CVE-2024-42358) ) (  of Japtang Team )
 - hauri virobot DLL Hijacking Vulnerability ( KVE-2024-0395 ) ( of Japtang Team )
 - sga viruschaser DLL Hijacking Vulnerability ( KVE-2024-0410 ) ( of Japtang Team )
@@ -37,7 +37,7 @@ permalink: /about/
     - ‘Fast Custom Social Share by CodeBard’ Plugins Stored XSS Vulnerability ( [CVE-2023-48329](https://patchstack.com/database/vulnerability/fast-custom-social-share-by-codebard/wordpress-fast-custom-social-share-by-codebard-plugin-1-1-1-cross-site-scripting-xss-vulnerability?_s_id=cve) )
     - ‘Icons Font Loader’ Plugins File Upload Vulnerability ( [CVE-2024-24714](https://patchstack.com/database/vulnerability/icons-font-loader/wordpress-icons-font-loader-plugin-1-1-4-arbitrary-file-upload-vulnerability?_s_id=cve) ) ( of Vulzap Team )
 
-## Achievement
+### Achievement
 - 2022 Korea Code Fair Hackathon | ( Silver Award )
 - 2022 Korea Olympiad in Informatics 1st round ( Encouragement Award )
 - 2022 CCE Junior ( Finalist )
