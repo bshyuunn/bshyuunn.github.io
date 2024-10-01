@@ -32,10 +32,10 @@ permalink: /about/
     - Bandiview PSD File Parsing DoS Vulnerability ( CVE-2024-45871 )  ( of Japtang  Team)
     - Bandiview PSD File Parsing Stack Buffer Overflow ( CVE-2024-45872 ) ( of Japtang  Team )
 - Wordpress Plugin
-    - ‘wpView’ Plugins Stored XSS Vulnerability ( [CVE-2023-33213](https://patchstack.com/database/vulnerability/wpview/wordpress-wpview-plugin-1-3-0-cross-site-scripting-xss-vulnerability?_s_id=cve) )
-    - ‘Simple Plugin File List’ Plugins Stored XSS Vulnerability ( [CVE-2023-39924](https://patchstack.com/database/vulnerability/simple-file-list/wordpress-simple-file-list-plugin-6-1-9-cross-site-scripting-xss-vulnerability?_s_id=cve) )
-    - ‘Fast Custom Social Share by CodeBard’ Plugins Stored XSS Vulnerability ( [CVE-2023-48329](https://patchstack.com/database/vulnerability/fast-custom-social-share-by-codebard/wordpress-fast-custom-social-share-by-codebard-plugin-1-1-1-cross-site-scripting-xss-vulnerability?_s_id=cve) )
-    - ‘Icons Font Loader’ Plugins File Upload Vulnerability ( [CVE-2024-24714](https://patchstack.com/database/vulnerability/icons-font-loader/wordpress-icons-font-loader-plugin-1-1-4-arbitrary-file-upload-vulnerability?_s_id=cve) ) ( of Vulzap Team )
+    - wpView Plugins Stored XSS Vulnerability ( [CVE-2023-33213](https://patchstack.com/database/vulnerability/wpview/wordpress-wpview-plugin-1-3-0-cross-site-scripting-xss-vulnerability?_s_id=cve) )
+    - Simple Plugin File List Plugins Stored XSS Vulnerability ( [CVE-2023-39924](https://patchstack.com/database/vulnerability/simple-file-list/wordpress-simple-file-list-plugin-6-1-9-cross-site-scripting-xss-vulnerability?_s_id=cve) )
+    - Fast Custom Social Share by CodeBard Plugins Stored XSS Vulnerability ( [CVE-2023-48329](https://patchstack.com/database/vulnerability/fast-custom-social-share-by-codebard/wordpress-fast-custom-social-share-by-codebard-plugin-1-1-1-cross-site-scripting-xss-vulnerability?_s_id=cve) )
+    - Icons Font Loader Plugins File Upload Vulnerability ( [CVE-2024-24714](https://patchstack.com/database/vulnerability/icons-font-loader/wordpress-icons-font-loader-plugin-1-1-4-arbitrary-file-upload-vulnerability?_s_id=cve) ) ( of Vulzap Team )
 
 ### Achievement
 - 2022 Korea Code Fair Hackathon ( Silver Award )
