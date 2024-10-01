@@ -38,7 +38,7 @@ permalink: /about/
     - ‘Icons Font Loader’ Plugins File Upload Vulnerability ( [CVE-2024-24714](https://patchstack.com/database/vulnerability/icons-font-loader/wordpress-icons-font-loader-plugin-1-1-4-arbitrary-file-upload-vulnerability?_s_id=cve) ) ( of Vulzap Team )
 
 ### Achievement
-- 2022 Korea Code Fair Hackathon | ( Silver Award )
+- 2022 Korea Code Fair Hackathon ( Silver Award )
 - 2022 Korea Olympiad in Informatics 1st round ( Encouragement Award )
 - 2022 CCE Junior ( Finalist )
 - 2022 e-icon World Contest ( 3rd )
