@@ -7,11 +7,6 @@ permalink: /about/
 ### Profile
 - Bae Song Hyun ( @bshyuunn )
 - baesonghyun91@gmail.com
-- https://bshyuunn.github.io/
-- https://github.com/bshyuunn
-- https://x.com/bshyuunn
-
-### Organization
 - CyKor ( ~ Now )
 - Blockchain Valley Security Team ( ~ Now )
 - TeamH4C ( ~ Now )
