@@ -6,6 +6,7 @@ permalink: /about/
 
 ### Profile
 - Bae Song Hyun ( @bshyuunn )
+- ♥ Choe ( 2024.02.27 ~ Now )
 - baesonghyun91@gmail.com
 - CyKor ( ~ Now )
 - Blockchain Valley Security Team ( ~ Now )
