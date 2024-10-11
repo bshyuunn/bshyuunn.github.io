@@ -24,9 +24,9 @@ permalink: /about/
 - hauri virobot DLL Hijacking Vulnerability ( KVE-2024-0395 ) ( of Japtang Team )
 - sga viruschaser DLL Hijacking Vulnerability ( KVE-2024-0410 ) ( of Japtang Team )
 - Bandiview
-    - Bandiview JXR File Parsing DoS Vulnerability ( CVE-2024-45870 ) ( of Japtang Team )
-    - Bandiview PSD File Parsing DoS Vulnerability ( CVE-2024-45871 )  ( of Japtang  Team)
-    - Bandiview PSD File Parsing Stack Buffer Overflow ( CVE-2024-45872 ) ( of Japtang  Team )
+    - Bandiview JXR File Parsing DoS Vulnerability ( [CVE-2024-45870](https://nvd.nist.gov/vuln/detail/CVE-2024-45870) ) ( of Japtang Team )
+    - Bandiview PSD File Parsing DoS Vulnerability ( [CVE-2024-45871](https://nvd.nist.gov/vuln/detail/CVE-2024-45871) )  ( of Japtang  Team)
+    - Bandiview PSD File Parsing Stack Buffer Overflow ( [CVE-2024-45872](https://nvd.nist.gov/vuln/detail/CVE-2024-45872) ) ( of Japtang  Team )
 - Wordpress Plugin
     - wpView Plugins Stored XSS Vulnerability ( [CVE-2023-33213](https://patchstack.com/database/vulnerability/wpview/wordpress-wpview-plugin-1-3-0-cross-site-scripting-xss-vulnerability?_s_id=cve) )
     - Simple Plugin File List Plugins Stored XSS Vulnerability ( [CVE-2023-39924](https://patchstack.com/database/vulnerability/simple-file-list/wordpress-simple-file-list-plugin-6-1-9-cross-site-scripting-xss-vulnerability?_s_id=cve) )
