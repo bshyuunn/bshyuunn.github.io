@@ -110,7 +110,7 @@ contract SolveBabyERC is Script {
 }
 ```
 ```
-bshyuunn@hyuunn-MacBook-Air huh % forge script SolveBabyERC
+$ forge script SolveBabyERC
 [⠊] Compiling...
 [⠒] Compiling 23 files with Solc 0.6.12
 [⠔] Compiling 6 files with Solc 0.8.27
@@ -379,7 +379,7 @@ contract AttackContract is Script {
 
 }
 ```
-```solidity
+```
 $ forge script SolveInjusGambit --broadcast --skip-simulation
 [⠊] Compiling...
 [⠒] Compiling 1 files with Solc 0.8.27
@@ -557,7 +557,7 @@ contract SolveExecutiveProblem is Script {
 }
 ```
 
-```solidity
+```
 $ forge script SolveExecutiveProblem
 [⠊] Compiling...
 [⠒] Compiling 19 files with Solc 0.8.27
