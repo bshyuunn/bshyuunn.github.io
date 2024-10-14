@@ -708,7 +708,7 @@ contract AttakContract {
 }
 ```
 
-```solidity
+```
 $ forge script SolveExecutiveProblem
 [⠊] Compiling...
 [⠔] Compiling 19 files with Solc 0.8.26
