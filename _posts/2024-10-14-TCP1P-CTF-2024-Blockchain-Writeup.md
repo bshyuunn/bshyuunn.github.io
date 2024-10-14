@@ -379,12 +379,11 @@ contract AttackContract is Script {
 
 }
 ```
-
 ```solidity
 $ forge script SolveInjusGambit --broadcast --skip-simulation
 [⠊] Compiling...
 [⠒] Compiling 1 files with Solc 0.8.27
-[⠑] Solc 0.8.27 finished in 1.51s
+[⠔] Solc 0.8.27 finished in 1.51s
 Compiler run successful!
 Script ran successfully.
 Gas used: 677996
@@ -561,8 +560,8 @@ contract SolveExecutiveProblem is Script {
 ```solidity
 $ forge script SolveExecutiveProblem
 [⠊] Compiling...
-[⠔] Compiling 19 files with Solc 0.8.27
-[⠒] Solc 0.8.27 finished in 1.45s
+[⠒] Compiling 19 files with Solc 0.8.27
+[⠔] Solc 0.8.27 finished in 1.45s
 Compiler run successful!
 Script ran successfully.
 Gas used: 160223
