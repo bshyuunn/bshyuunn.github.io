@@ -9,7 +9,6 @@ permalink: /about/
 - ♥ Choe ( 2024.02.27 ~ Now )
 - baesonghyun91@gmail.com
 - CyKor ( ~ Now )
-- Blockchain Valley Security Team ( ~ Now )
 - TeamH4C ( ~ Now )
 
 ### Educations
