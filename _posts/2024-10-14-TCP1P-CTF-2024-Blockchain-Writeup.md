@@ -43,7 +43,6 @@ contract Setup {
     }
 }
 ```
-<br>
 
 An interesting point here is that the Solidity version being used is `0.6.12`, which is quite old. This version does not include built-in protections against overflow and underflow vulnerabilities. As expected, there is an underflow vulnerability in the `HCOIN::transfer()` function.
 
@@ -56,7 +55,6 @@ function transfer(address _to, uint256 _value) public returns (bool success) {
 	emit Transfer(msg.sender, _to, _value);
 	return true;
 }
-
 ```
 The transfer function checks if the sender has enough funds using the require statement. However, the line `balanceOf[msg.sender] - _value` can cause an underflow if `_value` is larger than `balanceOf[msg.sender]`. In such a case, the underflow allows the require statement to pass. The subsequent operation `balanceOf[msg.sender] -= _value` causes the sender’s balance to underflow, increasing their balance due to the underflow bug.
 
@@ -122,7 +120,7 @@ Gas used: 119416
   After Player Balance:  115792089237316195423570985008687907853269984665640564039457
   isSolved:  true
 ```
-
+<br>
 ## **02. injus gambit**
 
 > Inju owns all the things in the area, waiting for one worthy challenger to emerge. Rumor said, that there many ways from many different angle to tackle Inju. Are you the Challenger worthy to oppose him?
@@ -179,7 +177,6 @@ contract Challenger2 {
     }
 }
 ```
-<br>
 
 In the `ChallengeManager::challengeCurrentOwner` function, the `challengeManager` value of the `Privileged` contract can be changed. However, you need to know the `masterKey` and obtain the `theChallenger` role to do so.
 
@@ -197,7 +194,6 @@ function challengeCurrentOwner(bytes32 _key) public onlyChosenChallenger{
     }        
 }
 ```
-<br>
 
 The `masterKey` is a private variable, but since it is stored in a storage slot, its value can be read by directly accessing the storage. The `masterKey` variable is found to be located in Slot 1.
 
@@ -214,7 +210,6 @@ $ forge inspect ChallengeManager storage-layout --pretty
 | challenger               | address[]                | 5    | 0      | 32    | src/ChallengeManager.sol:ChallengeManager |
 | approached               | mapping(address => bool) | 6    | 0      | 32    | src/ChallengeManager.sol:ChallengeManager |
 ```
-<br>
 
 You can retrieve the `masterKey` value using the following script.
 
@@ -222,7 +217,6 @@ You can retrieve the `masterKey` value using the following script.
 $ cast storage <ChallengeManager Address> 0 --rpc-url http://45.32.119.201:44445/79b1e60c-b236-4f69-80ae-c519d16b03a2
 0x494e4a55494e4a55494e4a5553555045524b45594b45594b45594b45594b4559
 ```
-<br>
 
 To obtain the `theChallenger` role, you need to use the `upgradeChallengerAttribute` function. If you input the same `challengerId` for both `challengerId` and `strangerId`, where the Player is the `challenger`, and the gacha value is 0 or 1 four times consecutively, the `theChallenger` will be updated to the Player’s address.
 
@@ -391,7 +385,7 @@ Gas used: 677996
   gacha:  0
   isSolved:  true
 ```
-
+<br>
 ## **03. Executive Problem**
 
 > If only we managed to climb high enough, maybe we can dethrone someone?
@@ -453,7 +447,6 @@ contract Crain{
     
 }
 ```
-<br>
 
 To call this function from the `CrainExecutive` contract, the `transfer` function must be used, and the `_message` argument can be utilized to perform a low-level function call. However, to invoke the `transfer` function, the `isExecutive` privilege must be obtained.
 
@@ -473,7 +466,6 @@ function transfer(address to, uint256 _amount, bytes memory _message) public _on
     require(transfered, "Failed to Transfer Credit!");
 }
 ```
-<br>
 
 To obtain the `isExecutive` privilege, you must first sequentially acquire the `isEmployee` and `isManager` privileges. Additionally, during this process, the `buyCredit` function must be used to increase the Player’s `balance`.
 
@@ -566,7 +558,7 @@ Gas used: 160223
 == Logs ==
   isSolved:  true
 ```
-
+<br>
 ## **04. Unsolveable Money Captcha**
 
 > Oh no! Hackerika just made a super-duper mysterious block chain thingy!
@@ -597,7 +589,6 @@ contract Setup {
     }
 }
 ```
-<br>
 
 In the `Money` Contract, funds can be deposited using the `save` function and withdrawn using the `load` function.
 
@@ -619,7 +610,6 @@ function load(uint256 userProvidedCaptcha) public {
     balances[msg.sender] = 0;
 }
 ```
-<br>
 
 The load function contains a reentrancy attack vulnerability because it updates `balances[msg.sender]` after transferring the funds.
 
