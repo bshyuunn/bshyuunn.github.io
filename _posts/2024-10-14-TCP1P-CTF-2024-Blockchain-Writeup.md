@@ -7,7 +7,7 @@ categories:
 author: Songhyun Bae
 ---
 
-On October 14, 2024, I participated in the TCP1P CTF 2024 as part of the CyKor team and successfully solved 4 out of 6 blockchain challenges.
+On October 14, 2024, I participated in the TCP1P CTF 2024 as part of the CyKor team and successfully solved 4 out of 6 blockchain challenges. You can find all the solution code at [this repo](https://github.com/bshyuunn/TCP1P-CTF-2024-Blockchain-Writeup?tab=readme-ov-file).
 
 ## **01. Baby ERC-20**
 
