@@ -214,7 +214,7 @@ $ forge inspect ChallengeManager storage-layout --pretty
 You can retrieve the `masterKey` value using the following script.
 
 ```solidity
-$ cast storage <ChallengeManager Address> 0 --rpc-url http://45.32.119.201:44445/79b1e60c-b236-4f69-80ae-c519d16b03a2
+$ cast storage <ChallengeManager Address> 0 --rpc-url <Rpc Url>
 0x494e4a55494e4a55494e4a5553555045524b45594b45594b45594b45594b4559
 ```
 
