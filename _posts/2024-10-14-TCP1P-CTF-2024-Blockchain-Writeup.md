@@ -58,8 +58,6 @@ function transfer(address _to, uint256 _value) public returns (bool success) {
 }
 
 ```
-<br>
-
 The transfer function checks if the sender has enough funds using the require statement. However, the line `balanceOf[msg.sender] - _value` can cause an underflow if `_value` is larger than `balanceOf[msg.sender]`. In such a case, the underflow allows the require statement to pass. The subsequent operation `balanceOf[msg.sender] -= _value` causes the sender’s balance to underflow, increasing their balance due to the underflow bug.
 
 ### Solution Script
@@ -277,7 +275,6 @@ function upgradeChallengerAttribute(uint256 challengerId, uint256 strangerId) pu
     }
 }
 ```
-<br>
 
 Here, the `gacha` value is determined by `uint256(keccak256(abi.encodePacked(msg.sender, block.timestamp))) % 4`. Since the `block.timestamp` is a predictable value, it can be exploited to manipulate the outcome.
 
