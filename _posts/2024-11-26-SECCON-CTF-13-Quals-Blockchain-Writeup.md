@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "SECCON CTF 13 Quals Writeup"
+title: "SECCON CTF 13 Quals Blockchain Writeup"
 categories: 
   - Writeup
   - blockchain
