@@ -63,7 +63,7 @@ contract TrillionEther {
 
 The most apparent bug exists in the _newWallet function, where an uninitialized storage variables bug occurs. The wallet variable is declared as storage but is not properly initialized before assignment. Consequently, the data is written starting from storage slot 0.
 
-```
+```solidity
 function _newWallet(bytes32 name, uint256 balance, address owner) internal returns (Wallet storage wallet) {
     wallet = wallet;
     wallet.name = name;
@@ -82,7 +82,7 @@ $ forge inspect TrillionEther storage-layout --pretty
 ```
 
 The wallets array consists of the Wallet struct, which occupies three storage slots for each element:
-```
+```solidity
 struct Wallet {
     bytes32 name;
     uint256 balance;
@@ -101,7 +101,7 @@ By manipulating the array length in slot 0, we can cause an integer overflow dur
 
 Below is the exploit script that drains the contract:
 
-```
+```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
