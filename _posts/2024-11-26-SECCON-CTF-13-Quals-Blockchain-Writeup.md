@@ -92,7 +92,7 @@ struct Wallet {
 Wallet[] public wallets;
 ```
 
-As a result, the storage slot for a new element in the array can be calculated using the formula: `keccak(0) + array length x 3`
+As a result, the storage slot for a new element in the array can be calculated using the formula: `keccak(0) + arrayLength * 3`
 
 
 By manipulating the array length in slot 0, we can cause an integer overflow during the multiplication step. This overflow allows us to overwrite the balance field of the Wallet struct with the owner address. By strategically creating wallets and controlling the overflow, we can target specific storage slots, overwrite critical data, and eventually drain all funds.
