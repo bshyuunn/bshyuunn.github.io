@@ -7,7 +7,7 @@ categories:
 author: Songhyun Bae
 ---
 
-I recently participated in the SECCON CTF 13 Qualifiers with my team, CyKor. I solved the “Trillion Ether” challenge in the blockchain category. I’m planning to write about it on my blog.
+I recently participated in the SECCON CTF 13 Qualifiers with my team, CyKor. I solved the “Trillion Ether” challenge in the blockchain category.
 
 
 ## **Trillion Ether**
