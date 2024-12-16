@@ -6,7 +6,7 @@ permalink: /about/
 
 ### Profile
 - Bae Song Hyun ( @bshyuunn )
-- ♥ Choe ( 2024.02.27 ~ Now )
+- ♥ Choe ( 2024.02.28 ~ Now )
 - baesonghyun91@gmail.com
 - CyKor ( ~ Now )
 - TeamH4C ( ~ Now )
