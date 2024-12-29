@@ -60,7 +60,6 @@ contract TrillionEther {
     }
 }
 ```
-<br>
 
 The most apparent bug exists in the _newWallet function, where an uninitialized storage variables bug occurs. The wallet variable is declared as storage but is not properly initialized before assignment. Consequently, the data is written starting from storage slot 0.
 
@@ -72,7 +71,6 @@ function _newWallet(bytes32 name, uint256 balance, address owner) internal retur
     wallet.owner = owner;
 }
 ```
-<br>
 
 In the TrillionEther contract, storage slot 0 holds the wallets array. Being a dynamic array, this slot stores the array’s length, and the actual elements are stored starting from keccak(0).
 
@@ -82,7 +80,6 @@ $ forge inspect TrillionEther storage-layout --pretty
 |---------|-------------------------------|------|--------|-------|-------------------------------------|
 | wallets | struct TrillionEther.Wallet[] | 0    | 0      | 32    | src/TrillionEther.sol:TrillionEther |
 ```
-<br>
 
 The wallets array consists of the Wallet struct, which occupies three storage slots for each element:
 ```solidity
@@ -94,7 +91,6 @@ struct Wallet {
 
 Wallet[] public wallets;
 ```
-<br>
 
 As a result, the storage slot for a new element in the array can be calculated using the formula: `keccak(0) + arrayLength * 3`
 
