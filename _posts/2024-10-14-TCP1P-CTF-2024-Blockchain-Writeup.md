@@ -3,7 +3,7 @@ layout: post
 title: "TCP1P CTF 2024 Blockchain Writeup"
 categories: 
   - Writeup
-  - Web3
+  - blockchain
 author: Songhyun Bae
 ---
 
