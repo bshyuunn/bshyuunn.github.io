@@ -43,7 +43,6 @@ contract Setup {
     }
 }
 ```
-<br>
 
 An interesting point here is that the Solidity version being used is `0.6.12`, which is quite old. This version does not include built-in protections against overflow and underflow vulnerabilities. As expected, there is an underflow vulnerability in the `HCOIN::transfer()` function.
 
@@ -57,7 +56,6 @@ function transfer(address _to, uint256 _value) public returns (bool success) {
 	return true;
 }
 ```
-<br>
 
 The transfer function checks if the sender has enough funds using the require statement. However, the line `balanceOf[msg.sender] - _value` can cause an underflow if `_value` is larger than `balanceOf[msg.sender]`. In such a case, the underflow allows the require statement to pass. The subsequent operation `balanceOf[msg.sender] -= _value` causes the sender’s balance to underflow, increasing their balance due to the underflow bug.
 
@@ -180,7 +178,6 @@ contract Challenger2 {
     }
 }
 ```
-<br>
 
 In the `ChallengeManager::challengeCurrentOwner` function, the `challengeManager` value of the `Privileged` contract can be changed. However, you need to know the `masterKey` and obtain the `theChallenger` role to do so.
 
@@ -198,7 +195,6 @@ function challengeCurrentOwner(bytes32 _key) public onlyChosenChallenger{
     }        
 }
 ```
-<br>
 
 The `masterKey` is a private variable, but since it is stored in a storage slot, its value can be read by directly accessing the storage. The `masterKey` variable is found to be located in Slot 1.
 
@@ -223,7 +219,6 @@ You can retrieve the `masterKey` value using the following script.
 $ cast storage <ChallengeManager Address> 0 --rpc-url <Rpc Url>
 0x494e4a55494e4a55494e4a5553555045524b45594b45594b45594b45594b4559
 ```
-<br>
 
 To obtain the `theChallenger` role, you need to use the `upgradeChallengerAttribute` function. If you input the same `challengerId` for both `challengerId` and `strangerId`, where the Player is the `challenger`, and the gacha value is 0 or 1 four times consecutively, the `theChallenger` will be updated to the Player’s address.
 
@@ -276,7 +271,6 @@ function upgradeChallengerAttribute(uint256 challengerId, uint256 strangerId) pu
     }
 }
 ```
-<br>
 
 Here, the `gacha` value is determined by `uint256(keccak256(abi.encodePacked(msg.sender, block.timestamp))) % 4`. Since the `block.timestamp` is a predictable value, it can be exploited to manipulate the outcome.
 
@@ -423,7 +417,6 @@ contract Setup{
 
 }
 ```
-<br>
 
 The only function that can modify the crain value is `ascendToCrain`. This function can only be called from the `CrainExecutive` contract.
 
@@ -455,7 +448,6 @@ contract Crain{
     
 }
 ```
-<br>
 
 To call this function from the `CrainExecutive` contract, the `transfer` function must be used, and the `_message` argument can be utilized to perform a low-level function call. However, to invoke the `transfer` function, the `isExecutive` privilege must be obtained.
 
@@ -475,7 +467,6 @@ function transfer(address to, uint256 _amount, bytes memory _message) public _on
     require(transfered, "Failed to Transfer Credit!");
 }
 ```
-<br>
 
 To obtain the `isExecutive` privilege, you must first sequentially acquire the `isEmployee` and `isManager` privileges. Additionally, during this process, the `buyCredit` function must be used to increase the Player’s `balance`.
 
@@ -599,7 +590,6 @@ contract Setup {
     }
 }
 ```
-<br>
 
 In the `Money` Contract, funds can be deposited using the `save` function and withdrawn using the `load` function.
 
@@ -621,7 +611,6 @@ function load(uint256 userProvidedCaptcha) public {
     balances[msg.sender] = 0;
 }
 ```
-<br>
 
 The load function contains a reentrancy attack vulnerability because it updates `balances[msg.sender]` after transferring the funds.
 
