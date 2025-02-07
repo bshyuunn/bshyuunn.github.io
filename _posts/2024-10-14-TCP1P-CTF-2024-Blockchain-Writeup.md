@@ -223,7 +223,7 @@ function challengeCurrentOwner(bytes32 _key) public onlyChosenChallenger{
 
 First, although `masterKey` is a private variable, in the EVM, all private variables are stored in storage slots. This means we can directly query the storage slot to retrieve its value. Using the `forge inspect` command, we can confirm that the `masterKey` variable is stored in slot 1.
 
-```solidity
+```
 $ forge inspect ChallengeManager storage-layout --pretty
 | Name                     | Type                     | Slot | Offset | Bytes | Contract                                  |
 |--------------------------|--------------------------|------|--------|-------|-------------------------------------------|
@@ -240,7 +240,7 @@ $ forge inspect ChallengeManager storage-layout --pretty
 
 Next, using the `cast` command, we can query slot 1 of the Challenge contract and retrieve the `masterKey` value.
 
-```solidity
+```
 $ cast storage <ChallengeManager Address> 1 --rpc-url http://45.32.119.201:44445/79b1e60c-b236-4f69-80ae-c519d16b03a2
 0x494e4a55494e4a55494e4a5553555045524b45594b45594b45594b45594b4559
 ```
@@ -416,7 +416,7 @@ contract AttackContract is Script {
 }
 ```
 
-```solidity
+```
 $ forge script SolveInjusGambit --broadcast --skip-simulation
 [⠊] Compiling...
 [⠒] Compiling 1 files with Solc 0.8.27
@@ -603,7 +603,7 @@ contract SolveExecutiveProblem is Script {
 }
 ```
 
-```solidity
+```
 $ forge script SolveExecutiveProblem
 [⠊] Compiling...
 [⠔] Compiling 19 files with Solc 0.8.27
@@ -758,7 +758,7 @@ contract AttakContract {
     }
 }
 ```
-```solidity
+```
 $ forge script SolveExecutiveProblem
 [⠊] Compiling...
 [⠔] Compiling 19 files with Solc 0.8.26
