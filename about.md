@@ -5,17 +5,17 @@ permalink: /about/
 ---
 
 ### Profile
-- Bae Song Hyun ( @bshyuunn )
+- Bae SongHyun ( @bshyuunn )
 - baesonghyun91@gmail.com
-- CyKor ( ~ Now )
-- TeamH4C ( ~ Now )
+- CyKor ( 2024.9 ~ Now )
+- TeamH4C ( 2024.9 ~ Now )
 
 ### Educations
 - Daejeon Daeshin High School ( 2021.3 ~ 2024.2 )
 - Korea University, Studying engineering in cyber defense ( 2024.3 ~  )
 
 ### Presentation
-- 2023 27th Hacking Camp, 'Hacking with AI: Try Web Hacking with Reinforcement Learning’
+- 2023 27th Hacking Camp, PoC Security 'Hacking with AI: Try Web Hacking with Reinforcement Learning’
 
 ### My Bug
 - apple
