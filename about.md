@@ -6,7 +6,6 @@ permalink: /about/
 
 ### Profile
 - Bae Song Hyun ( @bshyuunn )
-- ♥ Choe ( 2024.02.28 ~ Now )
 - baesonghyun91@gmail.com
 - CyKor ( ~ Now )
 - TeamH4C ( ~ Now )
@@ -19,9 +18,8 @@ permalink: /about/
 - 2023 27th Hacking Camp, 'Hacking with AI: Try Web Hacking with Reinforcement Learning’
 
 ### My Bug
-- PDFio TTF parser C library DoS Vulnerability ( [CVE-2024-42358](https://nvd.nist.gov/vuln/detail/CVE-2024-42358) ) (  of Japtang Team )
-- hauri virobot DLL Hijacking Vulnerability ( KVE-2024-0395 ) ( of Japtang Team )
-- sga viruschaser DLL Hijacking Vulnerability ( KVE-2024-0410 ) ( of Japtang Team )
+- apple
+    - _not yet public_ ( CVE-2025-24184 )
 - Bandiview
     - Bandiview JXR File Parsing DoS Vulnerability ( [CVE-2024-45870](https://nvd.nist.gov/vuln/detail/CVE-2024-45870) ) ( of Japtang Team )
     - Bandiview PSD File Parsing DoS Vulnerability ( [CVE-2024-45871](https://nvd.nist.gov/vuln/detail/CVE-2024-45871) )  ( of Japtang  Team)
@@ -31,6 +29,10 @@ permalink: /about/
     - Simple Plugin File List Plugins Stored XSS Vulnerability ( [CVE-2023-39924](https://patchstack.com/database/vulnerability/simple-file-list/wordpress-simple-file-list-plugin-6-1-9-cross-site-scripting-xss-vulnerability?_s_id=cve) )
     - Fast Custom Social Share by CodeBard Plugins Stored XSS Vulnerability ( [CVE-2023-48329](https://patchstack.com/database/vulnerability/fast-custom-social-share-by-codebard/wordpress-fast-custom-social-share-by-codebard-plugin-1-1-1-cross-site-scripting-xss-vulnerability?_s_id=cve) )
     - Icons Font Loader Plugins File Upload Vulnerability ( [CVE-2024-24714](https://patchstack.com/database/vulnerability/icons-font-loader/wordpress-icons-font-loader-plugin-1-1-4-arbitrary-file-upload-vulnerability?_s_id=cve) ) ( of Vulzap Team )
+- Others
+    - hauri virobot DLL Hijacking Vulnerability ( KVE-2024-0395 )
+    - sga viruschaser DLL Hijacking Vulnerability ( KVE-2024-0410 )
+    - PDFio TTF parser C library DoS Vulnerability ( [CVE-2024-42358](https://nvd.nist.gov/vuln/detail/CVE-2024-42358) ) ( of Japtang Team )
 
 ### Achievement
 - 2022 Korea Code Fair Hackathon ( Silver Award )
@@ -41,6 +43,8 @@ permalink: /about/
 - 2023 White Hat Contests Junior ( Finalist )
 - 2023 Wacon Junior ( Finalist )
 - 2023 CCE Junior ( Finalist )
+- 2024 LakeCTF Quals 24-25 ( 10th ) ( with CyKor )
+- 2024 SECCON CTF 13 Quals ( 50th ) ( with CyKor )
 <details>
 <summary>etc.</summary>
     <ul>
@@ -60,5 +64,6 @@ permalink: /about/
         <li>2023 국민대 알고리즘 대회 ( 장려상 )</li>
         <li>2023 JBU CTF 중고등부 ( 장려상 )</li>
         <li>2023 사이버 보안 챌린지 ( Finalist )</li>
+        <li>2024 사이버 시큐리티 해커톤 ( 대상 )</li>
     </ul>
 </details>
