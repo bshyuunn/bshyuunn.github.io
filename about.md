@@ -18,7 +18,7 @@ permalink: /about/
 - 2023 27th Hacking Camp, PoC Security 'Hacking with AI: Try Web Hacking with Reinforcement Learning’
 
 ### My Bug
-- apple
+- Apple
     - _not yet public_ ( CVE-2025-24184 )
 - Bandiview
     - Bandiview JXR File Parsing DoS Vulnerability ( [CVE-2024-45870](https://nvd.nist.gov/vuln/detail/CVE-2024-45870) ) ( of Japtang Team )
