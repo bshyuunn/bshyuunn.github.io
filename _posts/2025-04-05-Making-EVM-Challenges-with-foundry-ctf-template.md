@@ -89,7 +89,7 @@ make all
 
 But before that, you **gotta tweak** `docker-compose.yml` to fit your challenge:
 
-```solidity
+```yml
 services:
   simple-challenge:
     build: ./build
