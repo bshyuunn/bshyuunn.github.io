@@ -28,7 +28,7 @@ The whole setup runs on **Docker**. Players connect via `nc`, spawn their own 
 - 3 - get flag (if isSolved() is true)
 ![image](https://github.com/user-attachments/assets/0e70338e-e99e-49fd-ba9d-485eba1acdf0)
 
-
+<br>
 ## 2. Building the Setup & Challenge Contracts
 
 The problem consists of **two main contracts**:
@@ -77,6 +77,7 @@ contract Setup {
 
 You can tweak `isSolved()` function to check for different conditions (e.g., "Is a contract’s balance zero?").
 
+<br>
 ## 3. Configuring the Challenge Environment
 
 Once your contracts are ready, run:
