@@ -28,9 +28,16 @@ The whole setup runs on **Docker**. Players connect via `nc`, spawn their own 
 - 3 - get flag (if isSolved() is true)
 ![image](https://github.com/user-attachments/assets/0e70338e-e99e-49fd-ba9d-485eba1acdf0)
 
+You can easily set up a challenge template using the following commands. Just make a few modifications, and you’ll have your own custom challenge ready.
+```
+$ forge init --template bshyuunn/foundry-ctf-template my-solidity-challenge
+$ cd my-solidity-challenge
+$ make all
+```
+
 ## 2. Building the Setup & Challenge Contracts
 
-The problem consists of **two main contracts**:
+The template consists of **two main contracts**:
 
 1. `Setup.sol` – Deploys the challenge and checks if it’s solved.
 2. `Challenge.sol` – The actual puzzle players need to crack. (There Can Be Multiple!)
