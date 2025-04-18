@@ -615,6 +615,7 @@ Gas used: 160223
 == Logs ==
   isSolved:  true
 ```
+<br>
 
 ## 04. Unsolveable Money Captcha
 
