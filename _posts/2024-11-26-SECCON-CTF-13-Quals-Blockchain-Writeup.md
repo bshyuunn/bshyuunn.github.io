@@ -118,7 +118,7 @@ keccak256(0) + arrayLength * 3
 
 <br>
 
-Let’s consider what happens if arrayLength becomes so large that multiplying it by 3 causes an overflow. In that case, `arrayLength * 3` would wrap around to a much smaller value than expected, potentially allowing us to write data to an unintended storage location—like setting the balance to an address or owner address.
+Let’s consider what happens if `arrayLength` becomes so large that multiplying it by 3 causes an overflow. In that case, `arrayLength * 3` would wrap around to a much smaller value than expected, potentially allowing us to write data to an unintended storage location—like setting the balance to an address or owner address.
 
 Since values in the contract are calculated using `uint256`, if `arrayLength * 3` exceeds `type(uint256).max`, an overflow is likely to occur.
 
