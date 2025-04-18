@@ -19,7 +19,14 @@ In this post, I’ll walk you through how to use [**foundry-ctf-template**](http
 
 ---
 
-## 1. How the Challenge Environment Works
+## 1. Setting Up the Challenge Environment
+
+You can easily set up a challenge template using the following commands. Just make a few modifications, and you’ll have your own custom challenge ready.
+```
+$ forge init --template bshyuunn/foundry-ctf-template my-solidity-challenge
+$ cd my-solidity-challenge
+$ make all
+```
 
 The whole setup runs on **Docker**. Players connect via `nc`, spawn their own challenge instance, and get a menu to:
 
@@ -28,12 +35,7 @@ The whole setup runs on **Docker**. Players connect via `nc`, spawn their own 
 - 3 - get flag (if isSolved() is true)
 ![image](https://github.com/user-attachments/assets/0e70338e-e99e-49fd-ba9d-485eba1acdf0)
 
-You can easily set up a challenge template using the following commands. Just make a few modifications, and you’ll have your own custom challenge ready.
-```
-$ forge init --template bshyuunn/foundry-ctf-template my-solidity-challenge
-$ cd my-solidity-challenge
-$ make all
-```
+
 
 ## 2. Building the Setup & Challenge Contracts
 
