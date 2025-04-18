@@ -110,7 +110,7 @@ struct Wallet {
 Wallet[] public wallets;
 ```
 
-When `wallets.push(...)` executed, the storage index for the new struct is calculated roughly by:
+When `wallets.push(...)` is executed, the storage index for the new struct is calculated roughly by:
 
 ```solidity
 keccak256(0) + arrayLength * 3
@@ -118,7 +118,7 @@ keccak256(0) + arrayLength * 3
 
 <br>
 
-Hmm… What happens if `arrayLength` becomes large enough that multiplying it by 3 causes an overflow? In that case, `arrayLength * 3` would wrap around to a much smaller value than expected, potentially allowing us to write data to an unintended storage location—like setting the balance to an address or owner address..
+Let’s consider what happens if arrayLength becomes so large that multiplying it by 3 causes an overflow. In that case, `arrayLength * 3` would wrap around to a much smaller value than expected, potentially allowing us to write data to an unintended storage location—like setting the balance to an address or owner address.
 
 Since values in the contract are calculated using `uint256`, if `arrayLength * 3` exceeds `type(uint256).max`, an overflow is likely to occur.
 
@@ -145,7 +145,7 @@ When visualized, it looks like this:
 
 <br>
 
-So, I was able to successfully overwrite the balance value with the owner address. To exploit this, I first created a `wallet` at index 1, where I was the owner, and then created another `wallet` at position `(maxUint / 3) + 1`, which allowed me to execute the attack.
+So, I was able to overwrite the balance value with the owner address. To exploit this, I first created a `wallet` at index 1, where I was the owner, and then created another `wallet` at position `(maxUint / 3) + 1`, which allowed me to execute the attack.
 
 <br>
 
