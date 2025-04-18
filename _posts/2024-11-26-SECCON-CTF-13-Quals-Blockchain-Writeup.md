@@ -169,7 +169,7 @@ contract solve is Script {
     TrillionEther problemInstance;
 
     function setUp() external {
-        string memory rpcUrl = "<http://trillion-ether.seccon.games:8545/fcf85a4f-6b2f-4f81-aef5-e966d043277f>";
+        string memory rpcUrl = "http://trillion-ether.seccon.games:8545/fcf85a4f-6b2f-4f81-aef5-e966d043277f";
         playerPrivateKey = 0x6d9be7bb251e23e43ac737e9ce272c97d11eb2d8164b70fd92242a076eab0d30;
         address problemContract = 0x775e072738D978416d8bc7805B8Cf4f34C0Bf80F;
 
