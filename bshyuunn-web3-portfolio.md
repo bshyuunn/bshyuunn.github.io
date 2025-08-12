@@ -21,6 +21,7 @@ I focus on smart contract auditing and bug bounty hunting across EVM-compatible,
 <br>
 
 ## Audit Contests
+
 Protocol               | Findings    | Tech      | Category                | Rank        | Report                   | Platform   | Date
 ---------------------- | ----------- | --------- | ----------------------- | ----------- | ------------------------ | ---------- | ------
 Coinbase-EIP7702Proxy  | 1M          | Solidity  | Proxy                   | 3 / 309 🥉  | Private                  | Cantina    | Mar 2025
@@ -31,9 +32,17 @@ dahlia-protocol        | 1H          | Solidity  | Lending                 | 18 
 reserve-index-dtf      | 1M          | Solidity  | Portfolio               | 8 / 263     | Private                  | Cantina    | Jan 2025
 InterPol               | 1H, 2M      | Solidity  | Defi, Liquidity Lock    | 10 / 236    | Private                  | Cantina    | Dec 2024
 
+Title 1               | Title 2               | Title 3               | Title 4
+--------------------- | --------------------- | --------------------- | ---------------------
+lorem                 | lorem ipsum           | lorem ipsum dolor     | lorem ipsum dolor sit
+lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit
+lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit
+lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit | lorem ipsum dolor sit
+
 <br>
 
 ## Bug Bounties
+
 Protocol   | Severity | Tech        | Category | Status | Bounty     | Report   | Platform  | Date
 ---------- | -------- | ----------- | -------- | ------ | ---------- | -------- | --------- | -----
 Private-1  | Medium   | Aptos Move  | Swap     | [NFNP](https://immunefisupport.zendesk.com/hc/en-us/articles/22617181023889-No-Fix-No-Pay) | -          | Private  | Immunefi  | Aug 2025
