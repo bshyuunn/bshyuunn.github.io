@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "SECCON CTF 13 Quals Blockchain Writeup"
+title: "SECCON CTF 13 Quals Trillion Ether Writeup"
 categories: 
   - Writeup
   - blockchain
