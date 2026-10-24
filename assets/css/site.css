@@ -226,7 +226,8 @@ section h2 {
 .prose h2, .prose h3, .prose h4 { color: var(--fg); font-weight: 700; line-height: 1.35; }
 .prose h2 { margin: 48px 0 20px; padding-bottom: 10px; border-bottom: 1px solid var(--line); font-size: 22px; }
 .prose h2 .sec { margin-right: 10px; }
-.prose h3 { margin: 32px 0 14px; font-size: 18px; color: var(--accent); }
+.prose h3 { margin: 32px 0 14px; font-size: 18px; }
+.prose h3 .sec { margin-right: 8px; }
 .prose h4 { margin: 24px 0 12px; font-size: 17px; }
 .prose hr { border: 0; height: 1px; background: var(--line); margin: 36px 0; }
 .prose ul, .prose ol { padding-left: 22px; }
@@ -273,12 +274,9 @@ section h2 {
   .post-head h1 { font-size: 30px; }
   .prose { font-size: 17px; }
   .bug-id { flex-basis: 100%; }
-  .row { justify-content: flex-start; }
-  .row-main { flex-basis: 100%; }
-  .row-side { margin-left: 68px; }
-  .sevs { justify-content: flex-start; min-width: 0; }
-  .year { min-width: 0; text-align: left; }
   .cards { grid-template-columns: 1fr; }
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -16px; padding: 0 16px 4px; }
+  .table-scroll .row { flex-wrap: nowrap; min-width: 480px; }
 }
 
 .prose pre.highlight { background: var(--code-bg); }

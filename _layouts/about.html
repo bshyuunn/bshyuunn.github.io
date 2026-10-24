@@ -80,6 +80,7 @@ layout: base
 {%- endfor %}
 <section>
   <h2><span class="sec">§4</span>Audit Contests<span class="total">{{ tc }}C · {{ th }}H · {{ tm }}M · {{ tl }}L</span></h2>
+  <div class="table-scroll">
   {%- for k in cv.contests %}{% if k.show %}
   {%- if k.rank > 0 and k.rank <= 3 -%}{%- assign rcls = "top3" -%}{%- elsif k.rank > 0 and k.rank <= 10 -%}{%- assign rcls = "top10" -%}{%- else -%}{%- assign rcls = "" -%}{%- endif %}
   <div class="row">
@@ -91,11 +92,13 @@ layout: base
     </span>
   </div>
   {%- endif %}{% endfor %}
+  </div>
   <a class="more" href="{{ cv.contests_all }}" title="See all contests in the audit portfolio"><span>···</span><span>all contests</span></a>
 </section>
 
 <section>
   <h2><span class="sec">§5</span>Awards</h2>
+  <div class="table-scroll">
   {%- for a in cv.awards %}
   {%- if a.place == "1st" -%}{%- assign pcls = "first" -%}{%- elsif a.place == "Finalist" -%}{%- assign pcls = "final" -%}{%- else -%}{%- assign pcls = "" -%}{%- endif %}
   <div class="row">
@@ -106,6 +109,7 @@ layout: base
     </span>
   </div>
   {%- endfor %}
+  </div>
 </section>
 
 <footer class="foot">© {{ site.time | date: "%Y" }} Songhyun Bae</footer>
