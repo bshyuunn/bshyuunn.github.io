@@ -275,6 +275,8 @@ section h2 {
   .bug-id { flex-basis: 100%; }
   .row-main { flex-basis: 100%; }
   .row-side { margin-left: 68px; }
+  .sevs { justify-content: flex-start; min-width: 0; }
+  .year { min-width: 0; }
   .cards { grid-template-columns: 1fr; }
 }
 

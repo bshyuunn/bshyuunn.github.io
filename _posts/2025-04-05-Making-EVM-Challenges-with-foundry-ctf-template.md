@@ -21,7 +21,7 @@ In this post, I’ll walk you through how to use [**foundry-ctf-template**](http
 
 ---
 
-## 01. Setting Up the Challenge Environment
+## 1. Setting Up the Challenge Environment
 
 You can easily set up a challenge template using the following commands. Just make a few modifications, and you’ll have your own custom challenge ready.
 ```
@@ -39,7 +39,7 @@ The whole setup runs on **Docker**. Players connect via `nc`, spawn their own 
 
 
 
-## 02. Building the Setup & Challenge Contracts
+## 2. Building the Setup & Challenge Contracts
 
 The template consists of **two main contracts**:
 
@@ -88,7 +88,7 @@ contract Setup {
 You can tweak `isSolved()` function to check for different conditions (e.g., "Is a contract’s balance zero?").
 
 <br>
-## 03. Configuring the Challenge Environment
+## 3. Configuring the Challenge Environment
 
 Once your contracts are ready, run:
 

@@ -14,7 +14,7 @@ In the end, out of the 6 blockchain challenges, I managed to solve 4. In this po
 
 ---
 
-## 01. Baby ERC-20
+## 1. Baby ERC-20
 
 > New token standards huh? https://eips.ethereum.org/EIPS/eip-20
 
@@ -86,7 +86,7 @@ function setPlayer(address _player) public {
 ```
 <br>
 
-### 01.1 Solution Script
+### 1.1 Solution Script
 
 This is my Solution Script that implements the above solution.
 
@@ -135,7 +135,7 @@ contract SolveBabyERC is Script {
 ```
 <br>
 
-## 02. injus gambit
+## 2. injus gambit
 
 > Inju owns all the things in the area, waiting for one worthy challenger to emerge. Rumor said, that there many ways from many different angle to tackle Inju. Are you the Challenger worthy to oppose him?
 > 
@@ -317,7 +317,7 @@ Since it relies on `block.timestamp`, it appears to be generated randomly. Howev
 
 <br>
 
-### 02.1 Solution Script
+### 2.1 Solution Script
 
 Here is my Solution Script implementing the above approach.
 
@@ -435,7 +435,7 @@ Gas used: 677996
 ```
 <br>
 
-## 03. Executive Problem
+## 3. Executive Problem
 
 > If only we managed to climb high enough, maybe we can dethrone someone?
 
@@ -551,7 +551,7 @@ function buyCredit() public payable _onlyEmployee{
 
 <br>
 
-### 03.1 Solution Script
+### 3.1 Solution Script
 
 Here is my Solution Script implementing the approach described above.
 
@@ -619,7 +619,7 @@ Gas used: 160223
 ```
 <br>
 
-## 04. Unsolveable Money Captcha
+## 4. Unsolveable Money Captcha
 
 > Oh no! Hackerika just made a super-duper mysterious block chain thingy!
 I'm not sure what she's up to, maybe creating a super cool bank app?
@@ -681,7 +681,7 @@ balances[msg.sender] = 0;
 ```
 <br>
 
-### 04.1 Solution Script
+### 4.1 Solution Script
 
 Here is my Solution Script that successfully executed the reentrancy attack and drained all funds from the moneyContract.
 
