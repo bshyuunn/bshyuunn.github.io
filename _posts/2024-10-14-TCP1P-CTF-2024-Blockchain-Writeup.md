@@ -86,7 +86,7 @@ function setPlayer(address _player) public {
 ```
 <br>
 
-### Solution Script
+### 01.1 Solution Script
 
 This is my Solution Script that implements the above solution.
 
@@ -317,7 +317,7 @@ Since it relies on `block.timestamp`, it appears to be generated randomly. Howev
 
 <br>
 
-### Solution Script
+### 02.1 Solution Script
 
 Here is my Solution Script implementing the above approach.
 
@@ -551,7 +551,7 @@ function buyCredit() public payable _onlyEmployee{
 
 <br>
 
-### Solution Script
+### 03.1 Solution Script
 
 Here is my Solution Script implementing the approach described above.
 
@@ -681,7 +681,7 @@ balances[msg.sender] = 0;
 ```
 <br>
 
-### Solution Script
+### 04.1 Solution Script
 
 Here is my Solution Script that successfully executed the reentrancy attack and drained all funds from the moneyContract.
 

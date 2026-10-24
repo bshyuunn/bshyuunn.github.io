@@ -15,7 +15,7 @@ In this post, I’d like to share my solution to this challenge. You can find th
 
 ---
 
-## Trillion Ether
+## 01. Trillion Ether
 
 > Get Chance!
 
@@ -151,7 +151,7 @@ So, I was able to overwrite the balance value with the owner address. To exploit
 
 <br>
 
-### Solution Script
+### 01.1 Solution Script
 
 This is my solution script based on the above approach.
 
