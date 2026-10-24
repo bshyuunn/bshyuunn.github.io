@@ -8,17 +8,16 @@ layout: base
   <div class="hatch" aria-hidden="true"></div>
 </header>
 
-<div class="cards">
+<div class="post-list">
   {%- for post in site.posts %}
-  {%- assign kind = post.categories | first | default: "Post" | capitalize %}
-  <a class="card" href="{{ post.url | relative_url }}">
-    {%- if post.cover %}
-    <img class="cover" src="{{ post.cover | relative_url }}" alt="" loading="lazy">
-    {%- else %}
-    <div class="cover gen" aria-hidden="true"><span>{{ post.short | default: post.title }}</span></div>
-    {%- endif %}
-    <span class="meta">{{ kind }} · {{ post.date | date: "%Y.%m.%d" }}</span>
-    <span class="t">{{ post.title | escape }}</span>
+  <a class="post-row" href="{{ post.url | relative_url }}">
+    <time class="pr-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y.%m.%d" }}</time>
+    <span class="pr-main">
+      <span class="t">{{ post.title | escape }}</span>
+      {%- if post.tags.size > 0 %}
+      <span class="tags">{% for tag in post.tags %}<span class="tag">#{{ tag }}</span>{% endfor %}</span>
+      {%- endif %}
+    </span>
   </a>
   {%- endfor %}
 </div>

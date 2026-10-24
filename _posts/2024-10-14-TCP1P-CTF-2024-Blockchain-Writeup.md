@@ -5,6 +5,7 @@ categories:
   - Writeup
   - blockchain
 author: Songhyun Bae
+tags: [writeup, tcp1p, blockchain, solidity]
 short: "TCP1P CTF 2024"
 cover: /assets/img/covers/tcp1p-blockchain-cover.webp
 ---

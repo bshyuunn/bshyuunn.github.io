@@ -4,6 +4,7 @@ title: "Making EVM Challenges with foundry-ctf-template"
 categories: 
   - blockchain
 author: Songhyun Bae
+tags: [blockchain, foundry, ctf-dev]
 short: "foundry-ctf-template"
 cover: /assets/img/covers/foundry-ctf-template-cover.webp
 ---

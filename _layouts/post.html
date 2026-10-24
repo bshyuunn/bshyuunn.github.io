@@ -10,6 +10,9 @@ layout: base
   <a class="back" href="{{ '/blog/' | relative_url }}">← Blog</a>
   <p class="meta"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y.%m.%d" }}</time> · <span class="accent">{{ kind }}</span></p>
   <h1>{{ page.title | escape }}</h1>
+  {%- if page.tags.size > 0 %}
+  <p class="tags">{% for tag in page.tags %}<span class="tag">#{{ tag }}</span>{% endfor %}</p>
+  {%- endif %}
   <div class="hatch" aria-hidden="true"></div>
 </header>
 

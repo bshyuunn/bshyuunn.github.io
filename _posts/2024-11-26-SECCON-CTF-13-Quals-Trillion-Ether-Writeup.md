@@ -5,6 +5,7 @@ categories:
   - Writeup
   - blockchain
 author: Songhyun Bae
+tags: [writeup, seccon, evm]
 short: "SECCON CTF 13"
 cover: /assets/img/covers/seccon-trillion-ether-cover.webp
 ---
