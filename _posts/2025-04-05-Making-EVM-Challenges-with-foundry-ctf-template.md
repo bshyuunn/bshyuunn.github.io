@@ -35,7 +35,7 @@ The whole setup runs on **Docker**. Players connect via `nc`, spawn their own 
 - 1 - launch new instance
 - 2 - kill instance
 - 3 - get flag (if isSolved() is true)
-![image](https://github.com/user-attachments/assets/0e70338e-e99e-49fd-ba9d-485eba1acdf0)
+![image](/assets/img/posts/foundry-ctf-template/01.png)
 
 
 

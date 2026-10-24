@@ -142,7 +142,7 @@ console.log(n);
 <br>
 
 When visualized, it looks like this:
-<img width="1300" alt="image" src="https://github.com/user-attachments/assets/2a921479-9bfe-4d16-b739-fcd8ae639980" />
+<img width="1300" alt="image" src="/assets/img/posts/seccon-ctf-13-trillion-ether/01.png" />
 
 
 <br>
