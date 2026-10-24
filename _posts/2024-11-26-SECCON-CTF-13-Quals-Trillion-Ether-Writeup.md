@@ -6,7 +6,7 @@ categories:
   - blockchain
 author: Songhyun Bae
 short: "SECCON CTF 13"
-# cover: /assets/img/your-cover.png
+cover: /assets/img/covers/seccon-ctf-13.png
 ---
 
 Hi! I recently participated in the [SECCON CTF 13 Qualifiers](https://ctftime.org/event/2478/) with [CyKor](https://x.com/cykorku) and solved the “Trillion Ether” challenge in the Blockchain category.

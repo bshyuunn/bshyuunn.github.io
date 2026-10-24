@@ -5,7 +5,7 @@ categories:
   - blockchain
 author: Songhyun Bae
 short: "foundry-ctf-template"
-# cover: /assets/img/your-cover.png
+cover: /assets/img/covers/foundry-ctf-template.png
 ---
 
 I recently created a Web3 challenge for CyKor's Recruit CTF. While designing an EVM-based problem, I encountered difficulties in setting up the proper environment. To solve this, I referenced two excellent resources:

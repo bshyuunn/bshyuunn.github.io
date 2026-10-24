@@ -24,7 +24,7 @@
     </nav>
   </div>
   <div class="crop" aria-hidden="true"><span></span><span></span><span></span></div>
-  <main class="wrap">
+  <main class="wrap{% if page.layout == 'post' %} wide{% endif %}">
     {{ content }}
   </main>
 </body>
