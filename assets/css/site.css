@@ -222,3 +222,5 @@ section h2 {
   .row-side { margin-left: 68px; }
   .cards { grid-template-columns: 1fr; }
 }
+
+.prose pre.highlight { background: var(--code-bg); }
