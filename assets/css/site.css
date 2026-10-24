@@ -18,6 +18,18 @@
 
 * { box-sizing: border-box; }
 html { background: var(--bg); }
+
+/* ── page transitions ──────────────────── */
+@view-transition { navigation: auto; }
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root), ::view-transition-new(root) {
+    animation-duration: 0.38s;
+    animation-timing-function: ease;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}
 body {
   margin: 0;
   zoom: 0.88;
