@@ -198,7 +198,7 @@ section h2 {
 .card { display: flex; flex-direction: column; gap: 12px; }
 .card:hover { text-decoration: none; }
 .card:hover .t { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
-.cover { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; filter: grayscale(1); }
+.cover { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
 .cover.gen {
   filter: none; border: 1px solid var(--line); padding: 24px;
   display: flex; align-items: flex-end;
