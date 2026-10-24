@@ -6,7 +6,7 @@ categories:
   - blockchain
 author: Songhyun Bae
 short: "TCP1P CTF 2024"
-# cover: /assets/img/your-cover.png
+cover: /assets/img/covers/tcp1p-blockchain-cover.webp
 ---
 
 Hello! This week, I participated in [TCP1P CTF 2024](https://ctftime.org/event/2256/) as a member of the [CyKor](https://x.com/cykorku). Since I’ve been particularly interested in blockchain lately, I focused on solving blockchain challenges during the competition.
