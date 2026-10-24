@@ -1,0 +1,75 @@
+# Everything on the About page lives here. Edit this file, push, and the page updates.
+
+# §1 Experience / §2 Education — title, date, one subtitle line, optional bullets.
+work:
+  - title: Smart Contract Auditor
+    sub: Hashlock, Remote — EVM smart contract audits across Solidity and Vyper
+    date: 2025.08 — 2026.04
+    bullets: []
+
+education:
+  - title: Korea University
+    sub: B.S. Cyber Defense · Seoul, South Korea
+    date: 2024.03 —
+    bullets: []
+
+# §3 Disclosed Bugs — one row per finding; `group` decides which fold it sits in
+# (groups appear in the order they first show up here).
+#   ref:      advisory link. CVE ids link to NVD automatically; set ref to override.
+#   redacted: widths of the white bars that hide undisclosed details.
+#   writeup:  link to a blog post about the finding, e.g. /blog/... (adds a doc icon).
+open_groups: [Apple, Anthropic, Toucan]   # folds that start open
+findings:
+  - { group: Apple, id: CVE-2025-24184, target: CoreMedia Playback, kind: Denial of service }
+  - { group: Anthropic, id: "HackerOne #3795252", target: Claude Code, kind: High, redacted: [46, 72, 28] }
+  - { group: Toucan, id: "Immunefi #40684", target: Toucan Protocol, kind: Medium, redacted: [64, 38] }
+  - { group: Toucan, id: "Immunefi #40596", target: Toucan Protocol, kind: Medium, redacted: [52, 80] }
+  - { group: Toucan, id: "Immunefi #40497", target: Toucan Protocol, kind: Low, redacted: [70, 34] }
+  - { group: Open Source, id: CVE-2025-30216, target: NASA CryptoLib, kind: Heap-based buffer overflow }
+  - { group: Open Source, id: GHSA-58p5-r2f6-g2cj, target: Pixar OpenUSD, kind: Use-after-free, ref: "https://github.com/PixarAnimationStudios/OpenUSD/security/advisories/GHSA-58p5-r2f6-g2cj" }
+  - { group: Open Source, id: CVE-2024-42358, target: PDFio TTF parser, kind: Denial of service }
+  - { group: WordPress Plugin, id: CVE-2024-24714, target: Icons Font Loader, kind: Arbitrary file upload }
+  - { group: WordPress Plugin, id: CVE-2023-48329, target: Fast Custom Social Share, kind: Stored XSS }
+  - { group: WordPress Plugin, id: CVE-2023-39924, target: Simple File List, kind: Stored XSS }
+  - { group: WordPress Plugin, id: CVE-2023-33213, target: wpView, kind: Stored XSS }
+  - { group: Others, id: CVE-2024-45872, target: Bandiview PSD parser, kind: Heap-based buffer overflow }
+  - { group: Others, id: CVE-2024-45871, target: Bandiview PSD parser, kind: Denial of service }
+  - { group: Others, id: CVE-2024-45870, target: Bandiview JXR parser, kind: Denial of service }
+  - { group: Others, id: KVE-2024-0410, target: SGA ViruChaser, kind: DLL hijacking }
+  - { group: Others, id: KVE-2024-0395, target: Hauri ViRobot, kind: DLL hijacking }
+
+# §4 Audit Contests — every contest with a valid finding.
+#   show: true = listed on the page. The header total counts ALL rows, listed or not.
+#   crit/high/med/low: valid findings · rank: 0 = none · writeup: optional blog link
+contests:
+  - { show: true,  platform: HackenProof, name: Strobe SC, rank: 1, crit: 1, year: 2025, url: "https://hackenproof.com/audit-programs/strobe-sc-dualdefense-audit" }
+  - { show: true,  platform: Sherlock, name: Neutrl Protocol, rank: 1, med: 1, year: 2025, url: "https://audits.sherlock.xyz/contests/1065" }
+  - { show: true,  platform: Cantina, name: Coinbase EIP-7702 Proxy, rank: 3, med: 1, year: 2025, url: "https://cantina.xyz/competitions/b0a948cd-c861-4807-b36e-d680d82598bf" }
+  - { show: true,  platform: CodeHawks, name: RAAC Core, rank: 5, high: 8, med: 10, year: 2025, url: "https://codehawks.cyfrin.io/c/2025-02-raac" }
+  - { show: true,  platform: Immunefi, name: Folks Finance Staking, rank: 5, low: 1, year: 2026, url: "https://immunefi.com/audit-competition/audit-comp-folks-finance-staking-contracts/" }
+  - { show: false, platform: Cantina, name: Reserve Index DTF, rank: 8, med: 1, year: 2025, url: "https://cantina.xyz/competitions/9dfca0bc-a7bf-482e-a3df-4eb861f55c4f" }
+  - { show: true,  platform: Immunefi, name: ENS, rank: 10, crit: 1, high: 1, med: 1, year: 2026, url: "https://immunefi.com/audit-competition/audit-competition-ens/" }
+  - { show: true,  platform: Cantina, name: InterPol, rank: 10, high: 1, med: 2, year: 2024, url: "https://cantina.xyz/competitions/55023131-27df-44e4-af46-bec298d0fa8e" }
+  - { show: false, platform: Cantina, name: DAAO, rank: 14, high: 5, med: 2, year: 2025, url: "https://cantina.xyz/competitions/bd43bdd1-bc7f-473b-96c0-d35d37f3db33" }
+  - { show: false, platform: Code4rena, name: Next Generation, rank: 15, high: 1, med: 1, year: 2025, url: "https://code4rena.com/audits/2025-01-next-generation" }
+  - { show: false, platform: Cantina, name: Dahlia Protocol, rank: 18, high: 1, year: 2025, url: "https://cantina.xyz/competitions/691ce303-f137-437a-bf34-aef87dfe983b" }
+  - { show: false, platform: Immunefi, name: Firelight, rank: 131, high: 1 }
+contests_all: "https://github.com/bshyuunn/bshyuunn-web3-portfolio/blob/main/EXPERIENCE.md"
+
+# §5 Awards — shown in this order (newest first).
+#   place: 1st / 2nd / ... / Finalist · team: shown as "with <team>" · url: contest page · writeup: optional
+awards:
+  - { place: 5th, name: Defense AI Cyber Security Hackathon, url: "https://dah.ai.kr/", year: 2026 }
+  - { place: 10th, name: LakeCTF Finals 25-26, url: "https://ctftime.org/event/3295", team: CyKor, year: 2026 }
+  - { place: 1st, name: Cyber Security Hackathon, url: "https://www.busan.go.kr/nbnews/1639247", team: Boolean, year: 2024 }
+  - { place: Finalist, name: CODEGATE Junior, url: "https://www.codegate.org/", year: 2023 }
+  - { place: Finalist, name: WACON Junior, url: "https://wacon.world/", year: 2023 }
+  - { place: Finalist, name: WhiteHat Contest Junior, url: "https://whitehat2026.kr/", year: 2023 }
+  - { place: Finalist, name: CCE Junior, url: "https://cce.cstec.kr/", year: 2023 }
+  - { place: 1st, name: Intelligent Mobility SW Contest (AI), url: "https://www.ikw.ac.kr/board/detail.tc?mn=2596&mngNo=3&pageSeq=1721&boardNo=311695", year: 2023 }
+  - { place: 1st, name: Chungcheong Youth Hacking Defense Contest, url: "https://www.veritas-a.com/news/articleView.html?idxno=428654", year: 2022 }
+  - { place: 1st, name: AI Self-Directed Research Competition, url: "https://www.science.go.kr/mps/1104/bbs/208/moveBbsNttDetail.do?nttSn=9807", year: 2022 }
+  - { place: 2nd, name: Korea Code Fair Hackathon, url: "https://kcf.or.kr/", year: 2022 }
+  - { place: 3rd, name: e-ICON World Contest, url: "https://e-icon.or.kr/en/", year: 2022 }
+  - { place: 4th, name: KOSPO Web Security Competition, url: "https://www.todayenergy.kr/news/articleView.html?idxno=253427", year: 2022 }
+  - { place: 4th, name: K-ICT Data Creator Camp, url: "https://kbig.kr/portal/kbig/keybiz.page", year: 2022 }

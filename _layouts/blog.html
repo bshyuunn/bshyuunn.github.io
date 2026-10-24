@@ -1,0 +1,31 @@
+---
+layout: base
+---
+<div class="stack blog">
+
+<header class="page-head">
+  <h1>Blog</h1>
+  <div class="hatch" aria-hidden="true"></div>
+</header>
+
+<div class="cards">
+  {%- for post in site.posts %}
+  {%- assign kind = post.categories | first | default: "Post" | capitalize %}
+  <a class="card" href="{{ post.url | relative_url }}">
+    {%- if post.cover %}
+    <img class="cover" src="{{ post.cover | relative_url }}" alt="" loading="lazy">
+    {%- else %}
+    <div class="cover gen" aria-hidden="true"><span>{{ post.short | default: post.title }}</span></div>
+    {%- endif %}
+    <span class="meta">{{ kind }} · {{ post.date | date: "%Y.%m.%d" }}</span>
+    <span class="t">{{ post.title | escape }}</span>
+  </a>
+  {%- endfor %}
+</div>
+
+<footer class="foot split">
+  <span>© {{ site.time | date: "%Y" }} Songhyun Bae</span>
+  <span class="foot-links"><a href="https://github.com/bshyuunn">github</a><a href="https://x.com/bshyuunn">x</a><a href="{{ '/feed.xml' | relative_url }}">rss</a></span>
+</footer>
+
+</div>

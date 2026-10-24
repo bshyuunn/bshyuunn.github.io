@@ -1,0 +1,40 @@
+---
+layout: base
+---
+{%- assign kind = page.categories | first | default: "Post" | capitalize -%}
+<div class="stack post">
+
+<header class="post-head">
+  <a class="back" href="{{ '/blog/' | relative_url }}">← Blog</a>
+  <p class="meta"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y.%m.%d" }}</time> · <span class="accent">{{ kind }}</span></p>
+  <h1>{{ page.title | escape }}</h1>
+  <div class="hatch" aria-hidden="true"></div>
+</header>
+
+{%- if page.cover %}
+<img class="post-cover" src="{{ page.cover | relative_url }}" alt="">
+{%- endif %}
+
+<article class="prose">
+  {{ content }}
+</article>
+
+{%- if page.use_math -%}
+  {%- include mathjax_support.html -%}
+{%- endif %}
+
+<footer class="foot post-foot">
+  {%- if page.previous or page.next %}
+  <div class="pn">
+    {%- if page.previous %}
+    <a href="{{ page.previous.url | relative_url }}"><span class="label">← Previous</span><span>{{ page.previous.title | escape }}</span></a>
+    {%- endif %}
+    {%- if page.next %}
+    <a class="next" href="{{ page.next.url | relative_url }}"><span class="label">Next →</span><span>{{ page.next.title | escape }}</span></a>
+    {%- endif %}
+  </div>
+  {%- endif %}
+  <span>© {{ site.time | date: "%Y" }} Songhyun Bae</span>
+</footer>
+
+</div>

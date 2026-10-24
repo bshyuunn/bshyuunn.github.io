@@ -1,0 +1,113 @@
+---
+layout: base
+---
+{%- assign cv = site.data.cv -%}
+<div class="stack about">
+
+<header class="hero">
+  <p class="kicker">Security researcher</p>
+  <div class="name">
+    <h1>Songhyun Bae</h1>
+    <p class="muted">@bshyuunn</p>
+  </div>
+  {{ content }}
+  <nav class="links" aria-label="Links">
+    <a href="https://github.com/bshyuunn">GitHub</a>
+    <a href="https://x.com/bshyuunn">X</a>
+    <a href="mailto:baesonghyun91@gmail.com" title="baesonghyun91@gmail.com">Email</a>
+    <a href="{{ '/Songhyun-Bae.pdf' | relative_url }}">CV</a>
+  </nav>
+  <div class="hatch" aria-hidden="true"></div>
+</header>
+
+<section>
+  <h2><span class="sec">§1</span>Experience</h2>
+  {%- for w in cv.work %}
+  <div class="entry">
+    <div class="entry-top"><span class="entry-title">{{ w.title }}</span><span class="date">{{ w.date }}</span></div>
+    <span class="muted">{{ w.sub }}</span>
+    {%- for b in w.bullets %}<span class="bullet"><span aria-hidden="true">—</span><span>{{ b }}</span></span>{% endfor %}
+  </div>
+  {%- endfor %}
+</section>
+
+<section>
+  <h2><span class="sec">§2</span>Education</h2>
+  {%- for w in cv.education %}
+  <div class="entry">
+    <div class="entry-top"><span class="entry-title">{{ w.title }}</span><span class="date">{{ w.date }}</span></div>
+    <span class="muted">{{ w.sub }}</span>
+    {%- for b in w.bullets %}<span class="bullet"><span aria-hidden="true">—</span><span>{{ b }}</span></span>{% endfor %}
+  </div>
+  {%- endfor %}
+</section>
+
+<section>
+  <h2><span class="sec">§3</span>Disclosed Bugs</h2>
+  {%- assign groups = cv.findings | group_by: "group" -%}
+  {%- for g in groups %}
+  <details class="fold"{% if cv.open_groups contains g.name %} open{% endif %}>
+    <summary>
+      <svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="m9 6 6 6-6 6"/></svg>
+      <span>{{ g.name }} <span class="count">{{ g.items.size }}</span></span>
+    </summary>
+    <div class="fold-body">
+      {%- for f in g.items -%}
+      {%- assign ref = f.ref -%}
+      {%- assign head = f.id | slice: 0, 4 -%}
+      {%- if ref == nil and head == "CVE-" -%}{%- assign ref = "https://nvd.nist.gov/vuln/detail/" | append: f.id -%}{%- endif %}
+      <div class="bug">
+        <span class="bug-id">{% if ref %}<a class="dl" href="{{ ref }}" title="Open advisory">{{ f.id }}</a>{% else %}{{ f.id }}{% endif %}</span>
+        <span class="bug-main">
+          <span>{{ f.target }} <span class="muted">— {{ f.kind | default: "details redacted" }}</span></span>
+          {%- if f.redacted %}
+          <span class="redact" role="img" aria-label="Details redacted">{% for w in f.redacted %}<span style="width: {{ w }}px"></span>{% endfor %}</span>
+          {%- endif %}
+        </span>
+        {%- if f.writeup %}
+        <a class="doc" href="{{ f.writeup | relative_url }}" aria-label="Read the writeup" title="Read the writeup">{% include doc-icon.html %}</a>
+        {%- endif %}
+      </div>
+      {%- endfor %}
+    </div>
+  </details>
+  {%- endfor %}
+</section>
+
+{%- assign tc = 0 -%}{%- assign th = 0 -%}{%- assign tm = 0 -%}{%- assign tl = 0 -%}
+{%- for k in cv.contests -%}
+  {%- assign tc = tc | plus: k.crit -%}{%- assign th = th | plus: k.high -%}{%- assign tm = tm | plus: k.med -%}{%- assign tl = tl | plus: k.low -%}
+{%- endfor %}
+<section>
+  <h2><span class="sec">§4</span>Audit Contests<span class="total">{{ tc }}C · {{ th }}H · {{ tm }}M · {{ tl }}L</span></h2>
+  {%- for k in cv.contests %}{% if k.show %}
+  {%- if k.rank > 0 and k.rank <= 3 -%}{%- assign rcls = "top3" -%}{%- elsif k.rank > 0 and k.rank <= 10 -%}{%- assign rcls = "top10" -%}{%- else -%}{%- assign rcls = "" -%}{%- endif %}
+  <div class="row">
+    <span class="row-main"><span class="rank {{ rcls }}">{% if k.rank > 0 %}#{{ k.rank }}{% else %}—{% endif %}</span><span>{% if k.url %}<a class="dl" href="{{ k.url }}" title="Open contest">{{ k.name }}</a>{% else %}{{ k.name }}{% endif %} <span class="muted"> · {{ k.platform }}</span></span></span>
+    <span class="row-side">
+      <span class="icon">{% if k.writeup %}<a class="doc" href="{{ k.writeup | relative_url }}" aria-label="Read the writeup" title="Read the writeup">{% include doc-icon.html %}</a>{% endif %}</span>
+      <span class="sevs">{% if k.crit > 0 %}<span class="s-c">{{ k.crit }}C</span>{% endif %}{% if k.high > 0 %}<span class="s-h">{{ k.high }}H</span>{% endif %}{% if k.med > 0 %}<span class="s-m">{{ k.med }}M</span>{% endif %}{% if k.low > 0 %}<span class="s-l">{{ k.low }}L</span>{% endif %}</span>
+      <span class="year">{{ k.year }}</span>
+    </span>
+  </div>
+  {%- endif %}{% endfor %}
+  <a class="more" href="{{ cv.contests_all }}" title="See all contests in the audit portfolio"><span>···</span><span>all contests</span></a>
+</section>
+
+<section>
+  <h2><span class="sec">§5</span>Awards</h2>
+  {%- for a in cv.awards %}
+  {%- if a.place == "1st" -%}{%- assign pcls = "first" -%}{%- elsif a.place == "Finalist" -%}{%- assign pcls = "final" -%}{%- else -%}{%- assign pcls = "" -%}{%- endif %}
+  <div class="row">
+    <span class="row-main"><span class="rank place {{ pcls }}">{% if a.place == "Finalist" %}Final{% else %}{{ a.place }}{% endif %}</span><span>{% if a.url %}<a class="dl" href="{{ a.url }}" title="Open contest">{{ a.name }}</a>{% else %}{{ a.name }}{% endif %}{% if a.team %} <span class="muted">with {{ a.team }}</span>{% endif %}</span></span>
+    <span class="row-side wide">
+      <span class="icon">{% if a.writeup %}<a class="doc" href="{{ a.writeup | relative_url }}" aria-label="Read the writeup" title="Read the writeup">{% include doc-icon.html %}</a>{% endif %}</span>
+      <span class="year">{{ a.year }}</span>
+    </span>
+  </div>
+  {%- endfor %}
+</section>
+
+<footer class="foot">© {{ site.time | date: "%Y" }} Songhyun Bae</footer>
+
+</div>

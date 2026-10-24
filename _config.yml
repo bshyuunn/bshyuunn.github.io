@@ -1,0 +1,22 @@
+title: bshyuunn
+author:
+  name: Songhyun Bae
+  email: baesonghyun91@gmail.com
+github_username: bshyuunn
+description: >-
+  Songhyun Bae — security researcher. Smart contract auditing, CTF writeups, and vulnerability research.
+url: "https://bshyuunn.github.io"
+lang: en
+
+markdown: kramdown
+permalink: /blog/:title/
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
