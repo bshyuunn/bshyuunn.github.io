@@ -14,6 +14,8 @@ In the end, out of the 6 blockchain challenges, I managed to solve 4. In this po
 
 ---
 
+<br>
+
 ## 1. Baby ERC-20
 
 > New token standards huh? https://eips.ethereum.org/EIPS/eip-20
@@ -47,10 +49,8 @@ contract Setup {
     }
 }
 ```
-<br>
 
 One interesting point was that the Solidity version used was 0.6.12, which is quite outdated. This version does not provide built-in protections against integer overflows and underflows, meaning such vulnerabilities could exist in the contract.
-<br>
 
 As expected, there was an underflow vulnerability in the `HCOIN::transfer()` function:
 
@@ -64,7 +64,6 @@ function transfer(address _to, uint256 _value) public returns (bool success) {
 	return true;
 }
 ```
-<br>
 
 In the transfer function, there is a require check to ensure that the sender has a sufficient balance. However, due to the line:
 
@@ -73,7 +72,6 @@ require(balanceOf[msg.sender] - _value >= 0, "Insufficient Balance");
 ```
 
 if `_value` is greater than `balanceOf[msg.sender]`, an underflow occurs, allowing the require statement to pass. Additionally, `balanceOf[msg.sender] -= _value;` would cause the balance to underflow as well, leading to an unexpectedly large balance.
-<br>
 
 Another requirement to solve the challenge was to set our own address as the player by calling `setPlayer()` in the Setup contract:
 
@@ -84,7 +82,6 @@ function setPlayer(address _player) public {
     player = _player;
 }
 ```
-<br>
 
 ### 1.1 Solution Script
 
@@ -133,6 +130,7 @@ contract SolveBabyERC is Script {
     }
 }
 ```
+
 <br>
 
 ## 2. injus gambit
@@ -191,7 +189,6 @@ contract Challenger2 {
     }
 }
 ```
-<br>
 
 The `Privileged::fireManager` function sets `challengeManager` to `address(0)`. However, calling this function requires owner privileges.
 
@@ -200,10 +197,8 @@ function fireManager() public onlyOwner{
     challengeManager = address(0);
 }
 ```
-<br>
 
 The ChallengeManager contract contained a function that allowed modifying the owner of the Privileged contract.
-<br>
 
 When the `ChallengeManager::challengeCurrentOwner` function is called, the `theChallenger` variable becomes the new owner. However, this function can only be called by theChallenger and requires the correct `_key` as an argument. In other words, we needed to obtain the masterKey and gain theChallenger privileges.
 
@@ -221,7 +216,6 @@ function challengeCurrentOwner(bytes32 _key) public onlyChosenChallenger{
     }        
 }
 ```
-<br>
 
 First, although `masterKey` is a private variable, in the EVM, all private variables are stored in storage slots. This means we can directly query the storage slot to retrieve its value. Using the `forge inspect` command, we can confirm that the `masterKey` variable is stored in slot 1.
 
@@ -238,7 +232,6 @@ $ forge inspect ChallengeManager storage-layout --pretty
 | challenger               | address[]                | 5    | 0      | 32    | src/ChallengeManager.sol:ChallengeManager |
 | approached               | mapping(address => bool) | 6    | 0      | 32    | src/ChallengeManager.sol:ChallengeManager |
 ```
-<br>
 
 Next, using the `cast` command, we can query slot 1 of the Challenge contract and retrieve the `masterKey` value.
 
@@ -246,11 +239,8 @@ Next, using the `cast` command, we can query slot 1 of the Challenge contract an
 $ cast storage <ChallengeManager Address> 1 --rpc-url http://45.32.119.201:44445/79b1e60c-b236-4f69-80ae-c519d16b03a2
 0x494e4a55494e4a55494e4a5553555045524b45594b45594b45594b45594b4559
 ```
-<br>
 
 Now, if we can obtain Challenger privileges, we will be able to call the challengeCurrentOwner function.
-
-<br>
 
 To obtain `theChallenger` privileges, we need to use the `ChallengeManager::upgradeChallengerAttribute` function. However, there seem to be several conditions that must be met to successfully gain theChallenger status.
 
@@ -303,19 +293,14 @@ function upgradeChallengerAttribute(uint256 challengerId, uint256 strangerId) pu
     }
 }
 ```
-<br>
 
 Upon further analysis, if the player’s ID (where the player is the owner) is used as both `challengerId` and `strangerId`, and if the `gacha` value is 0 or 1 four times in a row, the theChallenger variable can be updated to the Player’s address.
-
-<br>
 
 Here, the gacha value is determined by:
 ```solidity
 uint256(keccak256(abi.encodePacked(msg.sender, block.timestamp))) % 4
 ```
 Since it relies on `block.timestamp`, it appears to be generated randomly. However, because `block.timestamp` is a predictable value, we can exploit this by ensuring our transaction executes only when the desired `gacha` value appears.
-
-<br>
 
 ### 2.1 Solution Script
 
@@ -433,12 +418,12 @@ Gas used: 677996
   gacha:  0
   isSolved:  true
 ```
+
 <br>
 
 ## 3. Executive Problem
 
 > If only we managed to climb high enough, maybe we can dethrone someone?
-
 
 The next challenge required sequentially escalating the Player’s privileges to eventually modify the `crain` value in the Crain Contract. The Setup Contract code is as follows:
 
@@ -464,7 +449,6 @@ contract Setup{
 
 }
 ```
-<br>
 
 The only function that can modulate the `crain` value is `Crain::ascendToCrain`. This function can only be called from a CrainExecutive Contract.
 
@@ -496,7 +480,6 @@ contract Crain{
     
 }
 ```
-<br>
 
 In the CrainExecutive contract, we can likely use the `transfer` function to call the desired function. The transfer function executes a low-level call using the `_message` and `to` parameters provided by the user. This means we can set the `to` parameter as the Crain Contract address and craft the appropriate calldata to execute our desired action.
 
@@ -516,11 +499,8 @@ function transfer(address to, uint256 _amount, bytes memory _message) public _on
     require(transfered, "Failed to Transfer Credit!");
 }
 ```
-<br>
 
 However, we needed the isExecutive permission to call the transfer function.
-
-<br>
 
 To obtain `isExecutive` privileges, the player must first sequentially acquire `isEmployee` and `isManager` privileges. During this process, the `buyCredit` function must be used to increase the player’s balance. Since the challenge environment provides the player with sufficient ether, this step can be easily completed.
 
@@ -548,8 +528,6 @@ function buyCredit() public payable _onlyEmployee{
     totalSupply += totalBought;
 }
 ```
-
-<br>
 
 ### 3.1 Solution Script
 
@@ -617,6 +595,7 @@ Gas used: 160223
 == Logs ==
   isSolved:  true
 ```
+
 <br>
 
 ## 4. Unsolveable Money Captcha
@@ -648,7 +627,6 @@ contract Setup {
     }
 }
 ```
-<br>
 
 In the Money Contract, funds can be deposited using the `save` function and withdrawn using the `load` function.
 
@@ -670,7 +648,6 @@ function load(uint256 userProvidedCaptcha) public {
     balances[msg.sender] = 0;
 }
 ```
-<br>
 
 However, the load function contains a reentrancy attack vulnerability. This is because it transfers funds using a low-level call before updating `balances[msg.sender]`.
 
@@ -679,7 +656,6 @@ However, the load function contains a reentrancy attack vulnerability. This is b
 require(success, 'Oh my god, what is that!?');
 balances[msg.sender] = 0;
 ```
-<br>
 
 ### 4.1 Solution Script
 

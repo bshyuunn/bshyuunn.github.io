@@ -11,7 +11,6 @@ cover: /assets/img/covers/foundry-ctf-template-cover.webp
 I recently created a Web3 challenge for CyKor's Recruit CTF. While designing an EVM-based problem, I encountered difficulties in setting up the proper environment. To solve this, I referenced two excellent resources:
 - [**minaminao's SECCON CTF Trillion Ether Challenge**](https://github.com/minaminao/my-ctf-challenges/tree/main/ctfs/seccon-ctf-13-quals/trillion-ether)
 - [**Zellic’s Example CTF Challenge**](https://github.com/Zellic/example-ctf-challenge)
-<br>
 
 Building upon these, I developed a Foundry-based template to simplify EVM challenge creation.
 
@@ -20,6 +19,8 @@ In this post, I’ll walk you through how to use [**foundry-ctf-template**](http
 **PRs welcome.**
 
 ---
+
+<br>
 
 ## 1. Setting Up the Challenge Environment
 
@@ -37,7 +38,7 @@ The whole setup runs on **Docker**. Players connect via `nc`, spawn their own 
 - 3 - get flag (if isSolved() is true)
 ![image](/assets/img/posts/foundry-ctf-template/01.png)
 
-
+<br>
 
 ## 2. Building the Setup & Challenge Contracts
 
@@ -45,8 +46,6 @@ The template consists of **two main contracts**:
 
 1. `Setup.sol` – Deploys the challenge and checks if it’s solved.
 2. `Challenge.sol` – The actual puzzle players need to crack. (There Can Be Multiple!)
-
-<br>
 
 Here’s a basic challenge where the goal is just to call `solve()`:
 
@@ -62,7 +61,6 @@ contract SimpleChallenge {
     }
 }
 ```
-<br>
 
 The `Setup` contract deploys the challenge and includes an `isSolved()` check:
 
@@ -88,6 +86,7 @@ contract Setup {
 You can tweak `isSolved()` function to check for different conditions (e.g., "Is a contract’s balance zero?").
 
 <br>
+
 ## 3. Configuring the Challenge Environment
 
 Once your contracts are ready, run:
@@ -95,7 +94,6 @@ Once your contracts are ready, run:
 ```
 make all
 ```
-<br>
 
 But before that, you **gotta tweak** `docker-compose.yml` to fit your challenge:
 
@@ -117,7 +115,6 @@ services:
       - USER_VALUE=10000000000000  # Starting ETH for players  
       - EVM_VERSION=cancun  # EVM fork (e.g., cancun, shanghai, paris, london)  
 ```
-<br>
 
 All the values are probably intuitively understandable. However, one thing to note here is that if you modify the `EVM_VERSION`, you’ll need to ensure it matches the version in the problem’s `foundry.toml` file as well.
 
@@ -126,6 +123,5 @@ All the values are probably intuitively understandable. However, one thing to no
 
 evm_version = "cancun"  # Set to your desired version, such as `cancun`, `shanghai`, `paris`, `london`, etc.
 ```
-<br>
 
 Now that all the setup is complete, deploy the problem environment with the `make all` command and challenge your friends to solve it!

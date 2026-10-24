@@ -15,6 +15,8 @@ In this post, I’d like to share my solution to this challenge. You can find th
 
 ---
 
+<br>
+
 ## 1. Trillion Ether
 
 > Get Chance!
@@ -66,7 +68,6 @@ contract TrillionEther {
     }
 }
 ```
-<br>
 
 At first glance, there’s a clear vulnerability in the `_newWallet` function due to its use of an uninitialized storage variable.
 
@@ -81,11 +82,7 @@ function _newWallet(bytes32 name, uint256 balance, address owner) internal retur
 
 declares `wallet` as a storage variable but never properly initializes it, causing the assignment to write directly to storage `slot 0`.
 
-<br>
-
 I initially thought this vulnerability alone would be enough to solve the problem, but it turned out to be more complicated.
-
-<br>
 
 Inside the TrillionEther contract, `slot 0` is used to store the length of the dynamic wallets array, while the actual wallet data begins at `keccak256(0)` (because the wallets array is declared in `slot 0`):
 
@@ -97,8 +94,6 @@ $ forge inspect TrillionEther storage-layout --pretty
 ```
 
 Therefore, simply overwriting `slot 0` lets you modify the length of the `wallets` array. The challenge is to combine this with a method to drain the contract’s entire balance.
-
-<br>
 
 First, each element of the wallets array is a Wallet struct occupying three storage slots:
 
@@ -118,17 +113,11 @@ When `wallets.push(...)` is executed, the storage index for the new struct is ca
 keccak256(0) + arrayLength * 3
 ```
 
-<br>
-
 Let’s consider what happens if `arrayLength` becomes so large that multiplying it by 3 causes an overflow. In that case, `arrayLength * 3` would wrap around to a much smaller value than expected, potentially allowing us to write data to an unintended storage location—like setting the balance to an address or owner address.
 
 Since values in the contract are calculated using `uint256`, if `arrayLength * 3` exceeds `type(uint256).max`, an overflow is likely to occur.
 
-<br>
-
 This hypothesis turned out to be correct. I was able to overwrite the `balance` value of a specific Wallet struct in the wallets array with either the `owner` or `name` variable.
-
-<br>
 
 Now, the next step was to calculate the exact point. First, I determined the value that would trigger an overflow. Since `type(uint256).max` is perfectly divisible by 3, passing this value as an argument to the `createWallet` function should successfully cause the overflow.
 
@@ -139,17 +128,10 @@ console.log(n);
 // 38597363079105398474523661669562635951089994888546854679819194669304376546645
 ```
 
-<br>
-
 When visualized, it looks like this:
 <img width="1300" alt="image" src="/assets/img/posts/seccon-ctf-13-trillion-ether/01.png" />
 
-
-<br>
-
 So, I was able to overwrite the balance value with the owner address. To exploit this, I first created a `wallet` at index 1, where I was the owner, and then created another `wallet` at position `(maxUint / 3) + 1`, which allowed me to execute the attack.
-
-<br>
 
 ### 1.1 Solution Script
 
