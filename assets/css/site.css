@@ -226,7 +226,7 @@ section h2 {
 .prose h2, .prose h3, .prose h4 { color: var(--fg); font-weight: 700; line-height: 1.35; }
 .prose h2 { margin: 48px 0 20px; padding-bottom: 10px; border-bottom: 1px solid var(--line); font-size: 22px; }
 .prose h2 .sec { margin-right: 10px; }
-.prose h3 { margin: 32px 0 14px; font-size: 18px; }
+.prose h3 { margin: 32px 0 14px; font-size: 18px; color: var(--accent); }
 .prose h4 { margin: 24px 0 12px; font-size: 17px; }
 .prose hr { border: 0; height: 1px; background: var(--line); margin: 36px 0; }
 .prose ul, .prose ol { padding-left: 22px; }
