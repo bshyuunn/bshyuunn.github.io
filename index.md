@@ -2,4 +2,4 @@
 layout: about
 nav: about
 ---
-<p class="intro">Studying Cyber Defense at Korea University and playing CTFs with <span class="hi">CyKor</span>. Background in <span class="hi">Pwn</span>, <span class="hi">Web</span> and <span class="hi">Web3</span>, with experience in Web3 audits and in bug bounties across many kinds of targets. Currently into <span class="hi">Kernel</span> — and always happy to dig into something new.</p>
+<p class="intro">I'm Songhyun Bae, aka <span class="hi">bshyuunn</span> or <span class="hi">hyuunn</span>. I'm a Cyber Defense student at Korea University and a member of <span class="hi">CyKor</span>. My experience includes software vulnerability analysis, bug bounty research, and smart contract auditing. My interests include vulnerability discovery, <span class="hi">fuzzing</span>, <span class="hi">kernel security</span>, <span class="hi">Web3 security</span>, AI for security, and <span class="hi">AI agent security</span>.</p>
