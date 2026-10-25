@@ -82,9 +82,11 @@ layout: base
   <h2><span class="sec">§4</span>Audit Contests<span class="total">{{ tc }}C · {{ th }}H · {{ tm }}M · {{ tl }}L</span></h2>
   <div class="table-scroll">
   {%- for k in cv.contests %}{% if k.show %}
-  {%- if k.rank > 0 and k.rank <= 3 -%}{%- assign rcls = "top3" -%}{%- elsif k.rank > 0 and k.rank <= 10 -%}{%- assign rcls = "top10" -%}{%- else -%}{%- assign rcls = "" -%}{%- endif %}
+  {%- if k.rank == 1 -%}{%- assign rcls = "first" -%}{%- elsif k.rank > 0 -%}{%- assign rcls = "" -%}{%- else -%}{%- assign rcls = "final" -%}{%- endif %}
+  {%- assign r100 = k.rank | modulo: 100 -%}{%- assign r10 = k.rank | modulo: 10 -%}
+  {%- if r100 >= 11 and r100 <= 13 -%}{%- assign suf = "th" -%}{%- elsif r10 == 1 -%}{%- assign suf = "st" -%}{%- elsif r10 == 2 -%}{%- assign suf = "nd" -%}{%- elsif r10 == 3 -%}{%- assign suf = "rd" -%}{%- else -%}{%- assign suf = "th" -%}{%- endif %}
   <div class="row">
-    <span class="row-main"><span class="rank {{ rcls }}">{% if k.rank > 0 %}#{{ k.rank }}{% else %}—{% endif %}</span><span>{% if k.url %}<a class="dl" href="{{ k.url }}" title="Open contest">{{ k.name }}</a>{% else %}{{ k.name }}{% endif %} <span class="muted"> · {{ k.platform }}</span></span></span>
+    <span class="row-main"><span class="rank place {{ rcls }}">{% if k.rank > 0 %}{{ k.rank }}{{ suf }}{% else %}—{% endif %}</span><span>{% if k.url %}<a class="dl" href="{{ k.url }}" title="Open contest">{{ k.name }}</a>{% else %}{{ k.name }}{% endif %} <span class="muted"> · {{ k.platform }}</span></span></span>
     <span class="row-side">
       <span class="icon">{% if k.writeup %}<a class="doc" href="{{ k.writeup | relative_url }}" aria-label="Read the writeup" title="Read the writeup">{% include doc-icon.html %}</a>{% endif %}</span>
       <span class="sevs">{% if k.crit > 0 %}<span class="s-c">{{ k.crit }}C</span>{% endif %}{% if k.high > 0 %}<span class="s-h">{{ k.high }}H</span>{% endif %}{% if k.med > 0 %}<span class="s-m">{{ k.med }}M</span>{% endif %}{% if k.low > 0 %}<span class="s-l">{{ k.low }}L</span>{% endif %}</span>

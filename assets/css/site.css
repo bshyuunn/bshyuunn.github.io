@@ -173,8 +173,6 @@ section h2 {
 .row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0 24px; padding: 6px 0; }
 .row-main { flex: 1 1 360px; min-width: 0; display: flex; align-items: baseline; gap: 16px; }
 .rank { flex: 0 0 52px; font-family: var(--mono); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--muted); }
-.rank.top10 { color: var(--fg); }
-.rank.top3 { color: var(--accent); font-weight: 700; }
 .rank.place { font-weight: 400; color: var(--fg); }
 .rank.place.first { color: var(--accent); font-weight: 600; }
 .rank.place.final { color: var(--muted); }
