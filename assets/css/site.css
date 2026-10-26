@@ -267,6 +267,7 @@ section h2 {
   .prose { font-size: 17px; }
   .bug-id { flex-basis: 100%; }
   .post-row { flex-direction: column; gap: 8px; }
+  .pr-date { flex: none; } /* column flex: 92px basis would become height */
   .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -16px; padding: 0 16px 4px; }
   .table-scroll .row { flex-wrap: nowrap; min-width: 480px; }
 }
