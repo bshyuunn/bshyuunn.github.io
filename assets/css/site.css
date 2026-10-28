@@ -225,6 +225,7 @@ section h2 {
 .prose ul, .prose ol { padding-left: 22px; }
 .prose li + li { margin-top: 4px; }
 .prose blockquote { margin-left: 0; padding: 2px 0 2px 18px; border-left: 2px solid var(--accent); color: var(--muted); }
+.prose blockquote > :last-child { margin-bottom: 0; } /* padding blocks collapse, so the bar would run a line past the text */
 .prose img { max-width: 100%; height: auto; display: block; margin: 8px auto; border: 1px solid var(--line); }
 .prose table { width: 100%; border-collapse: collapse; font-size: 15px; display: block; overflow-x: auto; }
 .prose th, .prose td { padding: 8px 12px; border: 1px solid var(--line); text-align: left; }
