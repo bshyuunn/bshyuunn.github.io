@@ -6,7 +6,7 @@ const vm = require('node:vm');
 
 const scripts = path.join(__dirname, '..', 'assets', 'js');
 
-test('index prefers Korean where available and keeps English-only articles', () => {
+test('index shows only articles in the selected language', () => {
   const storage = new Map();
   const buttons = ['en', 'ko'].map(lang => ({
     lang,
@@ -30,26 +30,32 @@ test('index prefers Korean where available and keeps English-only articles', () 
   }
   const bilingual = row('English title', '한국어 제목');
   const englishOnly = row('English only', '');
+  const koreanOnly = row('', '한국어 전용');
   const document = {
-    querySelectorAll(selector) { return selector.includes('post-row') ? [bilingual, englishOnly] : buttons; },
+    querySelectorAll(selector) { return selector.includes('post-row') ? [bilingual, englishOnly, koreanOnly] : buttons; },
   };
   const localStorage = {
     getItem(key) { return storage.get(key); },
     setItem(key, value) { storage.set(key, value); },
   };
+  const location = { search: '?lang=ko', pathname: '/blog/', hash: '' };
+  const history = { replaceState(state, title, url) { location.search = url.split('?')[1] ? '?' + url.split('?')[1] : ''; } };
   vm.runInNewContext(fs.readFileSync(path.join(scripts, 'blog-lang.js'), 'utf8'), {
-    document, localStorage, location: { search: '?lang=ko' }, URLSearchParams,
+    document, localStorage, location, history, URLSearchParams,
   });
   assert.equal(bilingual.href, '/ko/');
   assert.equal(bilingual.title.textContent, '한국어 제목');
   assert.equal(bilingual.title.lang, 'ko');
-  assert.equal(englishOnly.href, '/en/');
-  assert.equal(englishOnly.marker.textContent, '· EN');
+  assert.equal(bilingual.hidden, false);
+  assert.equal(englishOnly.hidden, true);
+  assert.equal(koreanOnly.hidden, false);
   assert.equal(storage.get('lang'), 'ko');
   buttons[0].click();
   assert.equal(bilingual.href, '/en/');
-  assert.equal(bilingual.marker.textContent, '· KO');
+  assert.equal(englishOnly.hidden, false);
+  assert.equal(koreanOnly.hidden, true);
   assert.equal(storage.get('lang'), 'en');
+  assert.equal(location.search, '?lang=en');
 });
 
 test('switch maps section 2.2 to the fourth heading and scrolls to it', () => {

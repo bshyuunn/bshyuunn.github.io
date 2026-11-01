@@ -12,32 +12,13 @@
       button.setAttribute('aria-pressed', String(button.getAttribute('data-lang') === lang));
     });
     Array.prototype.forEach.call(rows, function (row) {
-      var en = row.getAttribute('data-href-en');
-      var ko = row.getAttribute('data-href-ko');
-      var displayed = lang === 'ko' && ko ? 'ko' : en ? 'en' : 'ko';
+      var href = row.getAttribute('data-href-' + lang);
+      row.hidden = !href;
+      if (!href) return;
       var title = row.querySelector('.t');
-      var marker = row.querySelector('.lang-marker');
-      row.href = row.getAttribute('data-href-' + displayed);
-      title.textContent = row.getAttribute('data-title-' + displayed);
-      title.lang = displayed;
-
-      if (lang === 'en' && en && ko) {
-        marker.textContent = '· KO';
-        marker.title = 'Also in Korean';
-        marker.hidden = false;
-      } else if (lang === 'en' && !en) {
-        marker.textContent = '· KO only';
-        marker.title = 'Only in Korean';
-        marker.hidden = false;
-      } else if (lang === 'ko' && !ko) {
-        marker.textContent = '· EN';
-        marker.title = 'Only in English';
-        marker.hidden = false;
-      } else {
-        marker.textContent = '';
-        marker.removeAttribute('title');
-        marker.hidden = true;
-      }
+      row.href = href;
+      title.textContent = row.getAttribute('data-title-' + lang);
+      title.lang = lang;
     });
   }
 
@@ -53,6 +34,9 @@
       var lang = button.getAttribute('data-lang');
       show(lang);
       remember(lang);
+      var params = new URLSearchParams(location.search);
+      params.set('lang', lang);
+      history.replaceState(null, '', location.pathname + '?' + params.toString() + location.hash);
     });
   });
 })();

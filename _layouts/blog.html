@@ -4,12 +4,13 @@ layout: base
 <div class="stack blog">
 
 <header class="page-head">
-  <div class="heading-row">
-    <h1>Blog</h1>
+  <div class="blog-meta">
+    <span>Posts</span>
     <span class="lang-switch" role="group" aria-label="Language">
       <button type="button" data-lang="en" aria-pressed="true">EN</button><span class="sep" aria-hidden="true">/</span><button type="button" data-lang="ko" aria-pressed="false">KO</button>
     </span>
   </div>
+  <h1>Blog</h1>
   <div class="hatch" aria-hidden="true"></div>
 </header>
 
@@ -31,7 +32,7 @@ layout: base
         {%- assign ko_post = twin -%}
       {%- endif -%}
       {%- assign shown_post = en_post | default: ko_post -%}
-  <a class="post-row" href="{{ shown_post.url | relative_url }}"
+  <a class="post-row" href="{{ shown_post.url | relative_url }}"{% unless en_post %} hidden{% endunless %}
      data-title-en="{{ en_post.title | escape }}" data-title-ko="{{ ko_post.title | escape }}"
      data-href-en="{% if en_post %}{{ en_post.url | relative_url }}{% endif %}" data-href-ko="{% if ko_post %}{{ ko_post.url | relative_url }}{% endif %}">
     <time class="pr-date" datetime="{{ shown_post.date | date_to_xmlschema }}">{{ shown_post.date | date: "%Y.%m.%d" }}</time>
@@ -41,7 +42,6 @@ layout: base
         {%- if shown_post.tags.size > 0 %}
         <span class="tags">{% for tag in shown_post.tags %}<span class="tag">#{{ tag }}</span>{% endfor %}</span>
         {%- endif %}
-        <span class="lang-marker"{% if en_post and ko_post %} title="Also in Korean"{% elsif ko_post %} title="Only in Korean"{% else %} hidden{% endif %}>{% if en_post and ko_post %}· KO{% elsif ko_post %}· KO only{% endif %}</span>
       </span>
     </span>
   </a>

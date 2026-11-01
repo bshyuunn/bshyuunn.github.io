@@ -8,9 +8,13 @@ tags: [research, claude-code, ai-security, sandbox]
 short: "Hacking Claude Code"
 ---
 
-Hello! In this post, I'll explain how I used Claude Code to research Claude Code's security, including the harness I built, the false starts, and a patched vulnerability that earned a bounty.
+Hi! I’ve been researching vulnerabilities in Claude Code, and one of my reports was accepted and earned a bounty.
 
 ![Anthropic bug bounty report summary](/assets/img/posts/claude-code-security-research/00.png)
+
+What makes this interesting is that I used Claude Code itself for most of the work that led to the finding.
+
+In this post, I’ll explain how I built a harness that let Claude Code look for vulnerabilities in Claude Code, the false starts along the way, and the vulnerability I ultimately found, which has since been patched.
 
 ---
 
