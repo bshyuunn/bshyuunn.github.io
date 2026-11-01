@@ -16,6 +16,23 @@
     return index;
   }
 
+  var languageLink = document.querySelector('.post-head .lang-switch a[hreflang]');
+  if (languageLink && heads.length) {
+    languageLink.addEventListener('click', function (event) {
+      event.preventDefault();
+      var index = sectionIndex();
+      location.href = languageLink.href.split('#')[0] + (index ? '#sec-' + index : '');
+    });
+  }
+
+  var sectionMatch = /^#sec-(\d+)$/.exec(location.hash);
+  if (sectionMatch) {
+    var target = heads[Number(sectionMatch[1])];
+    if (target) {
+      window.addEventListener('load', function () { target.scrollIntoView(); });
+    }
+  }
+
   if (!toc || !list || heads.length < 2) return;
 
   var links = heads.map(function (h) {

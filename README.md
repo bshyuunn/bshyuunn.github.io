@@ -1,12 +1,17 @@
 # Blog posts
 
-Add each post directly under `_posts/` using a date and slug in its filename:
+All posts live under `_posts/`, grouped by language. Give translations the same date and slug in their filenames:
 
 ```text
-_posts/2026-11-01-my-post.md    # /blog/my-post/
+_posts/en/2026-11-01-my-post.md    # English → /blog/my-post/
+_posts/ko/2026-11-01-my-post.md    # Korean  → /ko/blog/my-post/
 ```
 
-The blog is English only. Add a title, category, tags, and body to each post's front matter and content.
+The site pairs posts with the same Jekyll `slug` and different `lang`. If the filenames must differ, set the same `ref:` in both posts' front matter. Language and Korean permalink defaults are set in `_config.yml`; each post still needs its own title, tags, categories, and body. A post with only one file shows its language without a switch link.
+
+The blog index shows English posts in the EN view and Korean posts in the KO view. The selected language is remembered in the browser; `/blog/?lang=ko` opens the Korean view directly.
+
+Keep the `##` and `###` heading order the same in translations so the language switch can preserve the reader's section. The ODOS post is English only.
 
 ## Post style
 
@@ -19,4 +24,4 @@ Use one primary `categories` value per post:
 
 Use the matching lowercase, hyphenated type as the first tag (`exploit-analysis`, `ctf-writeup`, `tool-development`, or `research`), followed by specific topics such as `evm`, `solidity`, or `proxy`. Keep `blockchain` as a topic tag when useful, not as the primary category.
 
-Open with a short introduction that makes the post's subject and purpose clear.
+Start English posts with `Hello! In this post, ...` and Korean posts with `안녕하세요. 이번 글에서는 ...`. Make the next words specific to the post's subject and purpose. For an unfinished translation, state its draft status clearly.

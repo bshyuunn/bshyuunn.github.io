@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,8 +10,26 @@
   {%- else -%}
   {%- seo -%}
   {%- endif -%}
+  {%- if page.layout == 'post' -%}
+    {%- include twin.html post=page -%}
+    {%- if twin -%}
+      {%- if page.lang == 'ko' -%}
+        {%- assign en_post = twin -%}
+        {%- assign ko_post = page -%}
+      {%- else -%}
+        {%- assign en_post = page -%}
+        {%- assign ko_post = twin -%}
+      {%- endif %}
+  <link rel="alternate" hreflang="en" href="{{ en_post.url | absolute_url }}">
+  <link rel="alternate" hreflang="ko" href="{{ ko_post.url | absolute_url }}">
+  <link rel="alternate" hreflang="x-default" href="{{ en_post.url | absolute_url }}">
+    {%- endif -%}
+  {%- endif %}
   <link rel="preload" as="font" type="font/woff2" href="{{ '/assets/fonts/newsreader-latin.woff2' | relative_url }}" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="{{ '/assets/fonts/jetbrains-mono-latin.woff2' | relative_url }}" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=optional">
   <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}?v={{ site.time | date: '%s' }}">
   {%- feed_meta -%}
   {%- if jekyll.environment == 'production' and site.google_analytics -%}

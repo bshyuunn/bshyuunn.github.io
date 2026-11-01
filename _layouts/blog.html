@@ -4,23 +4,53 @@ layout: base
 <div class="stack blog">
 
 <header class="page-head">
-  <h1>Blog</h1>
+  <div class="blog-title-row">
+    <h1>Blog</h1>
+    <span class="lang-switch" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button><span class="sep" aria-hidden="true">/</span><button type="button" data-lang="ko" aria-pressed="false">KO</button>
+    </span>
+  </div>
   <div class="hatch" aria-hidden="true"></div>
 </header>
 
 <div class="post-list">
+  {%- assign seen_keys = '' -%}
   {%- for post in site.posts %}
-  <a class="post-row" href="{{ post.url | relative_url }}">
-    <time class="pr-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y.%m.%d" }}</time>
+    {%- assign pair_key = post.ref | default: post.slug -%}
+    {%- capture key_token -%}|{{ pair_key }}|{%- endcapture -%}
+    {%- unless seen_keys contains key_token -%}
+      {%- assign seen_keys = seen_keys | append: key_token -%}
+      {%- include twin.html post=post -%}
+      {%- assign en_post = nil -%}
+      {%- assign ko_post = nil -%}
+      {%- if post.lang == 'ko' -%}
+        {%- assign ko_post = post -%}
+        {%- assign en_post = twin -%}
+      {%- else -%}
+        {%- assign en_post = post -%}
+        {%- assign ko_post = twin -%}
+      {%- endif -%}
+      {%- assign shown_post = en_post | default: ko_post -%}
+  <a class="post-row" href="{{ shown_post.url | relative_url }}"{% unless en_post %} hidden{% endunless %}
+     data-title-en="{{ en_post.title | escape }}" data-title-ko="{{ ko_post.title | escape }}"
+     data-href-en="{% if en_post %}{{ en_post.url | relative_url }}{% endif %}" data-href-ko="{% if ko_post %}{{ ko_post.url | relative_url }}{% endif %}">
+    <time class="pr-date" datetime="{{ shown_post.date | date_to_xmlschema }}">{{ shown_post.date | date: "%Y.%m.%d" }}</time>
     <span class="pr-main">
-      <span class="t">{{ post.title | escape }}</span>
-      {%- if post.tags.size > 0 %}
-      <span class="tags">{% for tag in post.tags %}<span class="tag">#{{ tag }}</span>{% endfor %}</span>
-      {%- endif %}
+      <span class="t" lang="{{ shown_post.lang }}">{{ shown_post.title | escape }}</span>
+      <span class="pr-info">
+        {%- if shown_post.tags.size > 0 %}
+        <span class="tags">{% for tag in shown_post.tags %}<span class="tag">#{{ tag }}</span>{% endfor %}</span>
+        {%- endif %}
+        {%- if en_post and ko_post %}
+        <span class="lang-marker" title="Also in Korean">· KO</span>
+        {%- endif %}
+      </span>
     </span>
   </a>
+    {%- endunless -%}
   {%- endfor %}
 </div>
+<script src="{{ '/assets/js/blog-lang.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
 
 <footer class="foot split">
   <span>© {{ site.time | date: "%Y" }} Songhyun Bae</span>
