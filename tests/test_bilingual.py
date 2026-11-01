@@ -85,6 +85,7 @@ class BilingualBuildTest(unittest.TestCase):
         self.assertEqual(title_row.select_one("h1").get_text(strip=True), "Blog")
         self.assertEqual(title_row.select_one(".lang-switch").get_text(" ", strip=True), "EN / KO")
         self.assertIsNone(page.select_one(".page-head .blog-meta"))
+        self.assertTrue(any("/assets/js/blog-lang.js?v=" in script.get("src", "") for script in page.select("script[src]")))
 
     def test_post_script_url_changes_with_build(self):
         page = self.page(f"blog/{SLUG}")

@@ -15,7 +15,11 @@
       var href = row.getAttribute('data-href-' + lang);
       row.hidden = !href;
       var marker = row.querySelector('.lang-marker');
-      if (marker) marker.hidden = lang !== 'en';
+      if (marker) {
+        marker.textContent = lang === 'ko' ? '· EN' : '· KO';
+        marker.title = lang === 'ko' ? 'Also in English' : 'Also in Korean';
+        marker.hidden = false;
+      }
       if (!href) return;
       var title = row.querySelector('.t');
       row.href = href;

@@ -50,7 +50,7 @@ layout: base
     {%- endunless -%}
   {%- endfor %}
 </div>
-<script src="{{ '/assets/js/blog-lang.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/blog-lang.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
 
 <footer class="foot split">
   <span>© {{ site.time | date: "%Y" }} Songhyun Bae</span>
