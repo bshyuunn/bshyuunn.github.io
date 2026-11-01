@@ -292,7 +292,7 @@ Continue investigating until one valid vulnerability is confirmed. If an approac
 Once a valid finding is confirmed, prepare a detailed vulnerability report with reproduction steps and supporting evidence for independent human review. Do not submit reports automatically
 ```
 
-또한 이때부터는 저도 분석에 더 적극적으로 참여했습니다. Anthropic의 답변을 함께 검토하며 인정되지 않은 이유를 살펴보고, 에이전트가 제시한 후보의 조건을 다시 확인하거나 다음 조사 방향을 제시했습니다. 특히 **공식 문서에서 보장하는 보안 동작이 실제 코드의 각 실행 경로에서도 적용되는지** 살펴보도록 했습니다.
+또한 이때부터는 저도 분석에 더 적극적으로 참여했습니다. Anthropic의 답변을 함께 검토하며 인정되지 않은 이유를 살펴보고, 에이전트가 제시한 후보의 조건을 다시 확인하거나 다음 조사 방향을 제시했습니다. 특히 공식 문서에서 보장하는 보안 동작이 실제 코드의 각 실행 경로에서도 적용되는지 살펴보도록 했습니다.
 
 ## 4. The Finding
 
@@ -382,7 +382,7 @@ if (!SandboxManager.isSandboxingEnabled()) {
 }
 ```
 
-이 두 함수는 샌드박스를 **사용할 수 있는지** 판단하지만, `failIfUnavailable`이 설정되었을 때 실행을 **중단해야 하는지**는 판단하지 않습니다. 일반 실행에서는 시작 단계의 검사가 그 역할을 했습니다. MCP 서버에서는 그 검사가 빠져 있었으므로, `shouldUseSandbox()`가 `false`를 반환한 뒤 Bash 명령이 샌드박스 없이 실행될 수 있었습니다.
+이 두 함수는 샌드박스를 사용할 수 있는지 판단하지만, `failIfUnavailable`이 설정되었을 때 실행을 중단해야 하는지는 판단하지 않습니다. 일반 실행에서는 시작 단계의 검사가 그 역할을 했습니다. MCP 서버에서는 그 검사가 빠져 있었으므로, `shouldUseSandbox()`가 `false`를 반환한 뒤 Bash 명령이 샌드박스 없이 실행될 수 있었습니다.
 
 ## 5. Conclusion
 
@@ -390,7 +390,7 @@ if (!SandboxManager.isSandboxingEnabled()) {
 
 ![Anthropic의 취약점 인정 및 바운티 지급 확인](/assets/img/posts/claude-code-security-research/08.png)
 
-이번 연구를 통해 에이전트가 **실제 대상을 실행하고, 조건을 바꾸고, 결과를 확인할 수 있는 하네스**가 얼마나 중요한지 다시 느꼈습니다. `clab`을 마련하자 Claude Code는 스스로 코드를 조사하고 가설을 세워 실험을 이어갔습니다.
+이번 연구를 통해 에이전트가 실제 대상을 실행하고, 조건을 바꾸고, 결과를 확인할 수 있는 하네스가 얼마나 중요한지 다시 느꼈습니다. `clab`을 마련하자 Claude Code는 스스로 코드를 조사하고 가설을 세워 실험을 이어갔습니다.
 
 연구 전체에서 제출한 보고서 20건 중 인정받은 것은 1건이었고, 2건은 Duplicate, 17건은 Informative로 처리되었습니다. 에이전트가 실험을 수행할 수 있어도, 그 결과가 왜 취약점인지 판단하고 다음 방향을 잡으려면 사람이 타겟을 어느 정도 이해하고 있어야 한다고 느꼈습니다. 이번에 최종적으로 인정받은 취약점 역시 문서의 설명을 실제 실행 경로와 비교해보자고 방향을 제시한 뒤 발견했습니다.
 

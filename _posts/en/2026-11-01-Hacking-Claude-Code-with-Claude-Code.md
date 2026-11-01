@@ -86,8 +86,8 @@ To keep the harness simple, I did not build separate features for creating or ed
 
 `clab` has two main concepts:
 
-- **Case:** Creates a test environment and manages its workspace and Claude Code settings.
-- **Session:** Runs Claude Code, sends messages and key presses through `tmux`, and retrieves the screen output and logs.
+- Case: Creates a test environment and manages its workspace and Claude Code settings.
+- Session: Runs Claude Code, sends messages and key presses through `tmux`, and retrieves the screen output and logs.
 
 ```
 $ clab -h
@@ -287,7 +287,7 @@ Continue investigating until one valid vulnerability is confirmed. If an approac
 Once a valid finding is confirmed, prepare a detailed vulnerability report with reproduction steps and supporting evidence for independent human review. Do not submit reports automatically
 ```
 
-From this point on, I also took a more active part in the analysis. I reviewed Anthropic’s responses with the agent to understand why the reports had not been accepted, checked the conditions behind its new candidates, and suggested where to look next. In particular, I asked it to examine **whether security behavior promised in the official documentation was enforced across the relevant code paths**.
+From this point on, I also took a more active part in the analysis. I reviewed Anthropic’s responses with the agent to understand why the reports had not been accepted, checked the conditions behind its new candidates, and suggested where to look next. In particular, I asked it to examine whether security behavior promised in the official documentation was enforced across the relevant code paths.
 
 ## 4. The Finding
 
@@ -377,7 +377,7 @@ if (!SandboxManager.isSandboxingEnabled()) {
 }
 ```
 
-These functions determine **whether the sandbox is available**. They do not decide **whether execution must stop** when `failIfUnavailable` is set. In normal sessions, the startup check handles that requirement. Because the MCP server path lacked the check, a Bash command could run without sandboxing after `shouldUseSandbox()` returned `false`.
+These functions determine whether the sandbox is available. They do not decide whether execution must stop when `failIfUnavailable` is set. In normal sessions, the startup check handles that requirement. Because the MCP server path lacked the check, a Bash command could run without sandboxing after `shouldUseSandbox()` returned `false`.
 
 ## 5. Conclusion
 
@@ -385,7 +385,7 @@ I reported the issue to Anthropic on June 11, 2026. It was accepted as High seve
 
 ![Anthropic confirmation of the accepted report and bounty](/assets/img/posts/claude-code-security-research/08.png)
 
-This research reminded me how much it matters to give an agent a harness that lets it **run the actual target, change the conditions, and inspect the results**. Once `clab` made those steps possible, Claude Code could investigate the code, form hypotheses, and carry out experiments on its own.
+This research reminded me how much it matters to give an agent a harness that lets it run the actual target, change the conditions, and inspect the results. Once `clab` made those steps possible, Claude Code could investigate the code, form hypotheses, and carry out experiments on its own.
 
 Of the 20 reports I submitted during the research, one was accepted, two were marked Duplicate, and 17 were closed as Informative. The agent could run the experiments, but I found that judging why a result constituted a vulnerability—and deciding where to look next—still required some understanding of the target on my part. The accepted finding came after I suggested comparing what the documentation promised with what the different execution paths actually did.
 

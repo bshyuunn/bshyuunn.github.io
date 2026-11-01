@@ -73,6 +73,7 @@ class BilingualBuildTest(unittest.TestCase):
             images = page.select(".prose img")
             self.assertEqual(len(images), 9)
             self.assertTrue(all((pathlib.Path(self.output.name) / image["src"].lstrip("/")).is_file() for image in images))
+            self.assertFalse(page.select(".prose strong"))
             headings = [heading.get_text(" ", strip=True) for heading in page.select(".prose h2, .prose h3")]
             self.assertEqual(len(headings), 15)
             self.assertIn("2.3. Understanding the Target", headings)
