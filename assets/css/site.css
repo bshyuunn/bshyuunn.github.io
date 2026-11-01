@@ -190,7 +190,7 @@ section h2 {
 
 /* ── blog index ────────────────────────── */
 .page-head { display: flex; flex-direction: column; gap: 14px; }
-.page-head .blog-meta { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.page-head .blog-title-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
 .page-head h1 { margin: 0; font-size: 54px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.05; }
 .page-head .hatch { margin-top: 18px; }
 .post-list { display: flex; flex-direction: column; border-bottom: 1px solid var(--line); }

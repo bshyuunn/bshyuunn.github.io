@@ -74,6 +74,25 @@ class BilingualBuildTest(unittest.TestCase):
             self.assertIn("2.3. Understanding the Target", headings)
             self.assertIsNone(page.select_one(".paragraph-gap"))
 
+    def test_korean_post_keeps_english_title(self):
+        en = self.page(f"blog/{SLUG}")
+        ko = self.page(f"ko/blog/{SLUG}")
+        self.assertEqual(ko.select_one("h1").get_text(strip=True), en.select_one("h1").get_text(strip=True))
+
+    def test_blog_language_switch_sits_beside_blog_title(self):
+        page = self.page("blog")
+        title_row = page.select_one(".page-head .blog-title-row")
+        self.assertEqual(title_row.select_one("h1").get_text(strip=True), "Blog")
+        self.assertEqual(title_row.select_one(".lang-switch").get_text(" ", strip=True), "EN / KO")
+        self.assertIsNone(page.select_one(".page-head .blog-meta"))
+
+    def test_post_script_url_changes_with_build(self):
+        page = self.page(f"blog/{SLUG}")
+        scripts = [script.get("src", "") for script in page.select("script[src]")]
+        self.assertTrue(any("/assets/js/toc.js?v=" in src for src in scripts))
+        stylesheets = [link.get("href", "") for link in page.select('link[rel="stylesheet"]')]
+        self.assertTrue(any("/assets/css/site.css?v=" in href for href in stylesheets))
+
     def test_index_has_one_row_per_article_and_both_versions(self):
         page = self.page("blog")
         rows = page.select(".post-row")
