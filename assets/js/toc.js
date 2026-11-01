@@ -20,7 +20,8 @@
   if (languageLink && heads.length) {
     languageLink.addEventListener('click', function (event) {
       event.preventDefault();
-      location.href = languageLink.href.split('#')[0] + '#sec-' + sectionIndex();
+      var index = sectionIndex();
+      location.href = languageLink.href.split('#')[0] + (index ? '#sec-' + index : '');
     });
   }
 
