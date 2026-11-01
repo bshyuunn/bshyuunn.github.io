@@ -204,6 +204,8 @@ section h2 {
 .tags { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.02em; color: var(--muted); }
 .post-row:hover .tag { color: var(--soft); }
 .pr-info { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.lang-marker { color: #5A616B; font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; }
+.lang-marker[hidden] { display: none; }
 
 .lang-switch { display: inline-flex; align-items: baseline; gap: 9px; flex: none; font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
 .lang-switch .current, .lang-switch [aria-pressed="true"] { color: var(--fg); }
@@ -225,7 +227,6 @@ section h2 {
 .prose { font-size: 18px; line-height: 1.75; color: var(--body); overflow-wrap: break-word; }
 .prose > :first-child { margin-top: 0; }
 .prose p, .prose ul, .prose ol, .prose blockquote, .prose table, .prose pre, .prose .highlighter-rouge { margin: 0 0 20px; }
-.prose .paragraph-gap { height: 12px; }
 .prose a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--accent-55); text-underline-offset: 3px; }
 .prose a:hover { text-decoration-color: var(--accent); }
 .prose strong { color: var(--fg); }

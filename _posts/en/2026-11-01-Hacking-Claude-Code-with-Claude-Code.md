@@ -24,10 +24,9 @@ I’ve built several harnesses to automate security research. One lesson from th
 
 For example, when analyzing a web application, I wouldn’t give an agent only the source code. I’d also provide a running instance of the site and an ordinary user account, then require an end-to-end PoC. Otherwise, the agent might flag a problem in code that cannot be reached in practice, or treat a feature that an ordinary user cannot access as a vulnerability.
 
-### 1.1 Codex Hacked a Samsung TV
+### 1.1. Codex Hacked a Samsung TV
 
 I recently came across [Calif’s research](https://calif.io/research/samsung-tv) on finding a Samsung TV vulnerability with Codex. The researchers had built a harness that let Codex test its findings on the actual device.
-
 
 The harness was relatively simple. The researchers already had a shell with code execution inside the TV’s browser process. They gave Codex the `KantS2` source code corresponding to the TV’s firmware, a controller host that could build ARM binaries and deliver them to the TV, and a way to interact with the live shell on the device.
 
@@ -39,7 +38,7 @@ Codex’s initial goal was to find a vulnerability that would allow privilege es
 
 Codex examined the device drivers available to the browser process and found a flaw in `ntksys` that allowed physical memory to be mapped. It then used a small test program to confirm that it could read and write memory, and eventually gained root from the browser shell.
 
-### 1.2 From Samsung TV to Claude Code
+### 1.2. From Samsung TV to Claude Code
 
 The part of Calif’s work that caught my attention was the way it used `tmux` to control the shell.
 
@@ -65,7 +64,7 @@ The main requirement was that the agent should be free to set up different envir
 
 Claude Code has many CLI options, permission settings, project configuration files, and features such as MCP. I wanted the agent to be able to change those settings and run Claude Code under different conditions, rather than limiting it to a few predefined tests.
 
-### 2.1 Harness Architecture
+### 2.1. Harness Architecture
 
 Here is the overall design:
 
@@ -79,7 +78,7 @@ I also provided material for analyzing Claude Code’s implementation and a plac
 
 The emphasis was on giving the agent an environment where it could investigate and run experiments itself, without building a complex discovery and validation workflow around it.
 
-### 2.2 clab CLI
+### 2.2. clab CLI
 
 I built `clab` to make the test environment easier to manage and control.
 
@@ -90,7 +89,7 @@ To keep the harness simple, I did not build separate features for creating or ed
 - **Case:** Creates a test environment and manages its workspace and Claude Code settings.
 - **Session:** Runs Claude Code, sends messages and key presses through `tmux`, and retrieves the screen output and logs.
 
-```text
+```
 $ clab -h
 usage: clab [-h] COMMAND ...
 
@@ -195,7 +194,7 @@ Critical rules:
 
 This gave the agent a way to set up test environments and interact with Claude Code. I left the actual investigation and validation decisions to the agent.
 
-### 2.3 Understanding the Target
+### 2.3. Understanding the Target
 
 The test environment was only part of the setup. The agent also needed material it could use to analyze Claude Code’s internals.
 
@@ -211,7 +210,7 @@ As the research progressed, I also provided published 1-day vulnerability report
 
 ## 3. Guiding the Agent
 
-### 3.1 Setting the Goal
+### 3.1. Setting the Goal
 
 Once the harness was in place, I needed to decide what goal to give the agent and how to guide it in using the environment.
 
@@ -248,7 +247,7 @@ Continue investigating until a valid finding is confirmed. If an approach fails,
 
 With the Goal and basic instructions in place, I left the specific search strategy and experiments up to Claude Code.
 
-### 3.2 Initial Findings
+### 3.2. Initial Findings
 
 After a few hours of investigation under the initial Goal, the agent began producing candidates. It analyzed the code, set up test environments, and reproduced the behavior it found. I reviewed several of these candidates and submitted them to Anthropic, but most were closed as Informative because Anthropic considered the behavior intentional.
 
@@ -262,7 +261,7 @@ The *TrustFall* research covered by SK Shieldus raised a similar issue: a projec
 
 Three other reports were closed as Informative for similar reasons. These responses made me realize that I needed a clearer understanding of what Anthropic considered part of the user’s approval and what it would recognize as a violation of a security boundary.
 
-### 3.3 Changing the Approach
+### 3.3. Changing the Approach
 
 After reviewing the Informative decisions, I changed the direction of the investigation. Reproducing unexpected behavior was not enough; I needed a way to determine whether that behavior actually crossed a security boundary.
 
@@ -292,7 +291,7 @@ From this point on, I also took a more active part in the analysis. I reviewed A
 
 ## 4. The Finding
 
-### 4.1 Discovery and Validation
+### 4.1. Discovery and Validation
 
 As the research continued, I asked the agent to compare the security behavior described in the documentation with the actual implementation. While examining the sandbox settings for `claude mcp serve`, it found that `sandbox.failIfUnavailable` was not being enforced.
 
@@ -333,7 +332,7 @@ Once the sandbox dependencies were available, the Bash command sent to the MCP s
 
 ![MCP server rejecting Bash with sandbox dependencies present](/assets/img/posts/claude-code-security-research/07.png)
 
-### 4.2 Root Cause Analysis
+### 4.2. Root Cause Analysis
 
 The cause was a missing sandbox-required check in the MCP server’s startup path.
 

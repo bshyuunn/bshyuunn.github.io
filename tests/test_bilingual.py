@@ -71,7 +71,8 @@ class BilingualBuildTest(unittest.TestCase):
             self.assertTrue(all((pathlib.Path(self.output.name) / image["src"].lstrip("/")).is_file() for image in images))
             headings = [heading.get_text(" ", strip=True) for heading in page.select(".prose h2, .prose h3")]
             self.assertEqual(len(headings), 15)
-            self.assertIn("2.3 Understanding the Target", headings)
+            self.assertIn("2.3. Understanding the Target", headings)
+            self.assertIsNone(page.select_one(".paragraph-gap"))
 
     def test_index_has_one_row_per_article_and_both_versions(self):
         page = self.page("blog")
@@ -79,10 +80,13 @@ class BilingualBuildTest(unittest.TestCase):
         self.assertEqual(len(rows), 6)
         odos = next(row for row in rows if SLUG in row.get("data-href-en", ""))
         self.assertEqual(odos["data-href-ko"], f"/ko/blog/{SLUG}/")
-        self.assertIsNone(odos.select_one(".lang-marker"))
+        self.assertEqual(odos.select_one(".lang-marker").get_text(strip=True), "· KO")
         research = next(row for row in rows if "Hacking-Claude-Code-with-Claude-Code" in row.get("data-href-en", ""))
         self.assertEqual(research["data-href-ko"], "/ko/blog/Hacking-Claude-Code-with-Claude-Code/")
         self.assertIn("#research", research.get_text())
+        self.assertEqual(research.select_one(".lang-marker").get_text(strip=True), "· KO")
+        self.assertEqual(page.select_one(".page-head h1").get_text(strip=True), "Blog")
+        self.assertTrue(all(row.select_one(".lang-marker") is None for row in rows if not row["data-href-ko"]))
         self.assertTrue(all(row.get("data-href-en") or row.get("data-href-ko") for row in rows))
 
     def test_korean_only_and_ref_pairing_in_temporary_site(self):

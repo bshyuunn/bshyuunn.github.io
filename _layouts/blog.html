@@ -42,6 +42,9 @@ layout: base
         {%- if shown_post.tags.size > 0 %}
         <span class="tags">{% for tag in shown_post.tags %}<span class="tag">#{{ tag }}</span>{% endfor %}</span>
         {%- endif %}
+        {%- if en_post and ko_post %}
+        <span class="lang-marker" title="Also in Korean">· KO</span>
+        {%- endif %}
       </span>
     </span>
   </a>

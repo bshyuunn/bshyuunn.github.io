@@ -17,7 +17,7 @@ test('index shows only articles in the selected language', () => {
   }));
   function row(en, ko) {
     const title = {};
-    const marker = { removeAttribute(name) { delete this[name]; } };
+    const marker = { hidden: false };
     return {
       attrs: {
         'data-href-en': en ? '/en/' : '', 'data-href-ko': ko ? '/ko/' : '',
@@ -47,11 +47,13 @@ test('index shows only articles in the selected language', () => {
   assert.equal(bilingual.title.textContent, '한국어 제목');
   assert.equal(bilingual.title.lang, 'ko');
   assert.equal(bilingual.hidden, false);
+  assert.equal(bilingual.marker.hidden, true);
   assert.equal(englishOnly.hidden, true);
   assert.equal(koreanOnly.hidden, false);
   assert.equal(storage.get('lang'), 'ko');
   buttons[0].click();
   assert.equal(bilingual.href, '/en/');
+  assert.equal(bilingual.marker.hidden, false);
   assert.equal(englishOnly.hidden, false);
   assert.equal(koreanOnly.hidden, true);
   assert.equal(storage.get('lang'), 'en');

@@ -14,6 +14,8 @@
     Array.prototype.forEach.call(rows, function (row) {
       var href = row.getAttribute('data-href-' + lang);
       row.hidden = !href;
+      var marker = row.querySelector('.lang-marker');
+      if (marker) marker.hidden = lang !== 'en';
       if (!href) return;
       var title = row.querySelector('.t');
       row.href = href;
