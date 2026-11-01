@@ -4,10 +4,35 @@
   var toc = document.querySelector('.toc');
   var list = toc && toc.querySelector('.toc-list');
   var prose = document.querySelector('.prose');
-  if (!toc || !list || !prose) return;
+  if (!prose) return;
 
-  var heads = Array.prototype.filter.call(prose.querySelectorAll('h2, h3'), function (h) { return h.id; });
-  if (heads.length < 2) return;
+  var heads = Array.prototype.slice.call(prose.querySelectorAll('h2, h3'));
+  function sectionIndex() {
+    var line = Math.min(160, window.innerHeight * 0.3);
+    var index = 0;
+    for (var k = 0; k < heads.length; k++) {
+      if (heads[k].getBoundingClientRect().top <= line) index = k;
+    }
+    return index;
+  }
+
+  var languageLink = document.querySelector('.post-head .lang-switch a[hreflang]');
+  if (languageLink && heads.length) {
+    languageLink.addEventListener('click', function (event) {
+      event.preventDefault();
+      location.href = languageLink.href.split('#')[0] + '#sec-' + sectionIndex();
+    });
+  }
+
+  var sectionMatch = /^#sec-(\d+)$/.exec(location.hash);
+  if (sectionMatch) {
+    var target = heads[Number(sectionMatch[1])];
+    if (target) {
+      window.addEventListener('load', function () { target.scrollIntoView(); });
+    }
+  }
+
+  if (!toc || !list || heads.length < 2) return;
 
   var links = heads.map(function (h) {
     var a = document.createElement('a');
@@ -28,11 +53,7 @@
   var current = -1, queued = false;
   function spy() {
     queued = false;
-    var line = Math.min(160, window.innerHeight * 0.3);
-    var i = 0;
-    for (var k = 0; k < heads.length; k++) {
-      if (heads[k].getBoundingClientRect().top <= line) i = k;
-    }
+    var i = sectionIndex();
     var se = document.scrollingElement || document.documentElement;
     if (se.scrollTop + window.innerHeight >= se.scrollHeight - 2) i = heads.length - 1;
     if (i === current) return;

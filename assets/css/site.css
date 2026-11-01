@@ -28,7 +28,7 @@
   --accent: #5B9BFF;
   --accent-55: rgba(91, 155, 255, 0.55);
   --accent-10: rgba(91, 155, 255, 0.10);
-  --serif: 'Newsreader', 'IBM Plex Sans KR', Georgia, serif;
+  --serif: 'Newsreader', 'Noto Serif KR', Georgia, serif;
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --hatch: repeating-linear-gradient(-45deg, var(--accent-55) 0 2px, transparent 2px 8px);
 }
@@ -190,6 +190,7 @@ section h2 {
 
 /* ── blog index ────────────────────────── */
 .page-head { display: flex; flex-direction: column; gap: 14px; }
+.page-head .heading-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 24px; }
 .page-head h1 { margin: 0; font-size: 54px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.05; }
 .page-head .hatch { margin-top: 18px; }
 .post-list { display: flex; flex-direction: column; border-bottom: 1px solid var(--line); }
@@ -201,11 +202,24 @@ section h2 {
 .post-row:hover .t { color: #FFFFFF; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .tags { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.02em; color: var(--muted); }
 .post-row:hover .tag { color: var(--soft); }
+.pr-info { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.lang-marker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.02em; color: var(--faint); }
+.post-row:hover .lang-marker { color: var(--faint); }
+
+.lang-switch { display: inline-flex; align-items: baseline; gap: 9px; flex: none; font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.lang-switch .current, .lang-switch [aria-pressed="true"] { color: var(--fg); }
+.lang-switch a, .lang-switch [aria-pressed="false"] { color: var(--muted); text-decoration: underline; text-decoration-style: dotted; text-decoration-color: #4A515B; text-underline-offset: 4px; }
+.lang-switch a:hover, .lang-switch button:hover { color: var(--fg); text-decoration-color: currentColor; }
+.lang-switch .sep { color: #3A4049; }
+.lang-switch button { border: 0; background: none; padding: 0; font: inherit; letter-spacing: inherit; cursor: pointer; }
+.lang-switch button[aria-pressed="true"] { text-decoration: none; }
+.lang-switch .only { color: var(--muted); }
 
 /* ── post ──────────────────────────────── */
 .post-head { display: flex; flex-direction: column; gap: 16px; }
 .back { align-self: flex-start; padding: 4px 0; font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
 .post-head .meta { margin: 0; font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.post-head .meta-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
 .post-head h1 { margin: 0; font-size: 42px; line-height: 1.18; font-weight: 500; letter-spacing: -0.015em; }
 .post-head .hatch { margin-top: 8px; }
 
@@ -265,6 +279,7 @@ section h2 {
   .name h1 { font-size: 38px; }
   .page-head h1 { font-size: 42px; }
   .post-head h1 { font-size: 30px; }
+  .post-head .meta-row { flex-direction: column; align-items: flex-start; gap: 8px; }
   .prose { font-size: 17px; }
   .bug-id { flex-basis: 100%; }
   .post-row { flex-direction: column; gap: 8px; }

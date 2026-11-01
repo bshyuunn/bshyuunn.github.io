@@ -1,21 +1,21 @@
 ---
 layout: post
 title: "Making EVM Challenges with foundry-ctf-template"
-categories: 
-  - blockchain
+categories:
+  - Tool Development
 author: Songhyun Bae
-tags: [blockchain, foundry, ctf-dev]
+tags: [tool-development, foundry, ctf-dev]
 short: "foundry-ctf-template"
 cover: /assets/img/covers/foundry-ctf-template-cover.webp
 ---
+
+Hello! In this post, I'll introduce [**foundry-ctf-template**](https://github.com/bshyuunn/foundry-ctf-template), a Foundry-based template I built to simplify EVM challenge creation.
 
 I recently created a Web3 challenge for CyKor's Recruit CTF. While designing an EVM-based problem, I encountered difficulties in setting up the proper environment. To solve this, I referenced two excellent resources:
 - [**minaminao's SECCON CTF Trillion Ether Challenge**](https://github.com/minaminao/my-ctf-challenges/tree/main/ctfs/seccon-ctf-13-quals/trillion-ether)
 - [**Zellic’s Example CTF Challenge**](https://github.com/Zellic/example-ctf-challenge)
 
-Building upon these, I developed a Foundry-based template to simplify EVM challenge creation.
-
-In this post, I’ll walk you through how to use [**foundry-ctf-template**](https://github.com/bshyuunn/foundry-ctf-template) to whip up your own EVM challenges in record time.
+Building upon these, I developed the template and will walk through how to use it to build an EVM challenge.
 
 **PRs welcome.**
 

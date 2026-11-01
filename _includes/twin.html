@@ -1,0 +1,9 @@
+{%- assign twin = nil -%}
+{%- assign pairing_key = include.post.ref | default: include.post.slug -%}
+{%- for candidate in site.posts -%}
+  {%- assign candidate_key = candidate.ref | default: candidate.slug -%}
+  {%- if candidate_key == pairing_key and candidate.lang != include.post.lang -%}
+    {%- assign twin = candidate -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}

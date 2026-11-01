@@ -11,6 +11,12 @@ lang: en
 markdown: kramdown
 permalink: /blog/:title/
 
+defaults:
+  - scope: { path: "_posts/en", type: posts }
+    values: { lang: en }
+  - scope: { path: "_posts/ko", type: posts }
+    values: { lang: ko, permalink: /ko/blog/:title/ }
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
@@ -19,4 +25,5 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
+  - tests
   - vendor
