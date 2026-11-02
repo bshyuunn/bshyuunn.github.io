@@ -3,6 +3,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from xml.etree import ElementTree
 
 from bs4 import BeautifulSoup
 
@@ -89,6 +90,20 @@ class BilingualBuildTest(unittest.TestCase):
         self.assertEqual(page.select_one(".page-head h1").get_text(strip=True), "Blog")
         self.assertIsNone(page.select_one(".page-head .lang-switch"))
         self.assertFalse(any("blog-lang.js" in script.get("src", "") for script in page.select("script[src]")))
+
+    def test_sitemap_lists_public_pages_and_language_versions(self):
+        output = pathlib.Path(self.output.name)
+        root = ElementTree.fromstring((output / "sitemap.xml").read_text())
+        urls = {node.text for node in root.findall("{http://www.sitemaps.org/schemas/sitemap/0.9}url/{http://www.sitemaps.org/schemas/sitemap/0.9}loc")}
+        self.assertIn("https://bshyuunn.github.io/", urls)
+        self.assertIn("https://bshyuunn.github.io/blog/", urls)
+        self.assertIn(f"https://bshyuunn.github.io/blog/{RESEARCH_SLUG}/", urls)
+        self.assertIn(f"https://bshyuunn.github.io/ko/blog/{RESEARCH_SLUG}/", urls)
+        self.assertFalse(any("hacking-with-artificial-intelligence" in url for url in urls))
+        self.assertFalse(any("404" in url or "/about/" in url for url in urls))
+        self.assertIn("Sitemap: https://bshyuunn.github.io/sitemap.xml", (output / "robots.txt").read_text())
+        blog = self.page("blog")
+        self.assertIn("Security research", blog.select_one('meta[name="description"]')["content"])
 
     def test_post_script_url_changes_with_build(self):
         page = self.page(f"blog/{SLUG}")
