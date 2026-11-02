@@ -28,7 +28,7 @@ layout: base
 <div class="stack post">
 
 <header class="post-head">
-  <a class="back" href="{{ '/blog/' | relative_url }}{% if page.lang == 'ko' %}?lang=ko{% endif %}">← Blog</a>
+  <a class="back" href="{{ '/blog/' | relative_url }}">← Blog</a>
   <div class="meta-row">
     <p class="meta"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y.%m.%d" }}</time> · <span class="accent">{{ kind }}</span></p>
     <span class="lang-switch" role="group" aria-label="Language">

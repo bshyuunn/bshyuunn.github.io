@@ -4,12 +4,7 @@ layout: base
 <div class="stack blog">
 
 <header class="page-head">
-  <div class="blog-title-row">
-    <h1>Blog</h1>
-    <span class="lang-switch" role="group" aria-label="Language">
-      <button type="button" data-lang="en" aria-pressed="true">EN</button><span class="sep" aria-hidden="true">/</span><button type="button" data-lang="ko" aria-pressed="false">KO</button>
-    </span>
-  </div>
+  <h1>Blog</h1>
   <div class="hatch" aria-hidden="true"></div>
 </header>
 
@@ -31,9 +26,7 @@ layout: base
         {%- assign ko_post = twin -%}
       {%- endif -%}
       {%- assign shown_post = en_post | default: ko_post -%}
-  <a class="post-row" href="{{ shown_post.url | relative_url }}"
-     data-title-en="{{ en_post.title | escape }}" data-title-ko="{{ ko_post.title | escape }}"
-     data-href-en="{% if en_post %}{{ en_post.url | relative_url }}{% endif %}" data-href-ko="{% if ko_post %}{{ ko_post.url | relative_url }}{% endif %}">
+  <a class="post-row" href="{{ shown_post.url | relative_url }}">
     <time class="pr-date" datetime="{{ shown_post.date | date_to_xmlschema }}">{{ shown_post.date | date: "%Y.%m.%d" }}</time>
     <span class="pr-main">
       <span class="t" lang="{{ shown_post.lang }}">{{ shown_post.title | escape }}</span>
@@ -54,7 +47,6 @@ layout: base
     {%- endunless -%}
   {%- endfor %}
 </div>
-<script src="{{ '/assets/js/blog-lang.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
 
 <footer class="foot split">
   <span>© {{ site.time | date: "%Y" }} Songhyun Bae</span>

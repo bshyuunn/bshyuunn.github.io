@@ -6,63 +6,6 @@ const vm = require('node:vm');
 
 const scripts = path.join(__dirname, '..', 'assets', 'js');
 
-test('index keeps all articles visible and prefers the selected translation', () => {
-  const storage = new Map();
-  const buttons = ['en', 'ko'].map(lang => ({
-    lang,
-    attrs: {},
-    getAttribute(name) { return name === 'data-lang' ? lang : this.attrs[name]; },
-    setAttribute(name, value) { this.attrs[name] = value; },
-    addEventListener(event, callback) { this.click = callback; },
-  }));
-  function row(en, ko) {
-    const title = {};
-    const marker = { textContent: en && ko ? '· EN / KO' : en ? '· EN' : '· KO' };
-    return {
-      attrs: {
-        'data-href-en': en ? '/en/' : '', 'data-href-ko': ko ? '/ko/' : '',
-        'data-title-en': en, 'data-title-ko': ko,
-      },
-      title, marker,
-      getAttribute(name) { return this.attrs[name]; },
-      querySelector(selector) { return selector === '.t' ? title : marker; },
-    };
-  }
-  const bilingual = row('English title', '한국어 제목');
-  const englishOnly = row('English only', '');
-  const koreanOnly = row('', '한국어 전용');
-  const document = {
-    querySelectorAll(selector) { return selector.includes('post-row') ? [bilingual, englishOnly, koreanOnly] : buttons; },
-  };
-  const localStorage = {
-    getItem(key) { return storage.get(key); },
-    setItem(key, value) { storage.set(key, value); },
-  };
-  const location = { search: '?lang=ko', pathname: '/blog/', hash: '' };
-  const history = { replaceState(state, title, url) { location.search = url.split('?')[1] ? '?' + url.split('?')[1] : ''; } };
-  vm.runInNewContext(fs.readFileSync(path.join(scripts, 'blog-lang.js'), 'utf8'), {
-    document, localStorage, location, history, URLSearchParams,
-  });
-  assert.equal(bilingual.href, '/ko/');
-  assert.equal(bilingual.title.textContent, '한국어 제목');
-  assert.equal(bilingual.title.lang, 'ko');
-  assert.equal(bilingual.marker.textContent, '· EN / KO');
-  assert.equal(englishOnly.href, '/en/');
-  assert.equal(englishOnly.title.lang, 'en');
-  assert.equal(koreanOnly.href, '/ko/');
-  assert.equal(koreanOnly.title.lang, 'ko');
-  assert.equal(englishOnly.hidden, undefined);
-  assert.equal(koreanOnly.hidden, undefined);
-  assert.equal(storage.get('lang'), 'ko');
-  buttons[0].click();
-  assert.equal(bilingual.href, '/en/');
-  assert.equal(bilingual.marker.textContent, '· EN / KO');
-  assert.equal(englishOnly.href, '/en/');
-  assert.equal(koreanOnly.href, '/ko/');
-  assert.equal(storage.get('lang'), 'en');
-  assert.equal(location.search, '?lang=en');
-});
-
 test('switch maps section 2.2 to the fourth heading and scrolls to it', () => {
   const headings = [250, 100, 70, 40, 400, 600].map(top => ({
     getBoundingClientRect() { return { top }; },

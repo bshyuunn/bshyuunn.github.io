@@ -84,13 +84,11 @@ class BilingualBuildTest(unittest.TestCase):
         ko = self.page(f"ko/blog/{RESEARCH_SLUG}")
         self.assertEqual(ko.select_one("h1").get_text(strip=True), en.select_one("h1").get_text(strip=True))
 
-    def test_blog_language_switch_sits_beside_blog_title(self):
+    def test_blog_index_has_no_language_switch(self):
         page = self.page("blog")
-        title_row = page.select_one(".page-head .blog-title-row")
-        self.assertEqual(title_row.select_one("h1").get_text(strip=True), "Blog")
-        self.assertEqual(title_row.select_one(".lang-switch").get_text(" ", strip=True), "EN / KO")
-        self.assertIsNone(page.select_one(".page-head .blog-meta"))
-        self.assertTrue(any("/assets/js/blog-lang.js?v=" in script.get("src", "") for script in page.select("script[src]")))
+        self.assertEqual(page.select_one(".page-head h1").get_text(strip=True), "Blog")
+        self.assertIsNone(page.select_one(".page-head .lang-switch"))
+        self.assertFalse(any("blog-lang.js" in script.get("src", "") for script in page.select("script[src]")))
 
     def test_post_script_url_changes_with_build(self):
         page = self.page(f"blog/{SLUG}")
@@ -98,6 +96,14 @@ class BilingualBuildTest(unittest.TestCase):
         self.assertTrue(any("/assets/js/toc.js?v=" in src for src in scripts))
         stylesheets = [link.get("href", "") for link in page.select('link[rel="stylesheet"]')]
         self.assertTrue(any("/assets/css/site.css?v=" in href for href in stylesheets))
+
+    def test_pdf_post_contains_only_the_embedded_viewer(self):
+        page = self.page("blog/hacking-with-artificial-intelligence")
+        prose = page.select_one("article.prose")
+        viewer = prose.select_one(".pdf-viewer iframe")
+        self.assertEqual(viewer["src"], "/assets/pdf/hacking-with-ai-reinforcement-learning.pdf#view=Fit")
+        self.assertFalse(prose.select("p, h2, h3"))
+        self.assertTrue((pathlib.Path(self.output.name) / viewer["src"].split("#")[0].lstrip("/")).is_file())
 
     def test_major_sections_have_one_break_from_section_two_onward(self):
         posts = list((ROOT / "_posts/en").glob("*.md"))
@@ -115,16 +121,14 @@ class BilingualBuildTest(unittest.TestCase):
         page = self.page("blog")
         rows = page.select(".post-row")
         self.assertEqual(len(rows), 7)
-        odos = next(row for row in rows if SLUG in row.get("data-href-en", ""))
-        self.assertEqual(odos["data-href-ko"], "")
+        odos = next(row for row in rows if SLUG in row["href"])
         self.assertEqual(odos.select_one(".lang-marker").get_text(strip=True), "· EN")
-        research = next(row for row in rows if "Hacking-Claude-Code-with-Claude-Code" in row.get("data-href-en", ""))
-        self.assertEqual(research["data-href-ko"], "/ko/blog/Hacking-Claude-Code-with-Claude-Code/")
+        research = next(row for row in rows if "Hacking-Claude-Code-with-Claude-Code" in row["href"])
         self.assertIn("#research", research.get_text())
         self.assertEqual(research.select_one(".lang-marker").get_text(strip=True), "· EN / KO")
         self.assertEqual(page.select_one(".page-head h1").get_text(strip=True), "Blog")
         self.assertTrue(all(row.select_one(".lang-marker") for row in rows))
-        self.assertTrue(all(row.get("data-href-en") or row.get("data-href-ko") for row in rows))
+        self.assertTrue(all(row.get("href") for row in rows))
 
     def test_korean_only_and_ref_pairing_in_temporary_site(self):
         with tempfile.TemporaryDirectory() as root:
@@ -148,12 +152,11 @@ class BilingualBuildTest(unittest.TestCase):
 
             index = BeautifulSoup((output / "blog/index.html").read_text(), "html.parser")
             self.assertEqual(len(index.select(".post-row")), 9)
-            ko_only = next(row for row in index.select(".post-row") if "korean-only" in row.get("data-href-ko", ""))
-            self.assertEqual(ko_only["data-href-en"], "")
+            ko_only = next(row for row in index.select(".post-row") if "korean-only" in row["href"])
             self.assertEqual(ko_only.select_one(".lang-marker").get_text(strip=True), "· KO")
             self.assertFalse(ko_only.has_attr("hidden"))
-            ref_row = next(row for row in index.select(".post-row") if "english-ref" in row.get("data-href-en", ""))
-            self.assertIn("korean-ref", ref_row["data-href-ko"])
+            ref_row = next(row for row in index.select(".post-row") if "english-ref" in row["href"])
+            self.assertEqual(ref_row.select_one(".lang-marker").get_text(strip=True), "· EN / KO")
             ko_page = BeautifulSoup((output / "ko/blog/korean-only/index.html").read_text(), "html.parser")
             nav = ko_page.select(".pn a")
             self.assertTrue(nav)
