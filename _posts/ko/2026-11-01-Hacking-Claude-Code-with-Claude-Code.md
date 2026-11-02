@@ -4,7 +4,7 @@ title: "Hacking Claude Code with Claude Code"
 categories:
   - Research
 author: Songhyun Bae
-tags: [research, claude-code, ai-security, sandbox]
+tags: [research, claude-code, ai-security, harness]
 short: "Hacking Claude Code"
 ---
 
