@@ -40,6 +40,20 @@ class BilingualBuildTest(unittest.TestCase):
             "html.parser",
         )
 
+    def test_about_redirects_before_rendering(self):
+        page = self.page("about")
+        script = page.head.find("script")
+        self.assertIsNotNone(script)
+        self.assertIsNone(script.find_previous("body"))
+        result = subprocess.run(
+            ["node", "-e", "const vm = require('node:vm');"
+             "const location = {replace: url => process.stdout.write(url)};"
+             "vm.runInNewContext(process.argv[1], {location});", script.string],
+            check=True, capture_output=True, text=True,
+        )
+        self.assertEqual(result.stdout, "/")
+        self.assertIsNotNone(page.head.find("meta", attrs={"http-equiv": "refresh"}))
+
     def test_twin_posts_have_distinct_languages_and_reciprocal_links(self):
         en = self.page(f"blog/{RESEARCH_SLUG}")
         ko = self.page(f"ko/blog/{RESEARCH_SLUG}")
