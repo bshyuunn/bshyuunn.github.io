@@ -21,8 +21,6 @@ In this post, I’ll walk you through how to use [**foundry-ctf-template**](http
 
 ---
 
-<br>
-
 ## 1. Setting Up the Challenge Environment
 
 You can easily set up a challenge template using the following commands. Just make a few modifications, and you’ll have your own custom challenge ready.

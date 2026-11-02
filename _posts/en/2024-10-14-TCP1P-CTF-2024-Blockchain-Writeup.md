@@ -14,8 +14,6 @@ In the end, out of the 6 blockchain challenges, I managed to solve 4. In this po
 
 ---
 
-<br>
-
 ## 1. Baby ERC-20
 
 > New token standards huh? https://eips.ethereum.org/EIPS/eip-20

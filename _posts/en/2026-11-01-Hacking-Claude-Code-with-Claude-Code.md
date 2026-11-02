@@ -58,6 +58,8 @@ I was getting tired of managing that complexity. This time, I decided to follow 
 
 That was the starting point for a harness that would let Claude Code analyze and test another Claude Code instance.
 
+<br>
+
 ## 2. Building the Harness
 
 The main requirement was that the agent should be free to set up different environments, run the real Claude Code target, and verify the results.
@@ -208,6 +210,8 @@ The agent could obtain the package for whichever version it needed, reverse engi
 
 As the research progressed, I also provided published 1-day vulnerability reports and the official Claude Code documentation.
 
+<br>
+
 ## 3. Guiding the Agent
 
 ### 3.1. Setting the Goal
@@ -288,6 +292,8 @@ Once a valid finding is confirmed, prepare a detailed vulnerability report with 
 ```
 
 From this point on, I also took a more active part in the analysis. I reviewed Anthropic’s responses with the agent to understand why the reports had not been accepted, checked the conditions behind its new candidates, and suggested where to look next. In particular, I asked it to examine whether security behavior promised in the official documentation was enforced across the relevant code paths.
+
+<br>
 
 ## 4. The Finding
 
@@ -378,6 +384,8 @@ if (!SandboxManager.isSandboxingEnabled()) {
 ```
 
 These functions determine whether the sandbox is available. They do not decide whether execution must stop when `failIfUnavailable` is set. In normal sessions, the startup check handles that requirement. Because the MCP server path lacked the check, a Bash command could run without sandboxing after `shouldUseSandbox()` returned `false`.
+
+<br>
 
 ## 5. Conclusion
 

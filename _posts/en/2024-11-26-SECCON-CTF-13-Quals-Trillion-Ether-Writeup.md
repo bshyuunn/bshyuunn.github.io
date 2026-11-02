@@ -15,8 +15,6 @@ In this post, I’d like to share my solution to this challenge. You can find th
 
 ---
 
-<br>
-
 ## 1. Trillion Ether
 
 > Get Chance!

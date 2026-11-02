@@ -62,6 +62,8 @@ Calif의 연구에서 특히 눈에 들어왔던 부분은 `tmux`를 이용한 �
 
 이렇게 Claude Code가 다른 Claude Code를 직접 분석하고 테스트할 수 있는 하네스를 만들기 시작했습니다.
 
+<br>
+
 ## 2. Building the Harness
 
 하네스를 구성하면서 가장 중요하게 생각한 것은 에이전트가 다양한 환경을 자유롭게 구성하고, 실제 Claude Code를 실행해 결과를 검증할 수 있어야 한다는 점이었습니다.
@@ -213,6 +215,8 @@ npm pack @anthropic-ai/claude-code@<VERSION>
 
 추가로 연구를 진행하면서 기존에 공개된 1-day 취약점 자료와 Claude Code 공식 문서도 함께 제공했습니다.
 
+<br>
+
 ## 3. Guiding the Agent
 
 ### 3.1. Setting the Goal
@@ -293,6 +297,8 @@ Once a valid finding is confirmed, prepare a detailed vulnerability report with 
 ```
 
 또한 이때부터는 저도 분석에 더 적극적으로 참여했습니다. Anthropic의 답변을 함께 검토하며 인정되지 않은 이유를 살펴보고, 에이전트가 제시한 후보의 조건을 다시 확인하거나 다음 조사 방향을 제시했습니다. 특히 공식 문서에서 보장하는 보안 동작이 실제 코드의 각 실행 경로에서도 적용되는지 살펴보도록 했습니다.
+
+<br>
 
 ## 4. The Finding
 
@@ -383,6 +389,8 @@ if (!SandboxManager.isSandboxingEnabled()) {
 ```
 
 이 두 함수는 샌드박스를 사용할 수 있는지 판단하지만, `failIfUnavailable`이 설정되었을 때 실행을 중단해야 하는지는 판단하지 않습니다. 일반 실행에서는 시작 단계의 검사가 그 역할을 했습니다. MCP 서버에서는 그 검사가 빠져 있었으므로, `shouldUseSandbox()`가 `false`를 반환한 뒤 Bash 명령이 샌드박스 없이 실행될 수 있었습니다.
+
+<br>
 
 ## 5. Conclusion
 

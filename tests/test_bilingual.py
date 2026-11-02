@@ -99,6 +99,18 @@ class BilingualBuildTest(unittest.TestCase):
         stylesheets = [link.get("href", "") for link in page.select('link[rel="stylesheet"]')]
         self.assertTrue(any("/assets/css/site.css?v=" in href for href in stylesheets))
 
+    def test_major_sections_have_one_break_from_section_two_onward(self):
+        posts = list((ROOT / "_posts/en").glob("*.md"))
+        posts += list((ROOT / "_posts/ko").glob("*.md"))
+        for post in posts:
+            language = post.parent.name
+            slug = post.stem[11:]
+            path = f"ko/blog/{slug}" if language == "ko" else f"blog/{slug}"
+            for index, heading in enumerate(self.page(path).select(".prose h2")):
+                previous = heading.find_previous_sibling()
+                is_break = previous is not None and previous.name == "p" and len(previous.find_all("br")) == 1 and not previous.get_text(strip=True)
+                self.assertEqual(is_break, index > 0, f"{path}: section {index + 1}")
+
     def test_index_has_one_row_per_article_and_both_versions(self):
         page = self.page("blog")
         rows = page.select(".post-row")
