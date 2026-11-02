@@ -52,7 +52,7 @@ class BilingualBuildTest(unittest.TestCase):
             self.assertEqual(alternates["ko"], f"https://bshyuunn.github.io/ko/blog/{RESEARCH_SLUG}/")
             self.assertEqual(alternates["x-default"], alternates["en"])
             self.assertNotIn("ko", page.select_one(".meta .accent").get_text(strip=True).lower())
-        self.assertEqual(ko.select_one(".toc-label").get_text(strip=True), "이 글의 목차")
+        self.assertEqual(ko.select_one(".toc-label").get_text(strip=True), "On this page")
         self.assertEqual(len(en.select(".prose h2, .prose h3")), len(ko.select(".prose h2, .prose h3")))
 
     def test_single_language_post_has_no_missing_language_link(self):
