@@ -6,7 +6,7 @@ const vm = require('node:vm');
 
 const scripts = path.join(__dirname, '..', 'assets', 'js');
 
-test('index shows only articles in the selected language', () => {
+test('index keeps all articles visible and prefers the selected translation', () => {
   const storage = new Map();
   const buttons = ['en', 'ko'].map(lang => ({
     lang,
@@ -17,7 +17,7 @@ test('index shows only articles in the selected language', () => {
   }));
   function row(en, ko) {
     const title = {};
-    const marker = en && ko ? { textContent: '· KO', title: 'Also in Korean' } : null;
+    const marker = { textContent: en && ko ? '· EN / KO' : en ? '· EN' : '· KO' };
     return {
       attrs: {
         'data-href-en': en ? '/en/' : '', 'data-href-ko': ko ? '/ko/' : '',
@@ -46,20 +46,19 @@ test('index shows only articles in the selected language', () => {
   assert.equal(bilingual.href, '/ko/');
   assert.equal(bilingual.title.textContent, '한국어 제목');
   assert.equal(bilingual.title.lang, 'ko');
-  assert.equal(bilingual.hidden, false);
-  assert.equal(bilingual.marker.textContent, '· EN');
-  assert.equal(bilingual.marker.title, 'Also in English');
-  assert.equal(bilingual.marker.hidden, false);
-  assert.equal(englishOnly.hidden, true);
-  assert.equal(koreanOnly.hidden, false);
+  assert.equal(bilingual.marker.textContent, '· EN / KO');
+  assert.equal(englishOnly.href, '/en/');
+  assert.equal(englishOnly.title.lang, 'en');
+  assert.equal(koreanOnly.href, '/ko/');
+  assert.equal(koreanOnly.title.lang, 'ko');
+  assert.equal(englishOnly.hidden, undefined);
+  assert.equal(koreanOnly.hidden, undefined);
   assert.equal(storage.get('lang'), 'ko');
   buttons[0].click();
   assert.equal(bilingual.href, '/en/');
-  assert.equal(bilingual.marker.textContent, '· KO');
-  assert.equal(bilingual.marker.title, 'Also in Korean');
-  assert.equal(bilingual.marker.hidden, false);
-  assert.equal(englishOnly.hidden, false);
-  assert.equal(koreanOnly.hidden, true);
+  assert.equal(bilingual.marker.textContent, '· EN / KO');
+  assert.equal(englishOnly.href, '/en/');
+  assert.equal(koreanOnly.href, '/ko/');
   assert.equal(storage.get('lang'), 'en');
   assert.equal(location.search, '?lang=en');
 });

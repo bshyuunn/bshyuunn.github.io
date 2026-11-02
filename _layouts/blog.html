@@ -31,7 +31,7 @@ layout: base
         {%- assign ko_post = twin -%}
       {%- endif -%}
       {%- assign shown_post = en_post | default: ko_post -%}
-  <a class="post-row" href="{{ shown_post.url | relative_url }}"{% unless en_post %} hidden{% endunless %}
+  <a class="post-row" href="{{ shown_post.url | relative_url }}"
      data-title-en="{{ en_post.title | escape }}" data-title-ko="{{ ko_post.title | escape }}"
      data-href-en="{% if en_post %}{{ en_post.url | relative_url }}{% endif %}" data-href-ko="{% if ko_post %}{{ ko_post.url | relative_url }}{% endif %}">
     <time class="pr-date" datetime="{{ shown_post.date | date_to_xmlschema }}">{{ shown_post.date | date: "%Y.%m.%d" }}</time>
@@ -42,7 +42,11 @@ layout: base
         <span class="tags">{% for tag in shown_post.tags %}<span class="tag">#{{ tag }}</span>{% endfor %}</span>
         {%- endif %}
         {%- if en_post and ko_post %}
-        <span class="lang-marker" title="Also in Korean">· KO</span>
+        <span class="lang-marker" title="Available in English and Korean">· EN / KO</span>
+        {%- elsif en_post %}
+        <span class="lang-marker" title="Only in English">· EN</span>
+        {%- else %}
+        <span class="lang-marker" title="Only in Korean">· KO</span>
         {%- endif %}
       </span>
     </span>

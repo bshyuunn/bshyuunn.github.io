@@ -12,19 +12,13 @@
       button.setAttribute('aria-pressed', String(button.getAttribute('data-lang') === lang));
     });
     Array.prototype.forEach.call(rows, function (row) {
-      var href = row.getAttribute('data-href-' + lang);
-      row.hidden = !href;
-      var marker = row.querySelector('.lang-marker');
-      if (marker) {
-        marker.textContent = lang === 'ko' ? '· EN' : '· KO';
-        marker.title = lang === 'ko' ? 'Also in English' : 'Also in Korean';
-        marker.hidden = false;
-      }
+      var chosenLang = row.getAttribute('data-href-' + lang) ? lang : (lang === 'ko' ? 'en' : 'ko');
+      var href = row.getAttribute('data-href-' + chosenLang);
       if (!href) return;
       var title = row.querySelector('.t');
       row.href = href;
-      title.textContent = row.getAttribute('data-title-' + lang);
-      title.lang = lang;
+      title.textContent = row.getAttribute('data-title-' + chosenLang);
+      title.lang = chosenLang;
     });
   }
 
