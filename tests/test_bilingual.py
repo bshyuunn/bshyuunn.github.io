@@ -54,22 +54,6 @@ class BilingualBuildTest(unittest.TestCase):
         self.assertEqual(result.stdout, "/")
         self.assertIsNotNone(page.head.find("meta", attrs={"http-equiv": "refresh"}))
 
-    def test_twin_posts_have_distinct_languages_and_reciprocal_links(self):
-        en = self.page(f"blog/{RESEARCH_SLUG}")
-        ko = self.page(f"ko/blog/{RESEARCH_SLUG}")
-        self.assertEqual(en.html["lang"], "en")
-        self.assertEqual(ko.html["lang"], "ko")
-        self.assertEqual(en.select_one('.lang-switch a[hreflang="ko"]')["href"], f"/ko/blog/{RESEARCH_SLUG}/")
-        self.assertEqual(ko.select_one('.lang-switch a[hreflang="en"]')["href"], f"/blog/{RESEARCH_SLUG}/")
-        for page in (en, ko):
-            alternates = {link["hreflang"]: link["href"] for link in page.select('link[rel="alternate"][hreflang]')}
-            self.assertEqual(alternates["en"], f"https://bshyuunn.github.io/blog/{RESEARCH_SLUG}/")
-            self.assertEqual(alternates["ko"], f"https://bshyuunn.github.io/ko/blog/{RESEARCH_SLUG}/")
-            self.assertEqual(alternates["x-default"], alternates["en"])
-            self.assertNotIn("ko", page.select_one(".meta .accent").get_text(strip=True).lower())
-        self.assertEqual(ko.select_one(".toc-label").get_text(strip=True), "On this page")
-        self.assertEqual(len(en.select(".prose h2, .prose h3")), len(ko.select(".prose h2, .prose h3")))
-
     def test_single_language_post_has_no_missing_language_link(self):
         page = self.page(f"blog/{SLUG}")
         self.assertEqual(page.select_one(".lang-switch").get_text(strip=True), "EN")
@@ -77,27 +61,12 @@ class BilingualBuildTest(unittest.TestCase):
         self.assertFalse(page.select('link[rel="alternate"][hreflang]'))
         self.assertFalse((pathlib.Path(self.output.name) / "ko" / "blog" / SLUG).exists())
 
-    def test_research_post_has_both_languages_and_local_figures(self):
-        slug = "Hacking-Claude-Code-with-Claude-Code"
-        for language, path, other in (("en", f"blog/{slug}", "ko"), ("ko", f"ko/blog/{slug}", "en")):
-            page = self.page(path)
-            self.assertEqual(page.html["lang"], language)
-            self.assertEqual(page.select_one("h1").get_text(strip=True), "Hacking Claude Code with Claude Code")
-            self.assertEqual(page.select_one(".meta .accent").get_text(strip=True), "Research")
-            self.assertIsNotNone(page.select_one(f'.lang-switch a[hreflang="{other}"]'))
-            images = page.select(".prose img")
-            self.assertEqual(len(images), 9)
-            self.assertTrue(all((pathlib.Path(self.output.name) / image["src"].lstrip("/")).is_file() for image in images))
-            self.assertFalse(page.select(".prose strong"))
-            headings = [heading.get_text(" ", strip=True) for heading in page.select(".prose h2, .prose h3")]
-            self.assertEqual(len(headings), 15)
-            self.assertIn("2.3. Understanding the Target", headings)
-            self.assertIsNone(page.select_one(".paragraph-gap"))
-
-    def test_korean_post_keeps_english_title(self):
-        en = self.page(f"blog/{RESEARCH_SLUG}")
-        ko = self.page(f"ko/blog/{RESEARCH_SLUG}")
-        self.assertEqual(ko.select_one("h1").get_text(strip=True), en.select_one("h1").get_text(strip=True))
+    def test_research_post_is_not_published(self):
+        output = pathlib.Path(self.output.name)
+        self.assertFalse((output / "blog" / RESEARCH_SLUG).exists())
+        self.assertFalse((output / "ko" / "blog" / RESEARCH_SLUG).exists())
+        self.assertFalse(any(RESEARCH_SLUG in row.get("href", "") for row in self.page("blog").select(".post-row")))
+        self.assertNotIn(RESEARCH_SLUG, (output / "feed.xml").read_text())
 
     def test_blog_index_has_no_language_switch(self):
         page = self.page("blog")
@@ -111,8 +80,8 @@ class BilingualBuildTest(unittest.TestCase):
         urls = {node.text for node in root.findall("{http://www.sitemaps.org/schemas/sitemap/0.9}url/{http://www.sitemaps.org/schemas/sitemap/0.9}loc")}
         self.assertIn("https://bshyuunn.github.io/", urls)
         self.assertIn("https://bshyuunn.github.io/blog/", urls)
-        self.assertIn(f"https://bshyuunn.github.io/blog/{RESEARCH_SLUG}/", urls)
-        self.assertIn(f"https://bshyuunn.github.io/ko/blog/{RESEARCH_SLUG}/", urls)
+        self.assertNotIn(f"https://bshyuunn.github.io/blog/{RESEARCH_SLUG}/", urls)
+        self.assertNotIn(f"https://bshyuunn.github.io/ko/blog/{RESEARCH_SLUG}/", urls)
         self.assertFalse(any("hacking-with-artificial-intelligence" in url for url in urls))
         self.assertFalse(any("404" in url or "/about/" in url for url in urls))
         self.assertIn("Sitemap: https://bshyuunn.github.io/sitemap.xml", (output / "robots.txt").read_text())
@@ -146,6 +115,8 @@ class BilingualBuildTest(unittest.TestCase):
         posts = list((ROOT / "_posts/en").glob("*.md"))
         posts += list((ROOT / "_posts/ko").glob("*.md"))
         for post in posts:
+            if post.stem.endswith(RESEARCH_SLUG):
+                continue
             language = post.parent.name
             slug = post.stem[11:]
             path = f"ko/blog/{slug}" if language == "ko" else f"blog/{slug}"
@@ -157,12 +128,10 @@ class BilingualBuildTest(unittest.TestCase):
     def test_index_has_one_row_per_article_and_both_versions(self):
         page = self.page("blog")
         rows = page.select(".post-row")
-        self.assertEqual(len(rows), 6)
+        self.assertEqual(len(rows), 5)
         odos = next(row for row in rows if SLUG in row["href"])
         self.assertEqual(odos.select_one(".lang-marker").get_text(strip=True), "· EN")
-        research = next(row for row in rows if "Hacking-Claude-Code-with-Claude-Code" in row["href"])
-        self.assertIn("#research", research.get_text())
-        self.assertEqual(research.select_one(".lang-marker").get_text(strip=True), "· EN / KO")
+        self.assertFalse(any(RESEARCH_SLUG in row["href"] for row in rows))
         self.assertEqual(page.select_one(".page-head h1").get_text(strip=True), "Blog")
         self.assertTrue(all(row.select_one(".lang-marker") for row in rows))
         self.assertTrue(all(row.get("href") for row in rows))
@@ -188,7 +157,7 @@ class BilingualBuildTest(unittest.TestCase):
             )
 
             index = BeautifulSoup((output / "blog/index.html").read_text(), "html.parser")
-            self.assertEqual(len(index.select(".post-row")), 8)
+            self.assertEqual(len(index.select(".post-row")), 7)
             ko_only = next(row for row in index.select(".post-row") if "korean-only" in row["href"])
             self.assertEqual(ko_only.select_one(".lang-marker").get_text(strip=True), "· KO")
             self.assertFalse(ko_only.has_attr("hidden"))
