@@ -13,7 +13,20 @@ education:
     date: 2024.03 —
     bullets: []
 
-# §3 Disclosed Bugs — one row per finding; `group` decides which fold it sits in
+# §3 Talk — presentation title, venue, date, and optional blog link.
+talks:
+  - title: Getting Started with Smart-Contract Audit Contests
+    venue: KISA Hunting Master 2nd Cohort — Special Lecture
+    date: 2025.08
+  - title: "Web3 Security: Smart-Contract Threats & Hands-on Labs"
+    venue: Blockchain Valley — Security Team Workshop
+    date: 2025.03 — 2025.06
+  - title: "Hacking with AI: Try Web Hacking with Reinforcement Learning"
+    venue: 27th Hacking Camp by PoC Security
+    date: 2023.08
+    writeup: /blog/hacking-with-artificial-intelligence/
+
+# §4 Disclosed Bugs — one row per finding; `group` decides which fold it sits in
 # (groups appear in the order they first show up here).
 #   ref:      advisory link. CVE ids link to NVD automatically; set ref to override.
 #   redacted: widths of the white bars that hide undisclosed details.
@@ -38,7 +51,7 @@ findings:
   - { group: Others, id: KVE-2024-0410, target: SGA ViruChaser, kind: DLL hijacking }
   - { group: Others, id: KVE-2024-0395, target: Hauri ViRobot, kind: DLL hijacking }
 
-# §4 Audit Contests — every contest with a valid finding.
+# §5 Audit Contests — every contest with a valid finding.
 #   show: true = listed on the page. The header total counts ALL rows, listed or not.
 #   crit/high/med/low: valid findings · rank: 0 = none · writeup: optional blog link
 contests:
@@ -56,7 +69,7 @@ contests:
   - { show: false, platform: Immunefi, name: Firelight, rank: 131, high: 1 }
 contests_all: "https://github.com/bshyuunn/bshyuunn-web3-portfolio/blob/main/EXPERIENCE.md"
 
-# §5 Awards — shown in this order (newest first).
+# §6 Awards — shown in this order (newest first).
 #   place: 1st / 2nd / ... / Finalist · team: shown as "with <team>" · url: contest page · writeup: optional
 awards:
   - { place: 5th, name: Defense AI Cyber Security Hackathon, url: "https://dah.ai.kr/", year: 2026 }

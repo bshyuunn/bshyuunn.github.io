@@ -43,7 +43,17 @@ layout: base
 </section>
 
 <section>
-  <h2><span class="sec">§3</span>Disclosed Bugs</h2>
+  <h2><span class="sec">§3</span>Talk</h2>
+  {%- for talk in cv.talks %}
+  <div class="entry">
+    <div class="entry-top"><span class="entry-title">{% if talk.writeup %}<a class="dl" href="{{ talk.writeup | relative_url }}">{{ talk.title }}</a>{% else %}{{ talk.title }}{% endif %}</span><span class="date">{{ talk.date }}</span></div>
+    <span class="muted">{{ talk.venue }}</span>
+  </div>
+  {%- endfor %}
+</section>
+
+<section>
+  <h2><span class="sec">§4</span>Disclosed Bugs</h2>
   {%- assign groups = cv.findings | group_by: "group" -%}
   {%- for g in groups %}
   <details class="fold"{% if cv.open_groups contains g.name %} open{% endif %}>
@@ -79,7 +89,7 @@ layout: base
   {%- assign tc = tc | plus: k.crit -%}{%- assign th = th | plus: k.high -%}{%- assign tm = tm | plus: k.med -%}{%- assign tl = tl | plus: k.low -%}
 {%- endfor %}
 <section>
-  <h2><span class="sec">§4</span>Audit Contests<span class="total">{{ tc }}C · {{ th }}H · {{ tm }}M · {{ tl }}L</span></h2>
+  <h2><span class="sec">§5</span>Audit Contests<span class="total">{{ tc }}C · {{ th }}H · {{ tm }}M · {{ tl }}L</span></h2>
   <div class="table-scroll">
   {%- for k in cv.contests %}{% if k.show %}
   {%- if k.rank == 1 -%}{%- assign rcls = "first" -%}{%- elsif k.rank > 0 -%}{%- assign rcls = "" -%}{%- else -%}{%- assign rcls = "final" -%}{%- endif %}
@@ -99,7 +109,7 @@ layout: base
 </section>
 
 <section>
-  <h2><span class="sec">§5</span>Awards</h2>
+  <h2><span class="sec">§6</span>Awards</h2>
   <div class="table-scroll">
   {%- for a in cv.awards %}
   {%- if a.place == "1st" -%}{%- assign pcls = "first" -%}{%- elsif a.place == "Finalist" -%}{%- assign pcls = "final" -%}{%- else -%}{%- assign pcls = "" -%}{%- endif %}
