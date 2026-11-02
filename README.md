@@ -24,4 +24,4 @@ Use one primary `categories` value per post:
 
 Use the matching lowercase, hyphenated type as the first tag (`exploit-analysis`, `ctf-writeup`, `tool-development`, or `research`), followed by specific topics such as `evm`, `solidity`, or `proxy`. Keep `blockchain` as a topic tag when useful, not as the primary category.
 
-Start English posts with `Hello! In this post, ...` and Korean posts with `안녕하세요. 이번 글에서는 ...`. Make the next words specific to the post's subject and purpose. For an unfinished translation, state its draft status clearly.
+Write each introduction in the voice and structure that fits the post. For an unfinished translation, state its draft status clearly.

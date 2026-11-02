@@ -9,7 +9,9 @@ short: "SECCON CTF 13"
 cover: /assets/img/covers/seccon-trillion-ether-cover.webp
 ---
 
-Hello! In this post, I'll explain how I solved the “Trillion Ether” blockchain challenge at the [SECCON CTF 13 Qualifiers](https://ctftime.org/event/2478/) with [CyKor](https://x.com/cykorku). You can find the problem on [Alpacahack](https://alpacahack.com/ctfs/seccon-13-quals/challenges/trillion-ether).
+Hi! I recently participated in the [SECCON CTF 13 Qualifiers](https://ctftime.org/event/2478/) with [CyKor](https://x.com/cykorku) and solved the “Trillion Ether” challenge in the Blockchain category.
+
+In this post, I’d like to share my solution to this challenge. You can find the problem on [Alpacahack](https://alpacahack.com/ctfs/seccon-13-quals/challenges/trillion-ether).
 
 ---
 
