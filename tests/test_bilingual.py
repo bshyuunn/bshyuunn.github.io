@@ -97,13 +97,21 @@ class BilingualBuildTest(unittest.TestCase):
         stylesheets = [link.get("href", "") for link in page.select('link[rel="stylesheet"]')]
         self.assertTrue(any("/assets/css/site.css?v=" in href for href in stylesheets))
 
-    def test_pdf_post_contains_only_the_embedded_viewer(self):
-        page = self.page("blog/hacking-with-artificial-intelligence")
-        prose = page.select_one("article.prose")
-        viewer = prose.select_one(".pdf-viewer iframe")
-        self.assertEqual(viewer["src"], "/assets/pdf/hacking-with-ai-reinforcement-learning.pdf#view=Fit")
-        self.assertFalse(prose.select("p, h2, h3"))
-        self.assertTrue((pathlib.Path(self.output.name) / viewer["src"].split("#")[0].lstrip("/")).is_file())
+    def test_talk_slides_link_to_pdfs_without_a_blog_post(self):
+        page = self.page("")
+        talk = next(section for section in page.select("section") if "Talk" in section.select_one("h2").get_text())
+        rows = talk.select(".entry")
+        self.assertEqual(len(rows), 3)
+        self.assertTrue(all(row.select_one(".entry-top .date") for row in rows))
+        self.assertFalse(talk.select(".entry-title a"))
+        links = talk.select(".talk-links a")
+        self.assertEqual([link.get_text(strip=True) for link in links], ["PDF", "PDF"])
+        self.assertEqual([link["href"] for link in links], [
+            "/assets/pdf/getting-started-with-smart-contract-audit-contests.pdf",
+            "/assets/pdf/hacking-with-ai-reinforcement-learning.pdf",
+        ])
+        self.assertTrue(all((pathlib.Path(self.output.name) / link["href"].lstrip("/")).is_file() for link in links))
+        self.assertFalse((pathlib.Path(self.output.name) / "blog/hacking-with-artificial-intelligence").exists())
 
     def test_major_sections_have_one_break_from_section_two_onward(self):
         posts = list((ROOT / "_posts/en").glob("*.md"))
@@ -120,7 +128,7 @@ class BilingualBuildTest(unittest.TestCase):
     def test_index_has_one_row_per_article_and_both_versions(self):
         page = self.page("blog")
         rows = page.select(".post-row")
-        self.assertEqual(len(rows), 7)
+        self.assertEqual(len(rows), 6)
         odos = next(row for row in rows if SLUG in row["href"])
         self.assertEqual(odos.select_one(".lang-marker").get_text(strip=True), "· EN")
         research = next(row for row in rows if "Hacking-Claude-Code-with-Claude-Code" in row["href"])
@@ -151,7 +159,7 @@ class BilingualBuildTest(unittest.TestCase):
             )
 
             index = BeautifulSoup((output / "blog/index.html").read_text(), "html.parser")
-            self.assertEqual(len(index.select(".post-row")), 9)
+            self.assertEqual(len(index.select(".post-row")), 8)
             ko_only = next(row for row in index.select(".post-row") if "korean-only" in row["href"])
             self.assertEqual(ko_only.select_one(".lang-marker").get_text(strip=True), "· KO")
             self.assertFalse(ko_only.has_attr("hidden"))

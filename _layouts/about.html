@@ -46,8 +46,8 @@ layout: base
   <h2><span class="sec">§3</span>Talk</h2>
   {%- for talk in cv.talks %}
   <div class="entry">
-    <div class="entry-top"><span class="entry-title">{% if talk.writeup %}<a class="dl" href="{{ talk.writeup | relative_url }}">{{ talk.title }}</a>{% else %}{{ talk.title }}{% endif %}</span><span class="date">{{ talk.date }}</span></div>
-    <span class="muted">{{ talk.venue }}</span>
+    <div class="entry-top"><span class="entry-title">{{ talk.title }}</span><span class="date">{{ talk.date }}</span></div>
+    <span class="muted">{{ talk.venue }}{% if talk.slides %}<span class="talk-links"><a href="{{ talk.slides | relative_url }}" title="Open the slides (PDF)">PDF</a></span>{% endif %}</span>
   </div>
   {%- endfor %}
 </section>

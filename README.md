@@ -27,5 +27,3 @@ Use the matching lowercase, hyphenated type as the first tag (`exploit-analysis`
 Write each introduction in the voice and structure that fits the post. For an unfinished translation, state its draft status clearly.
 
 Do not add a `<br>` before the first `##` section. Put exactly one standalone `<br>` before each later `##` section; keep `###` subsections within their parent section.
-
-To embed a PDF in a post, put it under `assets/pdf/` and use an `<iframe>` inside a `pdf-viewer` div.

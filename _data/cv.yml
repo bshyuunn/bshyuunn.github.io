@@ -13,18 +13,19 @@ education:
     date: 2024.03 —
     bullets: []
 
-# §3 Talk — presentation title, venue, date, and optional blog link.
+# §3 Talk — presentation title, venue, date, and optional PDF slides.
 talks:
   - title: Getting Started with Smart-Contract Audit Contests
     venue: KISA Hunting Master 2nd Cohort — Special Lecture
     date: 2025.08
+    slides: /assets/pdf/getting-started-with-smart-contract-audit-contests.pdf
   - title: "Web3 Security: Smart-Contract Threats & Hands-on Labs"
     venue: Blockchain Valley — Security Team Workshop
     date: 2025.03 — 2025.06
   - title: "Hacking with AI: Try Web Hacking with Reinforcement Learning"
     venue: 27th Hacking Camp by PoC Security
     date: 2023.08
-    writeup: /blog/hacking-with-artificial-intelligence/
+    slides: /assets/pdf/hacking-with-ai-reinforcement-learning.pdf
 
 # §4 Disclosed Bugs — one row per finding; `group` decides which fold it sits in
 # (groups appear in the order they first show up here).

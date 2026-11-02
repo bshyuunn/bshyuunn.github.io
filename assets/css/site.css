@@ -143,6 +143,11 @@ section h2 {
 .entry-title { font-size: 18px; font-weight: 600; }
 .date { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--muted); }
 .entry .muted { color: var(--muted); }
+.talk-links { margin-left: 4px; }
+.talk-links a { color: var(--accent); text-decoration: underline; text-decoration-style: dotted; text-decoration-color: rgba(91,155,255,0.45); text-underline-offset: 4px; }
+.talk-links a::before { content: "· "; color: var(--muted); display: inline-block; white-space: pre; }
+.talk-links a + a { margin-left: 4px; }
+.talk-links a:hover { color: var(--fg); text-decoration-color: currentColor; }
 .bullet { display: flex; gap: 10px; margin-top: 6px; color: var(--soft); }
 .bullet > span:first-child { color: var(--faint); }
 
@@ -237,8 +242,6 @@ section h2 {
 .prose blockquote { margin-left: 0; padding: 2px 0 2px 18px; border-left: 2px solid var(--accent); color: var(--muted); }
 .prose blockquote > :last-child { margin-bottom: 0; } /* padding blocks collapse, so the bar would run a line past the text */
 .prose img { max-width: 100%; height: auto; display: block; margin: 8px auto; border: 1px solid var(--line); }
-.prose .pdf-viewer { width: 100%; aspect-ratio: 16 / 10; margin: 0; }
-.prose .pdf-viewer iframe { display: block; width: 100%; height: 100%; border: 1px solid var(--line); }
 .prose table { width: 100%; border-collapse: collapse; font-size: 15px; display: block; overflow-x: auto; }
 .prose th, .prose td { padding: 8px 12px; border: 1px solid var(--line); text-align: left; }
 .prose th { color: var(--fg); background: var(--code-bg); }
@@ -279,7 +282,6 @@ section h2 {
   .post-head h1 { font-size: 30px; }
   .post-head .meta-row { flex-direction: column; align-items: flex-start; gap: 8px; }
   .prose { font-size: 17px; }
-  .prose .pdf-viewer { aspect-ratio: auto; height: 70vh; min-height: 420px; }
   .bug-id { flex-basis: 100%; }
   .post-row { flex-direction: column; gap: 8px; }
   .pr-date { flex: none; } /* column flex: 92px basis would become height */
