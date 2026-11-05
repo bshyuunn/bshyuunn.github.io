@@ -35,7 +35,7 @@ talks:
 open_groups: [Apple, Anthropic, Toucan]   # folds that start open
 findings:
   - { group: Apple, id: CVE-2025-24184, target: CoreMedia Playback, kind: Denial of service }
-  - { group: Anthropic, id: "HackerOne #3795252", target: Claude Code MCP server runs commands outside the sandbox, kind: High, writeup: /blog/Hacking-Claude-Code-with-Claude-Code/ }
+  - { group: Anthropic, id: "HackerOne #3795252", target: Claude Code, kind: "MCP server runs commands outside the sandbox (High)", writeup: /blog/Hacking-Claude-Code-with-Claude-Code/ }
   - { group: Toucan, id: "Immunefi #40684", target: Toucan Protocol, kind: Medium, redacted: [64, 38] }
   - { group: Toucan, id: "Immunefi #40596", target: Toucan Protocol, kind: Medium, redacted: [52, 80] }
   - { group: Toucan, id: "Immunefi #40497", target: Toucan Protocol, kind: Low, redacted: [70, 34] }
