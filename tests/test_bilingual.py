@@ -61,12 +61,12 @@ class BilingualBuildTest(unittest.TestCase):
         self.assertFalse(page.select('link[rel="alternate"][hreflang]'))
         self.assertFalse((pathlib.Path(self.output.name) / "ko" / "blog" / SLUG).exists())
 
-    def test_research_post_is_not_published(self):
+    def test_research_post_is_published(self):
         output = pathlib.Path(self.output.name)
-        self.assertFalse((output / "blog" / RESEARCH_SLUG).exists())
-        self.assertFalse((output / "ko" / "blog" / RESEARCH_SLUG).exists())
-        self.assertFalse(any(RESEARCH_SLUG in row.get("href", "") for row in self.page("blog").select(".post-row")))
-        self.assertNotIn(RESEARCH_SLUG, (output / "feed.xml").read_text())
+        self.assertTrue((output / "blog" / RESEARCH_SLUG).exists())
+        self.assertTrue((output / "ko" / "blog" / RESEARCH_SLUG).exists())
+        self.assertTrue(any(RESEARCH_SLUG in row.get("href", "") for row in self.page("blog").select(".post-row")))
+        self.assertIn(RESEARCH_SLUG, (output / "feed.xml").read_text())
 
     def test_blog_index_has_no_language_switch(self):
         page = self.page("blog")
@@ -80,8 +80,8 @@ class BilingualBuildTest(unittest.TestCase):
         urls = {node.text for node in root.findall("{http://www.sitemaps.org/schemas/sitemap/0.9}url/{http://www.sitemaps.org/schemas/sitemap/0.9}loc")}
         self.assertIn("https://bshyuunn.github.io/", urls)
         self.assertIn("https://bshyuunn.github.io/blog/", urls)
-        self.assertNotIn(f"https://bshyuunn.github.io/blog/{RESEARCH_SLUG}/", urls)
-        self.assertNotIn(f"https://bshyuunn.github.io/ko/blog/{RESEARCH_SLUG}/", urls)
+        self.assertIn(f"https://bshyuunn.github.io/blog/{RESEARCH_SLUG}/", urls)
+        self.assertIn(f"https://bshyuunn.github.io/ko/blog/{RESEARCH_SLUG}/", urls)
         self.assertFalse(any("hacking-with-artificial-intelligence" in url for url in urls))
         self.assertFalse(any("404" in url or "/about/" in url for url in urls))
         self.assertIn("Sitemap: https://bshyuunn.github.io/sitemap.xml", (output / "robots.txt").read_text())
@@ -115,8 +115,6 @@ class BilingualBuildTest(unittest.TestCase):
         posts = list((ROOT / "_posts/en").glob("*.md"))
         posts += list((ROOT / "_posts/ko").glob("*.md"))
         for post in posts:
-            if post.stem.endswith(RESEARCH_SLUG):
-                continue
             language = post.parent.name
             slug = post.stem[11:]
             path = f"ko/blog/{slug}" if language == "ko" else f"blog/{slug}"
@@ -128,10 +126,10 @@ class BilingualBuildTest(unittest.TestCase):
     def test_index_has_one_row_per_article_and_both_versions(self):
         page = self.page("blog")
         rows = page.select(".post-row")
-        self.assertEqual(len(rows), 5)
+        self.assertEqual(len(rows), 6)
         odos = next(row for row in rows if SLUG in row["href"])
         self.assertEqual(odos.select_one(".lang-marker").get_text(strip=True), "· EN")
-        self.assertFalse(any(RESEARCH_SLUG in row["href"] for row in rows))
+        self.assertTrue(any(RESEARCH_SLUG in row["href"] for row in rows))
         self.assertEqual(page.select_one(".page-head h1").get_text(strip=True), "Blog")
         self.assertTrue(all(row.select_one(".lang-marker") for row in rows))
         self.assertTrue(all(row.get("href") for row in rows))

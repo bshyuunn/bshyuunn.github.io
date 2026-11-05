@@ -1,6 +1,5 @@
 ---
 layout: post
-published: false
 title: "Hacking Claude Code with Claude Code"
 categories:
   - Research

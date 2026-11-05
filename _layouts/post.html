@@ -60,19 +60,7 @@ layout: base
   {%- include mathjax_support.html -%}
 {%- endif %}
 
-<footer class="foot post-foot">
-  {%- if previous_post or next_post %}
-  <div class="pn">
-    {%- if previous_post %}
-    <a href="{{ previous_post.url | relative_url }}"><span class="label">{% if page.lang == 'ko' %}← 이전 글{% else %}← Previous{% endif %}</span><span>{{ previous_post.title | escape }}</span></a>
-    {%- endif %}
-    {%- if next_post %}
-    <a class="next" href="{{ next_post.url | relative_url }}"><span class="label">{% if page.lang == 'ko' %}다음 글 →{% else %}Next →{% endif %}</span><span>{{ next_post.title | escape }}</span></a>
-    {%- endif %}
-  </div>
-  {%- endif %}
-  <span>© {{ site.time | date: "%Y" }} Songhyun Bae</span>
-</footer>
+{% include footer.html previous=previous_post next=next_post language=page.lang %}
 
 </div>
 <aside class="toc" aria-label="On this page" hidden>

@@ -1,0 +1,17 @@
+<footer class="foot{% if include.previous or include.next %} post-foot{% else %} split{% endif %}">
+  {%- if include.previous or include.next %}
+  <div class="pn">
+    {%- if include.previous %}
+    <a href="{{ include.previous.url | relative_url }}"><span class="label">{% if include.language == 'ko' %}← 이전 글{% else %}← Previous{% endif %}</span><span>{{ include.previous.title | escape }}</span></a>
+    {%- endif %}
+    {%- if include.next %}
+    <a class="next" href="{{ include.next.url | relative_url }}"><span class="label">{% if include.language == 'ko' %}다음 글 →{% else %}Next →{% endif %}</span><span>{{ include.next.title | escape }}</span></a>
+    {%- endif %}
+  </div>
+  {%- endif %}
+  <div class="foot-row">
+    <span>© {{ site.time | date: "%Y" }} Songhyun Bae</span>
+    <span class="foot-separator" aria-hidden="true">······</span>
+    <span class="foot-links"><a href="https://github.com/bshyuunn">github</a><a href="https://x.com/bshyuunn">x</a><a href="{{ '/feed.xml' | relative_url }}">rss</a></span>
+  </div>
+</footer>

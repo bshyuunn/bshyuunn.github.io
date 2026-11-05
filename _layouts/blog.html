@@ -48,9 +48,6 @@ layout: base
   {%- endfor %}
 </div>
 
-<footer class="foot split">
-  <span>© {{ site.time | date: "%Y" }} Songhyun Bae</span>
-  <span class="foot-links"><a href="https://github.com/bshyuunn">github</a><a href="https://x.com/bshyuunn">x</a><a href="{{ '/feed.xml' | relative_url }}">rss</a></span>
-</footer>
+{% include footer.html %}
 
 </div>
