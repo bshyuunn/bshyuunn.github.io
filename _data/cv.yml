@@ -74,7 +74,7 @@ contests_all: "https://github.com/bshyuunn/bshyuunn-web3-portfolio/blob/main/EXP
 #   place: 1st / 2nd / ... / Finalist · team: shown as 'with "<team>"' · url: contest page · writeup: optional
 awards:
   - { place: 1st, name: AutoHack 2026, url: "https://www.cossnet.com/contest/program/view?id=161&category=", team: 오토핵오토케, year: 2026 }
-  - { place: 5th, name: Defense AI Cyber Security Hackathon, url: "https://dah.ai.kr/", team: boolean, year: 2026 }
+  - { place: 5th, name: Defense AI Cyber Security Hackathon, url: "https://dah.ai.kr/", team: Boolean, year: 2026 }
   - { place: 10th, name: LakeCTF Finals 25-26, url: "https://ctftime.org/event/3295", team: CyKor, year: 2026 }
   - { place: 1st, name: Cyber Security Hackathon, url: "https://www.busan.go.kr/nbnews/1639247", team: Boolean, year: 2024 }
   - { place: Finalist, name: CODEGATE Junior, url: "https://www.codegate.org/", year: 2023 }
