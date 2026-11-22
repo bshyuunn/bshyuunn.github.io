@@ -155,7 +155,7 @@ class BilingualBuildTest(unittest.TestCase):
             )
 
             index = BeautifulSoup((output / "blog/index.html").read_text(), "html.parser")
-            self.assertEqual(len(index.select(".post-row")), 7)
+            self.assertEqual(len(index.select(".post-row")), 8)
             ko_only = next(row for row in index.select(".post-row") if "korean-only" in row["href"])
             self.assertEqual(ko_only.select_one(".lang-marker").get_text(strip=True), "· KO")
             self.assertFalse(ko_only.has_attr("hidden"))

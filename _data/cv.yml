@@ -71,19 +71,20 @@ contests:
 contests_all: "https://github.com/bshyuunn/bshyuunn-web3-portfolio/blob/main/EXPERIENCE.md"
 
 # §6 Awards — shown in this order (newest first).
-#   place: 1st / 2nd / ... / Finalist · team: shown as "with <team>" · url: contest page · writeup: optional
+#   place: 1st / 2nd / ... / Finalist · team: shown as 'with "<team>"' · url: contest page · writeup: optional
 awards:
-  - { place: 5th, name: Defense AI Cyber Security Hackathon, url: "https://dah.ai.kr/", year: 2026 }
+  - { place: 1st, name: AutoHack 2026, team: 오토핵오토케, year: 2026 }
+  - { place: 5th, name: Defense AI Cyber Security Hackathon, url: "https://dah.ai.kr/", team: boolean, year: 2026 }
   - { place: 10th, name: LakeCTF Finals 25-26, url: "https://ctftime.org/event/3295", team: CyKor, year: 2026 }
   - { place: 1st, name: Cyber Security Hackathon, url: "https://www.busan.go.kr/nbnews/1639247", team: Boolean, year: 2024 }
   - { place: Finalist, name: CODEGATE Junior, url: "https://www.codegate.org/", year: 2023 }
-  - { place: Finalist, name: WACON Junior, url: "https://wacon.world/", year: 2023 }
+  - { place: Finalist, name: WACON Junior, url: "https://wacon.world/", team: 1등하면전액기부팀, year: 2023 }
   - { place: Finalist, name: WhiteHat Contest Junior, url: "https://whitehat2026.kr/", year: 2023 }
   - { place: Finalist, name: CCE Junior, url: "https://cce.cstec.kr/", year: 2023 }
-  - { place: 1st, name: Intelligent Mobility SW Contest (AI), url: "https://www.ikw.ac.kr/board/detail.tc?mn=2596&mngNo=3&pageSeq=1721&boardNo=311695", year: 2023 }
-  - { place: 1st, name: Chungcheong Youth Hacking Defense Contest, url: "https://www.veritas-a.com/news/articleView.html?idxno=428654", year: 2022 }
+  - { place: 1st, name: Intelligent Mobility SW Contest (AI), url: "https://www.ikw.ac.kr/board/detail.tc?mn=2596&mngNo=3&pageSeq=1721&boardNo=311695", team: 파송송, year: 2023 }
+  - { place: 1st, name: Chungcheong Youth Hacking Defense Contest, url: "https://www.veritas-a.com/news/articleView.html?idxno=428654", team: 1등 커트라인, year: 2022 }
   - { place: 1st, name: AI Self-Directed Research Competition, url: "https://www.science.go.kr/mps/1104/bbs/208/moveBbsNttDetail.do?nttSn=9807", year: 2022 }
-  - { place: 2nd, name: Korea Code Fair Hackathon, url: "https://kcf.or.kr/", year: 2022 }
-  - { place: 3rd, name: e-ICON World Contest, url: "https://e-icon.or.kr/en/", year: 2022 }
-  - { place: 4th, name: KOSPO Web Security Competition, url: "https://www.todayenergy.kr/news/articleView.html?idxno=253427", year: 2022 }
-  - { place: 4th, name: K-ICT Data Creator Camp, url: "https://kbig.kr/portal/kbig/keybiz.page", year: 2022 }
+  - { place: 2nd, name: Korea Code Fair Hackathon, url: "https://kcf.or.kr/", team: Krita, year: 2022 }
+  - { place: 3rd, name: e-ICON World Contest, url: "https://e-icon.or.kr/en/", team: Green Energy, year: 2022 }
+  - { place: 4th, name: KOSPO Web Security Competition, url: "https://www.todayenergy.kr/news/articleView.html?idxno=253427", team: 걸어서 웹 속으로, year: 2022 }
+  - { place: 4th, name: K-ICT Data Creator Camp, url: "https://kbig.kr/portal/kbig/keybiz.page", team: Finder, year: 2022 }

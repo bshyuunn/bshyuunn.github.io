@@ -114,7 +114,7 @@ layout: base
   {%- for a in cv.awards %}
   {%- if a.place == "1st" -%}{%- assign pcls = "first" -%}{%- elsif a.place == "Finalist" -%}{%- assign pcls = "final" -%}{%- else -%}{%- assign pcls = "" -%}{%- endif %}
   <div class="row">
-    <span class="row-main"><span class="rank place {{ pcls }}">{% if a.place == "Finalist" %}Final{% else %}{{ a.place }}{% endif %}</span><span>{% if a.url %}<a class="dl" href="{{ a.url }}" title="Open contest">{{ a.name }}</a>{% else %}{{ a.name }}{% endif %}{% if a.team %} <span class="muted">with {{ a.team }}</span>{% endif %}</span></span>
+    <span class="row-main"><span class="rank place {{ pcls }}">{% if a.place == "Finalist" %}Final{% else %}{{ a.place }}{% endif %}</span><span>{% if a.url %}<a class="dl" href="{{ a.url }}" title="Open contest">{{ a.name }}</a>{% else %}{{ a.name }}{% endif %}{% if a.team %} <span class="muted">with "{{ a.team }}"</span>{% endif %}</span></span>
     <span class="row-side wide">
       <span class="icon">{% if a.writeup %}<a class="doc" href="{{ a.writeup | relative_url }}" aria-label="Read the writeup" title="Read the writeup">{% include doc-icon.html %}</a>{% endif %}</span>
       <span class="year">{{ a.year }}</span>
